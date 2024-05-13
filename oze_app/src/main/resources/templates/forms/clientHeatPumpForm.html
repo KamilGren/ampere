@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <meta charset="UTF-8">
+  <title>Heat Pump Params</title>
+
+
+  <!-- Styl dla labeli -->
+  <style>
+        label {
+            color: #18192D !important; /* Dodanie !important, aby zabezpieczyć przed ewentualnym nadpisywaniem przez Bootstrap */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-4">
+    <form th:action="@{'/clientpanel/heatpumps/show/' + ${clientId}}" method="get">
+
+    <div class="form-group">
+      <label for="producent1">Producent:</label>
+      <select class="form-control" id="producent1" name="producent">
+        <option th:each="producent : ${producents}" th:value="${producent}" th:text="${producent}"></option>
+      </select>
+    </div>
+        <div class="form-group">
+            <label for="type1">Typ:</label>
+            <select class="form-control" id="type1" name="type" onchange="loadModels()">
+                <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+    <div class="form-group">
+      <label for="model1">Model:</label>
+      <select class="form-control" id="model1" name="model">
+      </select>
+    </div>
+        <button type="submit" class="btn btn-primary">Znajdź pompę</button>
+        <button type="button" onchange="drawChart()" class="btn btn-secondary">Wyświetl wykres</button>
+        <button type="button" onsubmit="saveHeatPump()" class="btn btn-secondary">Zapisz urządzenie</button>
+
+    </form>
+</div>
+
+<div class="container mt-4">
+    <div class="form-group">
+        <label for="producent1">Producent: </label>
+        <input class="form-control" type="text" id="producent" th:value="*{producent}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="type1">Typ: </label>
+        <input readonly type="text" class="form-control" id="type" th:value="*{type}" disabled>
+    </div>
+    <div class="form-group">
+    <label for="model1">Model: </label>
+    <input readonly type="text" class="form-control" id="model" th:value="*{model}" disabled>
+</div>
+    <div class="form-group">
+    <label for="internalUnit">Jednostka wewnętrzna: </label>
+    <input readonly type="text" class="form-control" id="internalUnit" th:value="*{heatPump.internalUnit}" disabled>
+</div>
+    <div class="form-group">
+        <label for="externalUnit">Jednostka zewnętrzna: </label>
+        <input readonly type="text" class="form-control" id="externalUnit" th:value="*{heatPump.externalUnit}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="nominalPower">Moc znamionowa: </label>
+        <input type="number" class="form-control" id="nominalPower" th:text="*{heatPump.power} + ' kW'" disabled>
+    </div>
+    <div class="form-group">
+        <label for="heater">Moc grzałki: </label>
+        <input type="number" class="form-control" id="heater" th:text="*{heatPump.heater} + ' kW'" disabled>
+    </div>
+    <div class="form-group">
+        <label for="powerSupply">Zasilanie: </label>
+        <input type="number" class="form-control" id="powerSupply" th:text="*{heatPump.powerSupply} + ' kW'" disabled>
+    </div>
+    <div class="form-group">
+        <label for="SCOP1">SCOP: </label>
+        <input type="number" class="form-control" id="SCOP1" th:text="*{heatPump.scop}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="warranty">Gwarancja: </label>
+        <input type="number" class="form-control" id="warranty" th:text="*{heatPump.warranty} + ' lat'" disabled>
+    </div>
+    <button th:onclick="saveHeatPump()">Zapisz urządzenie</button>
+</div>
+
+
+<script th:inline="javascript">
+        var heatPumpId = /*[[${id}]]*/ null;
+        var clientId = /*[[${clientId}]]*/
+
+        </script>
+
+<script th:inline="javascript">
+
+function saveHeatPump() {
+
+        $.ajax({
+            type: "GET",
+            url: '/clientpanel/' + clientId + '/heatpumps/' + heatPumpId + '/save',
+            success: function(result) {
+            console.log("Udalo sie!");
+            }
+            });
+            }
+
+</script>
+
+    <script th:inline="javascript">
+
+
+
+    // Funkcja do ładowania typów
+    function loadModels() {
+        var producent = $("#producent1").val();
+        var type = $("#type1").val();
+        $.get("/heatpumps/getModels", {producent: producent, type: type}, function(data) {
+            var options = "";
+            data.forEach(function(model) {
+                options += "<option value='" + model + "'>" + model + "</option>";
+            });
+            $("#model1").html(options);
+        });
+    }
+
+
+</script>
+
+</body>
+</html>

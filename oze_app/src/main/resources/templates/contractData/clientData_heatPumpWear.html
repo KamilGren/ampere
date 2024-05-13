@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Title</title>
+    <style>
+        .dark-bg {
+            background-color: #18192D;
+            color: white;
+        }
+
+        .dark-bg th {
+            background-color: #18192D;
+            color: white;
+        }
+
+        .dark-cell {
+            background-color: #18192D;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navigation">
+    <a href="admin_panel.html">Powrót do panelu admina</a>
+    <a th:href="@{clients/showBuildingData/{clientId}(clientId=${clientId})}">Zapotrzebowanie budynku</a>
+    <a href="admin_panel.html">Pompa ciepła(not work)</a>
+
+
+</div>
+
+<div class="container mt-5">
+    <table class="table table-responsive table-bordered border-dark table-hover text-center text-capitalize">
+        <thead>
+        <tr class="table-dark table-active text-uppercase text-white dark-bg">
+            <th rowspan="2">Miesiąc</th>
+            <th colspan="2">C.O</th>
+            <th colspan="2">C.W.U</th>
+            <th colspan="2">Grzałka</th>
+        </tr>
+        <tr class="dark-bg">
+            <th>kWh</th>
+            <th>zł</th>
+            <th>kWh</th>
+            <th>zł</th>
+            <th>kWh</th>
+            <th>zł</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="month : ${months}">
+            <td th:text="${month.key}"></td>
+            <td th:text="${month.value.CO}"></td>
+            <td th:text="${month.value.COCost}"></td>
+            <td th:text="${month.value.CWU}"></td>
+            <td th:text="${month.value.CWUCost}"></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class="dark-bg">
+            <td colspan="7">Roczny koszt eksploatacji <span th:text="${yearOperatingCost}" zł></span></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+</body>
+</html>

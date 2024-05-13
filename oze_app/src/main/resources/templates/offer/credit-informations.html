@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kalkulator kredytowy</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <style>
+       .container {
+            height: 70%;
+            }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Kredyt przed dofinansowaniami</h2>
+            <form th:action="@{/credits/calculate-credit}" method="post" onsubmit="modifyFormData()" th:object="${creditForm}">
+<!--                <div class="form-group">-->
+<!--                <label for="wplataWlasnaPrzed">Wpłata własna:</label>-->
+<!--                <input type="number" class="form-control" id="wplataWlasnaPrzed" th:field="*{wplataWlasnaPrzed}" onchange="updateKwotaKredytu()">-->
+<!--            </div>-->
+                <div class="form-group">
+                    <label for="creditAmount">Kwota kredytu:</label>
+                    <input type="number" class="form-control" id="creditAmount" th:field="*{creditAmount}">
+                </div>
+                <div class="form-group">
+                    <label for="bank">Nazwa banku:</label>
+                    <select class="form-control" id="bank" th:field="*{bank}" onchange="updateRRSO()">
+                        <option value="Alior Bank" selected>Allor Bank</option>
+                        <option value="BOŚ Bank">BOŚ Bank</option>
+                        <option value="Credit Agricole">Credit Agricole</option>
+                        <option value="PKO BP">PKO BP</option>
+                        <option value="BNP Paribas">BNP Paribas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="RRSO">RRSO:</label>
+                    <input type="number" step="0.01" class="form-control" id="RRSO" th:field="*{RRSO}" disabled>  </div>
+                <div class="form-group">
+                    <label for="numberOfLoanInstallmentsAll">Liczba rat:</label>
+                    <input type="number" class="form-control" id="numberOfLoanInstallmentsAll" th:field="*{numberOfLoanInstallmentsAll}">
+                </div>
+                <button type="submit" class="btn btn-primary">Oblicz</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="creditCost">Koszt kredytu:</label>
+                <input type="number" class="form-control" id="creditCost" th:field="${creditForm.creditCost}" disabled>  </div>
+            <div class="form-group">
+                <label for="loanInstallmentAmount">Koszt jednej raty:</label>
+                <input type="number" class="form-control" id="loanInstallmentAmount" th:field="${creditForm.loanInstallmentAmount}" disabled>  </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateRRSO() {
+    const bankName = document.getElementById("bank").value;
+    const rrsoInput = document.getElementById("RRSO");
+
+    const rrsoData = {
+        "Alior Bank": 10.01,
+        "BOŚ Bank": 10.49,
+        "Credit Agricole": 10.91,
+        "PKO BP": 12.46,
+        "BNP Paribas": 13.23
+    };
+
+    if (rrsoData[bankName]) {
+        rrsoInput.value = rrsoData[bankName];
+        rrsoInput.disabled = false; // Enable the RRSO input field
+    } else {
+        rrsoInput.value = ""; // Clear the RRSO value if not found
+        rrsoInput.disabled = true; // Disable the RRSO input field
+    }
+}
+
+
+    // nie działa
+<!--    function updateKwotaKredytu() {-->
+<!--    const wplataWlasna = document.getElementById("wplataWlasnaPrzed").value;-->
+<!--    const kwotaKredytu = document.getElementById("kwotaKredytuPrzed").value;-->
+
+<!--    if(wplataWlasna > 0 && kwotaKredytu > 0) {-->
+<!--    kwotaKredytu.value = kwotaKredytu.value - wplataWlasna.value;-->
+<!--    console.log(kwotaKredytu.value);-->
+<!--    }-->
+<!--    else-->
+<!--    {-->
+<!--    }-->
+<!--    }-->
+
+
+
+</script>

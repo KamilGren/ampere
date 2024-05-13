@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj produkt</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Dodaj produkt</h2>
+    <form th:action="@{/products/add}" method="POST">
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input type="text" class="form-control" id="model" name="model">
+        </div>
+        <div class="form-group">
+            <label for="producent">Producent:</label>
+            <input type="text" class="form-control" id="producent" name="producent">
+        </div>
+        <div class="form-group">
+            <label for="catalogPrice">Cena katalogowa:</label>
+            <input type="number" class="form-control" id="catalogPrice" name="catalogPrice">
+        </div>
+        <div class="form-group">
+            <label for="purchasePrice">Cena zakupu:</label>
+            <input type="number" id="purchasePrice" name="purchasePrice">
+        </div>
+        <div class="form-group">
+            <label for="discount">Zniżka:</label>
+            <input type="number" id="discount" name="discount">
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj produkt</button>
+    </form>
+</div>
+</body>
+</html>

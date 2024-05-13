@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edytuj handlowca</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Edytuj handlowca</h1>
+    <form action="#"
+          th:action="@{/salesmen/edit/{id}(id=${salesman.id})}"
+          th:object="${salesman}"
+          method="post">
+        <div class="form-group">
+            <label for="name">Imię: </label>
+            <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="name">
+        </div>
+        <div class="form-group">
+            <label for="surname">Nazwisko:  </label>
+            <input type="text" class="form-control" id="surname" placeholder="surname" th:field="*{surname}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="password" th:value="*{password}">
+        </div>
+        <div class="form-group">
+            <label for="email">Adres mailowy:  </label>
+            <input type="text" class="form-control" id="email" placeholder="email" th:value="*{email}">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+
+</body>
+</html>

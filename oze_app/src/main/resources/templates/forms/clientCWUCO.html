@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <meta charset="UTF-8">
+
+
+    <!-- Styl dla labeli -->
+    <style>
+        label {
+            color: #18192D !important; /* Dodanie !important, aby zabezpieczyć przed ewentualnym nadpisywaniem przez Bootstrap */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-4">
+    <form id="myForm" th:action="@{'/clientpanel/showco-cwu/' + ${clientId}}" method="get">
+
+        <div class="form-group">
+            <label for="cwuname">Zasobnik CWU:</label>
+            <select class="form-control" id="cwuname" name="cwuname">
+                <option th:each="name : ${CWUNames}" th:value="${name}" th:text="${name}"></option>
+            </select>
+    </div>
+        <div class="form-group">
+            <label for="coname">Zasobnik buforowy:</label>
+            <select class="form-control" id="coname" name="coname">
+                <option th:each="name : ${CONames}" th:value="${name}" th:text="${name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hotWaterCirculation">Obiegi grzewcze:</label>
+            <select class="form-control" id="hotWaterCirculation" name="hotWaterCirculation" th:value="${hotWaterCirculation}">
+                <option value="yes">TAK</option>
+                <option value="no">NIE</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="heatingCircuits">Obiegi grzewcze:</label>
+            <input type="text" class="form-control" id="heatingCircuits" name="heatingCircuits"/>
+        </div>
+        <button type="submit" onclick="saveFormData()" class="btn btn-primary">Wyświetl urządzenia</button>
+
+        </form>
+    </div>
+
+    <div class="container mt-4">
+        <form id="cocwuForm" th:action="@{'/clientpanel/saveco-cwu/' + ${clientId}}" method="post">
+
+            <div class="form-group">
+                <label for="hotWaterCirculation2">Obiegi grzewcze:</label>
+                    <input class="form-control" readonly type="text" id="hotWaterCirculation2" th:value="*{hotWaterCirculation2}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="heatingCircuits2">Obiegi grzewcze:</label>
+                <input class="form-control" readonly type="text" id="heatingCircuits2" th:value="*{heatingCircuits2}" disabled>
+            </div>
+
+
+        <h2>Dane techniczne CWU</h2>
+        <div class="form-group">
+            <label for="name">Nazwa: </label>
+            <input class="form-control" readonly type="text" id="name" th:value="*{cwuBuffor.name}" disabled>
+        </div>
+    <div class="form-group">
+        <label for="height">Wysokość: </label>
+        <input class="form-control" readonly type="number" id="height" th:value="*{cwuBuffor.height}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="diameter">Średnica: </label>
+        <input class="form-control" readonly type="number" id="diameter" th:value="*{cwuBuffor.diameter}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="capacity">Pojemność: </label>
+        <input readonly type="number" class="form-control" id="capacity" th:value="*{cwuBuffor.capacity}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="coil">Wężownica: </label>
+        <input readonly type="text" class="form-control" id="coil" th:value="*{cwuBuffor.coil}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="erpClass">Klasa ErP: </label>
+        <input readonly type="text" class="form-control" id="erpClass" th:value="*{cwuBuffor.erpClass}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="material">Materiał: </label>
+        <input readonly type="text" class="form-control" id="material" th:value="*{cwuBuffor.material}" disabled>
+    </div>
+
+    <h2>Dane techniczne CO</h2>
+    <div class="form-group">
+        <label for="name1">Nazwa: </label>
+        <input class="form-control" readonly type="text" id="name1" th:value="*{coBuffer.name}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="height1">Wysokość: </label>
+        <input class="form-control" readonly type="number" id="height1" th:value="*{coBuffer.height}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="diameter1">Szerokość: </label>
+        <input class="form-control" readonly type="number" id="diameter1" th:value="*{coBuffer.diameter}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="capacity1">Pojemność: </label>
+        <input readonly type="number" class="form-control" id="capacity1" th:value="*{coBuffer.capacity}" disabled>
+    </div>
+    <div class="form-group">
+        <label for="material1">Materiał: </label>
+        <input readonly type="text" class="form-control" id="material1" th:value="*{coBuffer.material}" disabled>
+    </div>
+        <button type="submit" class="btn btn-secondary">Zapisz urządzenia</button>
+    </form>
+    </div>
+
+
+
+
+<script th:inline="javascript">
+        var heatPumpId = /*[[${id}]]*/ null;
+        var clientId = /*[[${clientId}]]*/
+
+        </script>
+
+<script th:inline="javascript">
+
+function saveCO_CWU() {
+    $(document).ready(function() {
+        var formData = $('myForm').serialize(); // Przekształcenie danych formularza do formatu, który można wysłać
+        var clientId = /*[[${clientId}]]*/
+
+
+        $.ajax({
+            url: '/clientpanel/saveco-cwu/' + clientId,
+            type: 'POST',
+            data: formData, // Przekazanie danych formularza
+            success: function(result) {
+                console.log("Udało się!");
+            },
+            error: function(xhr, status, error) {
+                console.error("Wystąpił błąd: " + error);
+            }
+        });
+    });
+}
+
+function saveFormData() {
+    var formData = $('myForm').serializeArray(); // Pobranie danych formularza jako tablica
+    localStorage.setItem('formData', JSON.stringify(formData)); // Zapisanie danych do Local Storage
+}
+
+// Odczytywanie danych formularza z Local Storage i wypełnianie formularza
+function loadFormData() {
+    var storedFormData = localStorage.getItem('formData'); // Pobranie danych z Local Storage
+    if (storedFormData) {
+        var formData = JSON.parse(storedFormData); // Parsowanie danych
+        $.each(formData, function(index, element) {
+            $('[name="' + element.name + '"]').val(element.value); // Wypełnienie formularza danymi
+        });
+    }
+}
+
+// Wywołanie funkcji wczytującej dane po załadowaniu dokumentu
+$(document).ready(function() {
+    loadFormData(); // Wczytanie danych formularza przy pierwszym załadowaniu strony
+});
+
+// Zapisanie danych formularza przy wysłaniu formularza
+$('form').submit(function() {
+    saveFormData(); // Zapisanie danych formularza przed wysłaniem
+});
+
+
+</script>
+
+</body>
+</html>

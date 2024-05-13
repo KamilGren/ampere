@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <meta charset="UTF-8">
+  <title>Heat Pump Params</title>
+
+
+  <!-- Styl dla labeli -->
+  <style>
+        label {
+            color: #18192D !important; /* Dodanie !important, aby zabezpieczyć przed ewentualnym nadpisywaniem przez Bootstrap */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-4">
+  <form id="heatPumpForm" method="post"> <!-- Usuwamy atrybut action -->
+    <div class="form-group">
+      <label for="producent">Producent:</label>
+      <select class="form-control" id="producent" name="producent">
+        <!-- Options will be loaded dynamically -->
+        <option th:each="producer : ${producents}" th:value="${producer}" th:text="${producer}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <select class="form-control" id="model" name="model" onchange="loadTypes()">
+        <!-- Options will be loaded dynamically -->
+        <option th:each="model : ${models}" th:value="${model}" th:text="${model}"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="typ">Typ:</label>
+      <select class="form-control" id="typ" onchange="loadHeatPump()" name="typ">
+        <!-- Options will be loaded dynamically -->
+      </select>
+    </div>
+
+    <button type="button" onclick="loadHeatPump()">Znajdź pompę!</button> <!-- Zmieniamy type na "button" i usuwamy atrybut "onsubmit" -->
+
+  </form>
+</div>
+
+<!--  <div id="heatPumpData" class="container mt-4">-->
+<!--    <div class="pump-data">-->
+<!--      <label>Internal unit:</label>-->
+<!--      <span th:text="${heatPump.internalUnit}" id="jednostkaWewnetrzna"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>External Unit:</label>-->
+<!--      <span th:text="${heatPump.externalUnit}" id="jednostkaZewnetrzna"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>Nominal Power:</label>-->
+<!--      <span th:text="${heatPump.power}" id="mocZnamionowa"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>Heating Power:</label>-->
+<!--      <span th:text="${heatPump.heating}" id="mocGrzalki"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>Power Supply:</label>-->
+<!--      <span th:text="${heatPump.powerSupply}" id="zasilanie"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>SCOP:</label>-->
+<!--      <span th:text="${heatPump.scop}" id="scop"></span>-->
+<!--    </div>-->
+<!--    <div class="pump-data">-->
+<!--      <label>Warranty:</label>-->
+<!--      <span th:text="${heatPump.warranty}" id="gwarancja"></span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<<script th:inline="javascript">
+
+    // Funkcja do ładowania typów
+    function loadTypes() {
+        var producent = $("#producent").val();
+        var model = $("#model").val();
+        $.get("/heatpumps/getTypes", {producent: producent, model: model}, function(data) {
+            var options = "";
+            data.forEach(function(type) {
+                options += "<option value='" + type + "'>" + type + "</option>";
+            });
+            $("#typ").html(options);
+        });
+    }
+
+    function loadHeatPump() {
+        // Get the selected producer, model, and type elements
+        var producerSelect = $("#producent");
+        var modelSelect = $("#model");
+        var typeSelect = $("#typ");
+
+<!--        // Get the div elements for displaying data-->
+<!--        var internalUnitDiv = document.getElementById('jednostkaWewnetrzna');-->
+<!--        var externalUnitDiv = document.getElementById('jednostkaZewnetrzna');-->
+<!--        var nominalPowerDiv = document.getElementById('mocZnamionowa');-->
+<!--        var heatingPowerDiv = document.getElementById('mocGrzalki');-->
+<!--        var powerSupplyDiv = document.getElementById('zasilanie');-->
+<!--        var scopDiv = document.getElementById('scop');-->
+<!--        var warrantyDiv = document.getElementById('gwarancja');-->
+
+        // Make AJAX request to get heat pump data
+        $.post('/heatpumps/get', {
+            producent: producerSelect.val(),
+            model: modelSelect.val(),
+            typ: typeSelect.val()
+        }, function(data) {
+            // Update data in divs
+<!--            internalUnitDiv.textContent = data.internalUnit;-->
+<!--            externalUnitDiv.textContent = data.externalUnit;-->
+<!--            nominalPowerDiv.textContent = data.power;-->
+<!--            heatingPowerDiv.textContent = data.heating;-->
+<!--            powerSupplyDiv.textContent = data.powerSupply;-->
+<!--            scopDiv.textContent = data.scop;-->
+<!--            warrantyDiv.textContent = data.warranty;-->
+        });
+    }
+    // Intercept form submission and call loadHeatPump instead of submitting the form
+    $(document).ready(function() {
+        $('#heatPumpForm').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Call loadHeatPump function instead
+            loadHeatPump();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container mt-5">
+<form action="#"
+      th:action="@{/clients/edit/{id}(id=${client.id})}"
+      th:object="${client}"
+      method="post">
+    <label for="name">Imię i nazwisko</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+
+    <label for="address">Adres</label>
+    <input type="text" th:field="*{address}" id="address" placeholder="Address">
+    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+
+    <label for="note">Notatka</label>
+    <input type="text" th:field="*{note}" id="note" placeholder="note">
+    <span th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></span>
+
+    <label for="telephone">Numer telefonu</label>
+    <input type="text" th:field="*{telephone}" id="telephone" placeholder="note">
+    <span th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></span>
+
+    <input type="submit" value="Zaktualizuj klienta">
+</form>
+    </div>
+
+
+</body>
+</html>

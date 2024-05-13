@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>OZE-APP</title>
+    <th:block th:replace="~{/fragments/header}"></th:block>
+</head>
+<body class="hold-transition sidebar-mini">
+<th:block th:replace="~{/fragments/_main-sidebar}"></th:block>
+
+<div class="content-wrapper">
+    <th:block th:include="${#mvc.view.viewName}"></th:block>
+</div>
+
+<footer class="main-footer">
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Copyright &copy; 2024 <a href="#">Your Company Name</a>.</b> All rights reserved.
+    </div>
+    <div class="float-sm-left">
+        All rights reserved.
+        <a href="#">Privacy Policy</a>
+        <b>&middot;</b>
+        <a href="#">Terms & Conditions</a>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXBvTCFPjFW3tTtQgat1zCpr2OaYWcCkgR9Lkns7EuwXEXxUkYV/a1fqT+8M89Q=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fhlihfokizsN1FFAHA8FAwDWXqvkLBQzSgONkJCZo0r9QXhMutUHeJqUc0IKzWCsl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.acloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+</body>
+</html>

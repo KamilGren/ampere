@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista handlowców</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Lista handlowców</h1>
+    <!-- Tabela wyświetlająca listę użytkowników -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th>Hasło</th>
+            <th>Adres mailowy</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Pętla po liście użytkowników -->
+        <tr th:each="salesman : ${salesmen}">
+            <td th:text="${salesman.id}"></td>
+            <td th:text="${salesman.name}"></td>
+            <td th:text="${salesman.surname}"></td>
+            <td th:text="${salesman.password}"></td>
+            <td th:text="${salesman.email}"></td>
+            <td>
+                <!-- Przyciski do edycji i usuwania sprzedawcy -->
+                <a th:href="@{/salesmen/edit/{id}(id=${salesman.id})}" class="btn btn-primary btn-sm">Edit</a>
+                <a th:href="@{/salesmen/delete/{id}(id=${salesman.id})}" class="btn btn-danger btn-sm">Delete</a>
+                <a th:href="@{/salesmen/clients/{id}(id=${salesman.id})}" class="btn btn-danger btn-sm">Klienci</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/salesmen/add}" class="btn btn-primary btn-sm">Dodaj handlowca</a>
+
+</div>
+</body>
+</html>

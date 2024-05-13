@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista klientów</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Lista klientów</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Imię i nazwisko</th>
+            <th scope="col">Adres zamieszkania</th>
+            <th scope="col">Nr. telefonu</th>
+            <th scope="col">Notatka</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clients}">
+            <td th:text="${client.name}"></td>
+            <td th:text="${client.address}"></td>
+            <td th:text="${client.telephone}"></td>
+            <td th:text="${client.note}"></td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                    <a th:href="@{/clients/calculateBuilding/{id}(id=${client.id})}" class="btn btn-info btn-sm">Obliczenia budynku</a>
+                    <a th:href="@{/clients/addProduct/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dodaj produkt</a>
+                    <a th:href="@{/energydata/temperatures/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dane do umowy</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

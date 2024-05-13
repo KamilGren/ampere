@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularz Lokalizacji</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body class="bg-dark text-white">
+<div class="container mt-4">
+    <form action="#"
+          th:action="@{/buildings/edit/{id}(id=${buildingRequirements.id})}"
+          th:object="${buildingRequirements}"
+          method="post">
+    <h2 class="text-white">Wprowadź lokalizację:</h2>
+        <div class="form-group">
+            <label for="location">Lokacja:</label>
+            <input type="text" class="form-control" id="location" placeholder="location" th:field="*{location}" />
+        </div>
+        <div class="form-group">
+            <label for="locationTemperature">Temperatura lokalizacji:</label>
+            <input type="text" class="form-control" id="locationTemperature"  placeholder="locationTemperature" name="locationTemperature" th:field="*{locationTemperature}" />
+        </div>
+
+        <div class="form-group">
+            <label for="buildingType">Typ budynku:</label>
+            <select class="form-control" id="buildingType" placeholder="buildingType" th:field="*{buildingType}">
+                <option value="singleStory">Jednopiętrowy</option>
+                <option value="singleStoryWithUsableAttic">Jednopiętrowy z użytkowym strychem</option>
+                <option value="singleStoryWithUnusedAttic">Jednopiętrowy z nieużywanym strychem</option>
+                <option value="multiStory">Wielopiętrowy</option>
+                <option value="multiStoryWithUsableAttic">Wielopiętrowy z użytkowym strychem</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="buildingDimensionsX">Wymiar budynku X (m):</label>
+            <input type="text" class="form-control" id="buildingDimensionsX" placeholder="buildingDimensionsX" th:field="*{buildingDimensionsX}" onchange="calculateBuildingArea()" />
+        </div>
+        <div class="form-group">
+            <label for="buildingDimensionsY">Wymiar budynku Y (m):</label>
+            <input type="text" class="form-control" id="buildingDimensionsY" placeholder="buildingDimensionsY" th:field="*{buildingDimensionsY}" onchange="calculateBuildingArea()" />
+        </div>
+        <div class="form-group">
+            <label for="buildingDimensionsSum">Suma wymiarów budynku (m²):</label>
+            <input type="text" class="form-control" id="buildingDimensionsSum" placeholder="buildingDimensionsSum" th:field="*{buildingDimensionsSum}" readonly />
+        </div>
+        <script>
+  function calculateBuildingArea() {
+    var dimensionX = parseFloat(document.getElementById("buildingDimensionsX").value);
+    var dimensionY = parseFloat(document.getElementById("buildingDimensionsY").value);
+    var area = dimensionX * dimensionY;
+    document.getElementById("buildingDimensionsSum").value = area.toFixed(2);
+  }
+  </script>
+
+        <div class="form-group">
+            <label for="heatedArea">Powierzchnia ogrzewana (m²):</label>
+            <input type="text" class="form-control" id="heatedArea" placeholder="heatedArea" th:field="*{heatedArea}" />
+        </div>
+        <div class="form-group">
+            <label for="roomHeight">Wysokość pomieszczenia (m):</label>
+            <input type="text" class="form-control" id="roomHeight" placeholder="roomHeight" th:field="*{roomHeight}" />
+        </div>
+        <div class="form-group">
+            <label for="roomHeatingTemperature">Temperatura pomieszczenia (ogrzewanie) (°C):</label>
+            <input type="text" class="form-control" id="roomHeatingTemperature" placeholder="roomHeatingTemperature" th:field="*{roomHeatingTemperature}" />
+        </div>
+        <div class="form-group">
+            <label for="heatingPumpSetTemperature">Temperatura ustawiona pompy ciepła (°C):</label>
+            <input type="text" class="form-control" id="heatingPumpSetTemperature" placeholder="heatingPumpSetTemperature" th:field="*{heatingPumpSetTemperature}" />
+        </div>
+        <div class="form-group">
+            <label for="roomCoolingTemperature">Temperatura pomieszczenia (chłodzenie) (°C):</label>
+            <input type="text" class="form-control" id="roomCoolingTemperature" placeholder="roomCoolingTemperature" th:field="*{roomCoolingTemperature}" />
+        </div>
+        <div class="form-group">
+            <label for="coolingPumpSetTemperature">Temperatura ustawiona pompy chłodzenia (°C):</label>
+            <input type="text" class="form-control" id="coolingPumpSetTemperature" placeholder="coolingPumpSetTemperature" th:field="*{coolingPumpSetTemperature}" />
+        </div>
+        <div class="form-group">
+            <label for="basementPresent">Czy istnieje piwnica:</label>
+            <select class="form-control" id="basementPresent" placeholder="basementPresent" th:field="*{basementPresent}">
+                <option value="true">Tak</option>
+                <option value="false">Nie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="wallType">Typ ściany:</label>
+            <select class="form-control" id="wallType" placeholder="wallType" th:field="*{wallType}">
+                <option value="ceramicBrick">Cegła ceramiczna</option>
+                <option value="concreteBlock">Blok betonowy</option>
+                <option value="ceramicBlock">Blok ceramiczny</option>
+                <option value="wooden">Drewno</option>
+                <option value="frame">Rama</option>
+                <option value="concrete">Beton</option>
+                <option value="aeratedConcrete">Beton komórkowy</option>
+                <option value="porotherm">Porotherm</option>
+                <option value="ytong">Ytong</option>
+                <option value="silicate">Krzemian</option>
+                <option value="clinkerConcrete">Clinker betonowy</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="wallThickness">Grubość ściany (cm):</label>
+            <input type="text" class="form-control" id="wallThickness" placeholder="wallThickness" th:field="*{wallThickness}" />
+        </div>
+        <div class="form-group">
+            <label for="wallInsulation">Izolacja ściany:</label>
+            <select class="form-control" id="wallInsulation" placeholder="wallInsulation" th:field="*{wallInsulation}">
+                <option value="styrofoam">Styropian</option>
+                <option value="graphiteStyrofoam">Styropian grafitowy</option>
+                <option value="xps">XPS</option>
+                <option value="mineralWool">Wełna mineralna</option>
+                <option value="purFoam">Pianka PUR</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="wallInsulationThickness">Grubość izolacji ściany (cm):</label>
+            <input type="text" class="form-control" id="wallInsulationThickness" placeholder="wallInsulationThickness" th:field="*{wallInsulationThickness}" />
+        </div>
+        <div class="form-group">
+            <label for="roofInsulation">Izolacja dachu:</label>
+            <select class="form-control" id="roofInsulation" placeholder="roofInsulation" th:field="*{roofInsulation}">
+                <option value="styrofoam">Styropian</option>
+                <option value="graphiteStyrofoam">Styropian grafitowy</option>
+                <option value="xps">XPS</option>
+                <option value="mineralWool">Wełna mineralna</option>
+                <option value="purFoam">Pianka PUR</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="roofInsulationThickness">Grubość izolacji dachu (cm):</label>
+            <input type="text" class="form-control" id="roofInsulationThickness" placeholder="roofInsulationThickness" th:field="*{roofInsulationThickness}" />
+        </div>
+        <div class="form-group">
+            <label for="floorInsulation">Izolacja podłogi:</label>
+            <select class="form-control" id="floorInsulation" placeholder="floorInsulation" th:field="*{floorInsulation}">
+                <option value="styrofoam">Styropian</option>
+                <option value="graphiteStyrofoam">Styropian grafitowy</option>
+                <option value="xps">XPS</option>
+                <option value="mineralWool">Wełna mineralna</option>
+                <option value="purFoam">Pianka PUR</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="floorInsulationThickness">Grubość izolacji podłogi (cm):</label>
+            <input type="text" class="form-control" id="floorInsulationThickness" placeholder="floorInsulationThickness" th:field="*{floorInsulationThickness}" />
+        </div>
+        <div class="form-group">
+            <label for="windowBlindType">Typ rolet okiennych:</label>
+            <select class="form-control" id="windowBlindType" placeholder="windowBlindType" th:field="*{windowBlindType}">
+                <option value="doubleGlazed">Podwójne przeszklone</option>
+                <option value="tripleGlazed">Potrójnie przeszklone</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="windowBlindAmount">Ilość (1.5 x 1.5m) sztuk:</label>
+            <input type="text" class="form-control" id="windowBlindAmount" placeholder="windowBlindAmount" th:field="*{windowBlindAmount}" />
+        </div>
+        <div class="form-group">
+            <label for="entranceDoorsAmount">Ilość drzwi wejściowych:</label>
+            <input type="text" class="form-control" id="entranceDoorsAmount" placeholder="entranceDoorsAmount" th:field="*{entranceDoorsAmount}" />
+        </div>
+        <div class="form-group">
+            <label for="ventilationType">System wentylacji:</label>
+            <select class="form-control" id="ventilationType" placeholder="ventilationType" th:field="*{ventilationType}">
+                <option value="gravity">Grawitacyjny</option>
+                <option value="mechanical">Mechaniczny</option>
+                <option value="mechanicalWithHeatRecovery">Mechaniczny z odzyskiem ciepła</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="currentFuelType">Aktualny rodzaj paliwa</label>
+            <select class="form-control" id="currentFuelType" placeholder="currentFuelType" th:field="*{currentFuelType}" onchange="showValue()">
+                <option value="">Wybierz rodzaj paliwa</option>
+                <option value="EcoCoal">EcoCoal</option>
+                <option value="NaturalGas">Gaz ziemny</option>
+                <option value="HeatingOil">Olej opałowy</option>
+                <option value="Pellet">Pellet</option>
+                <option value="HardCoal">Węgiel kamienny</option>
+                <option value="LPG">LPG</option>
+            </select>
+        </div>
+        <div id="fuelInfo" class="fuel-info" style="display:none;">
+            <label for="heatingSourceEfficiency">Sprawność źródła ciepła: </label>
+            <span id="heatingSourceEfficiency" placeholder="heatingSourceEfficiency" th:field="*{heatingSourceEfficiency}" class="heatingSourceEfficiency"></span>
+            <input name="heatingSourceEfficiency" id="hiddenHeatingSourceEfficiency" />
+            <br>
+            <label for="fuelUsageAmount">Ilość zużywanego paliwa: </label>
+            <input type="text" class="fuelUsageAmount" placeholder="fuelUsageAmount" th:field="*{fuelUsageAmount}" id="fuelUsageAmount" />
+            <span id="fuelUsageAmountInfo" class="fuelUsageAmount"></span>
+            <br>
+            <label for="fuelEnergyValue">Wartość energetyczna paliwa: </label>
+            <span id="fuelEnergyValue" class="fuelEnergyValue"></span>
+            <span id="fuelEnergyValueUnit" class="fuelEnergyValueUnit"></span>
+            <input name="fuelEnergyValue" id="hiddenFuelEnergyValue" />
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="peopleCountWater">Liczba osób:</label>
+            <input type="text" class="form-control" id="peopleCountWater" th:field="*{peopleCountWater}" placeholder="peopleCountWater" />
+        </div>
+        <div class="form-group">
+            <label for="waterUsageMethod">Zużycie wody dziennie:</label>
+            <select class="form-control" id="waterUsageMethod" placeholder="waterUsageMethod" th:field="*{waterUsageMethod}" onchange="calculateWaterUsage()">
+                <option value="shower">Prysznic</option>
+                <option value="shower-bath">Prysznic-Wanna</option>
+                <option value="bath">Wanna</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="waterDemand">Wynik:</label>
+            <span class="waterUsageResult" placeholder="waterDemand" th:field="*{waterDemand}" id="waterDemand"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Przetwórz Lokalizację</button>
+    </form>
+</div>
+<script>
+  function calculateWaterUsage() {
+    var peopleCount = parseInt(document.getElementById("peopleCountWater").value);
+    var waterUsageMethod = document.getElementById("waterUsageMethod").value;
+    var result;
+    switch (waterUsageMethod) {
+      case "shower":
+        result = peopleCount * 50;
+        break;
+      case "shower-bath":
+        result = peopleCount * 60;
+        break;
+      case "bath":
+        result = peopleCount * 70;
+        break;
+      default:
+        result = 0;
+        break;
+    }
+    document.getElementById("waterDemand").innerText = result + " litrów";
+
+  }
+</script>
+<script>
+  function showValue() {
+    var selectedValue = document.getElementById("currentFuelType").value;
+    var selectedBlock = document.getElementById('fuelInfo');
+    var fuelInfoMap = {
+      'EcoCoal': {
+        'efficiency': '75%',
+        'amount': 'kg',
+        'energyValue': '6.4',
+        'energyValueUnit': 'kWh/kg'
+      },
+      'NaturalGas': {
+        'efficiency': '95%',
+        'amount': 'm³',
+        'energyValue': '10',
+        'energyValueUnit': 'kWh/m³'
+      },
+      'LPG': {
+        'efficiency': '95%',
+        'amount': 'l',
+        'energyValue': '6.85',
+        'energyValueUnit': 'kWh/l'
+      },
+      'HeatingOil': {
+        'efficiency': '90%',
+        'amount': 'l',
+        'energyValue': '10',
+        'energyValueUnit': 'kWh/l'
+      },
+      'Pellet': {
+        'efficiency': '85%',
+        'amount': 'kg',
+        'energyValue': '4.9',
+        'energyValueUnit': 'kWh/kg'
+      },
+      'HardCoal': {
+        'efficiency': '55%',
+        'amount': 'kg',
+        'energyValue': '7.2',
+        'energyValueUnit': 'kWh/kg'
+      }
+    };
+    if (fuelInfoMap[selectedValue]) {
+      selectedBlock.style.display = 'block';
+      var efficiencyWithoutPercent = fuelInfoMap[selectedValue]['efficiency'].replace('%', '');
+      document.getElementById('heatingSourceEfficiency').innerText = efficiencyWithoutPercent + '%';
+      document.getElementById('hiddenHeatingSourceEfficiency').value = efficiencyWithoutPercent;
+      document.getElementById('fuelEnergyValue').innerText = fuelInfoMap[selectedValue]['energyValue'];
+      document.getElementById('hiddenFuelEnergyValue').value = fuelInfoMap[selectedValue]['energyValue'];
+      document.getElementById('fuelEnergyValueUnit').innerText = fuelInfoMap[selectedValue]['energyValueUnit'];
+      var amountInfo = 'Podaj ilość zużywanego paliwa (' + fuelInfoMap[selectedValue]['amount'] + '): ' + 'Jednostka: ' + fuelInfoMap[selectedValue]['energyValueUnit'];
+      document.getElementById('fuelUsageAmountInfo').innerText = amountInfo;
+    } else {
+      selectedBlock.style.display = 'none';
+    }
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

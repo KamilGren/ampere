@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela z edycją tekstu</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+      cursor: pointer;
+    }
+    td.editing {
+      background-color: lightgray;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Faktura</h1>
+
+<div class="form-group">
+  <form>
+  <table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Narzut sprzedawcy</th>
+    <th id="narzut" onclick="editCell(this)"></th>
+    <th>Marża</th>
+    <th id="marza" onclick="editCell(this)"></th>
+    <th>VAT</th>
+    <th id="vat" onclick="editCell(this)"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td colspan="6"></td>
+  </tr>
+  <tr>
+    <th colspan="2">NAZWA</th>
+    <th>ILOŚĆ</th>
+    <th>CENA ZK.</th>
+    <th>WARTOŚĆ</th>
+    <th>CENA Z MARŻĄ</th>
+    <th>WARTOŚĆ Z MARŻĄ</th>
+    <th>VAT</th>
+    <th>WARTOŚĆ BRUTTO</th>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Pompa ciepła</td>
+    <td id="pompaModel" th:text="*{heatPump.model}" onclick="editCell(this)"></td>
+    <td id="pompaIlosc" onclick="editCell(this)">1</td>
+    <td id="pompaCenaKatalog" th:text="*{heatPump.catalogPrice}" onclick="editCell(this)"></td>
+    <td id="pompaWartosc" onclick="editCell(this)"></td>
+    <td id="pompaCenaZMarza" onclick="editCell(this)"></td>
+    <td id="pompaWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="pompaVat" onclick="editCell(this)"></td>
+    <td id="pompaWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Bufor</td>
+    <td id="buforModel" th:text="*{cwuBuffor.name}" onclick="editCell(this)"></td>
+    <td id="buforIlosc" onclick="editCell(this)">1</td>
+    <td id="buforCenaKatalog" th:text="*{cwuBuffor.catalogPrice}" onclick="editCell(this)"></td>
+    <td id="buforWartosc" onclick="editCell(this)"></td>
+    <td id="buforCenaZMarza" onclick="editCell(this)"></td>
+    <td id="buforWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="buforVat" onclick="editCell(this)"></td>
+    <td id="buforWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Bojler</td>
+    <td id="bojlerModel" th:text="*{coBuffer.name}" onclick="editCell(this)"></td>
+    <td id="bojlerIlosc" onclick="editCell(this)">1</td>
+    <td id="bojlerCenaKatalog" th:text="*{coBuffer.catalogPrice}" onclick="editCell(this)"></td>
+    <td id="bojlerWartosc" onclick="editCell(this)"></td>
+    <td id="bojlerCenaZMarza" onclick="editCell(this)"></td>
+    <td id="bojlerWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="bojlerVat" onclick="editCell(this)"></td>
+    <td id="bojlerWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Podstawa pompy ciepła</td>
+    <td></td>
+    <td id="podstawaIlosc" onclick="editCell(this)">1</td>
+    <td id="podstawaCenaKatalog" onclick="editCell(this)">1000</td>
+    <td id="podstawaWartosc" onclick="editCell(this)">1000</td>
+    <td id="podstawaCenaZMarza" onclick="editCell(this)"></td>
+    <td id="podstawaWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="podstawaVat" onclick="editCell(this)"></td>
+    <td id="podstawaWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Materiały przył.</td>
+    <td></td>
+    <td id="materialyIlosc" onclick="editCell(this)">1</td>
+    <td id="materialyCenaKatalog" onclick="editCell(this)">4500</td>
+    <td id="materialyWartosc" onclick="editCell(this)">4500</td>
+    <td id="materialyCenaZMarza" onclick="editCell(this)"></td>
+    <td id="materialyWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="materialyVat" onclick="editCell(this)"></td>
+    <td id="materialyWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Pompa obiegowa Grundfos Alpha 1 25-60</td>
+    <td></td>
+    <td id="pompaObiegowaIlosc" onclick="editCell(this)">1</td>
+    <td id="pompaObiegowaCenaKatalog" onclick="editCell(this)">1000</td>
+    <td id="pompaObiegowaWartosc" onclick="editCell(this)"></td>
+    <td id="pompaObiegowaCenaZMarza" onclick="editCell(this)"></td>
+    <td id="pompaObiegowaWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="pompaObiegowaVat" onclick="editCell(this)"></td>
+    <td id="pompaObiegowaWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td colspan="2" onclick="editCell(this)">Separator AFRISO ADS 160</td>
+    <td id="separatorModel" onclick="editCell(this)">1</td>
+    <td id="separatorCenaKatalog" onclick="editCell(this)">600</td>
+    <td id="separatorWartosc" onclick="editCell(this)"></td>
+    <td id="separatorCenaZMarza" onclick="editCell(this)"></td>
+    <td id="separatorWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="separatorVat" onclick="editCell(this)"></td>
+    <td id="separatorWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+
+  <tr>
+    <td onclick="editCell(this)">Cyrkulacja</td>
+    <td id="cyrkulacjaModel" onclick="editCell(this)"></td>
+    <td id="cyrkulacjaIlosc" onclick="editCell(this)">1</td>
+    <td id="cyrkulacjaCenaKatalog" onclick="editCell(this)">600</td>
+    <td id="cyrkulacjaWartosc" onclick="editCell(this)"></td>
+    <td id="cyrkulacjaCenaZMarza" onclick="editCell(this)"></td>
+    <td id="cyrkulacjaWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="cyrkulacjaVat" onclick="editCell(this)"></td>
+    <td id="cyrkulacjaWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td onclick="editCell(this)">Moduł Wi-Fi</td>
+    <td id="wifiModel" th:text="*{heatPump.producent}" onclick="editCell(this)"></td>
+    <td id="wifiIlosc" onclick="editCell(this)">1</td>
+    <td id="wifiCenaKatalog" onclick="editCell(this)">400</td>
+    <td id="wifiWartosc" onclick="editCell(this)"></td>
+    <td id="wifiCenaZMarza" onclick="editCell(this)"></td>
+    <td id="wifiWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="wifiVat" onclick="editCell(this)"></td>
+    <td id="wifiWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td colspan="2" onclick="editCell(this)">Robocizna</td>
+    <td id="robociznaIlosc" onclick="editCell(this)">1</td>
+    <td id="robociznaCenaKatalog" onclick="editCell(this)">5000</td>
+    <td id="robociznaWartosc" onclick="editCell(this)"></td>
+    <td id="robociznaCenaZMarza" onclick="editCell(this)"></td>
+    <td id="robociznaWartoscZMarza" onclick="editCell(this)"></td>
+    <td id="robociznaVat" onclick="editCell(this)"></td>
+    <td id="robociznaWartoscBrutto" onclick="editCell(this)"></td>
+  </tr>
+  <tr>
+    <td colspan="2">RAZEM</td>
+    <td id="sumaIlosc"></td>
+    <td id="sumaCenaKatalog"></td>
+    <td id="sumaCenaZMarza"></td>
+    <td id="sumaWartoscZMarza"></td>
+    <td id="sumaVat"></td>
+    <td id="sumaWartoscBrutto"></td>
+  </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Z narzutem</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <br>
+    <tr>
+      <td>ZYSK Z INSTALACJI</td>
+      <td></td>
+    </tr>
+
+    </tbody>
+  </table>
+    <button type="submit" onsubmit="sumValues()" class="btn btn-primary">Oblicz sumę</button>
+  </form>
+</div>
+
+<script>
+function sumValues() {
+
+console.log("jestem");
+
+  var productIds = ["pompa", "bufor", "bojler", "pompaObiegowa", "separator", "cyrkulacja", "robocizna"];
+
+  var sumaIlosc = 0;
+    var sumaCenaKatalog = 0;
+    var sumaCenaZMarza = 0;
+    var sumaWartoscZMarza = 0;
+    var sumaVat = 0;
+    var sumaWartoscBrutto = 0;
+
+  productIds.forEach(function(productId) {
+    var fieldNames = ["Ilosc", "CenaKatalog", "CenaZMarza", "WartoscZMarza", "Vat", "WartoscBrutto"];
+
+    fieldNames.forEach(function(fieldName) {
+      var id = productId + fieldName;
+
+      var fieldValue = parseInt(document.getElementById(id).innerText);
+      if (!isNaN(fieldValue)) {
+        switch (fieldName) {
+          case "Ilosc":
+          console.log("jestem");
+
+            sumaIlosc += fieldValue;
+            break;
+          case "CenaKatalog":
+          console.log("jestem");
+
+            sumaCenaKatalog += fieldValue;
+            break;
+          case "CenaZMarza":
+            sumaCenaZMarza += fieldValue;
+            break;
+          case "WartoscZMarza":
+            sumaWartoscZMarza += fieldValue;
+            break;
+          case "Vat":
+            sumaVat += fieldValue;
+            break;
+          case "WartoscBrutto":
+            sumaWartoscBrutto += fieldValue;
+            break;
+        }
+      }
+    });
+
+  });
+
+  document.getElementById("sumaIlosc").innerText = sumaIlosc;
+    document.getElementById("sumaCenaKatalog").innerText = sumaCenaKatalog;
+    document.getElementById("sumaCenaZMarza").innerText = sumaCenaZMarza;
+    document.getElementById("sumaWartoscZMarza").innerText = sumaWartoscZMarza;
+    document.getElementById("sumaVat").innerText = sumaVat;
+  document.getElementById("sumaWartoscBrutto").innerText = sumaWartoscBrutto;
+}
+
+function writeValues() {
+
+ var productIds = ["pompa", "bufor", "bojler", "pompaObiegowa", "separator", "cyrkulacja", "robocizna"];
+ var marza = document.getElementById("marza").value;
+
+ }
+
+
+</script>
+
+<script>
+  function editCell(cell) {
+    var originalContent = cell.textContent;
+    cell.classList.add("editing");
+    var input = document.createElement("input");
+    input.type = "text";
+    input.value = originalContent;
+    input.onblur = function() {
+      cell.textContent = this.value;
+      cell.classList.remove("editing");
+    };
+    cell.textContent = "";
+    cell.appendChild(input);
+    input.focus();
+    sumValues();
+
+  }
+</script>
+</body>
+</html>

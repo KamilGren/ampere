@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela z Thymeleaf</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Kolumna 1</th>
+        <th>Kolumna 2</th>
+        <th>Kolumna 3</th>
+        <th>Kolumna 4</th>
+        <th>Kolumna 5</th>
+        <th>Kolumna 6</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dane : ${listaDanych}">
+        <td th:text="${dane.właściwość1}"></td>
+        <td th:text="${dane.właściwość2}"></td>
+        <td th:text="${dane.właściwość3}"></td>
+        <td th:text="${dane.właściwość4}"></td>
+        <td th:text="${dane.właściwość5}"></td>
+        <td th:text="${dane.właściwość6}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

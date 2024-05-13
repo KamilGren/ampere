@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Wynik Zapotrzebowań Budynku</title>
+
+  <style>
+
+    .navigation {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: white;
+            background-color: #343a40;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .dark-bg {
+            background-color: #18192D;
+            color: white;
+        }
+
+        .dark-bg th {
+            background-color: #18192D;
+            color: white;
+        }
+
+        .dark-cell {
+            background-color: #18192D;
+            color: white;
+        }
+
+        .table th, .table td {
+            border: 1px solid #18192D; /* Dodane obramowanie komórek tabeli */
+        }
+
+        .label-column {
+            width: 40%;
+        }
+
+        .value-column {
+            width: 60%;
+            color: white;
+        }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <table class="table dark-bg">
+    <tbody>
+    <tr>
+      <th class="label-column" th:text="#{buildingType}">Rodzaj budynku:</th>
+      <td class="value-column" th:text="#{buildingType.${buildingRequirements.buildingType}}"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{buildingDimensions}">Zewnętrzne wymiary budynku:</th>
+      <td class="value-column" th:text="${buildingRequirements.buildingDimensionsX} + ' m x ' + ${buildingRequirements.buildingDimensionsY} + ' m'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{heatedArea}">Powierzchnia ogrzewana:</th>
+      <td class="value-column" th:text="${buildingRequirements.heatedArea} + ' m²'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{roomHeight}">Wysokość pomieszczeń:</th>
+      <td class="value-column" th:text="${buildingRequirements.roomHeight} + ' m'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{roomHeatingTemperature}">Temperatura w pomieszczeniach:</th>
+      <td class="value-column" th:text="${buildingRequirements.roomHeatingTemperature} + ' °C'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{basementPresent}">Piwnice:</th>
+      <td class="value-column" th:text="${buildingRequirements.basementPresent}"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{wallType}">Ściany zewnętrzne:</th>
+      <td class="value-column" th:text="#{wallType.${buildingRequirements.wallType}} + ' ' + ${buildingRequirements.wallThickness} + ' cm'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{wallInsulation}">Izolacja ścian:</th>
+      <td class="value-column" th:text="#{wallInsulation.${buildingRequirements.wallInsulation}} + ' ' + ${buildingRequirements.wallInsulationThickness} + ' cm'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{roofInsulation}">Izolacja dachu:</th>
+      <td class="value-column" th:text="#{roofInsulation.${buildingRequirements.roofInsulation}} + ' ' + ${buildingRequirements.roofInsulationThickness} + ' cm'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{floorInsulation}">Izolacja podłogi:</th>
+      <td class="value-column" th:text="#{floorInsulation.${buildingRequirements.floorInsulation}} + ' ' + ${buildingRequirements.floorInsulationThickness} + ' cm'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{windowBlind}">Stolarka okienna (1szt = 1,5m x 1,5m):</th>
+      <td class="value-column" th:text="#{windowBlind.${buildingRequirements.windowBlindType}} + ' ' + ${buildingRequirements.windowBlindAmount} + ' szt.'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{entranceDoorsAmount}">Drzwi zewnętrzne:</th>
+      <td class="value-column" th:text="${buildingRequirements.entranceDoorsAmount} + ' szt.'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{ventilationType}">Rodzaj wentylacji:</th>
+      <td class="value-column" th:text="#{ventilationType.${buildingRequirements.ventilationType}}"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{waterDemand}">Zapotrzebowanie CWU:</th>
+      <td class="value-column" th:text="${buildingRequirements.peopleCountWater} + ' os. ' + ${buildingRequirements.waterDemand} + ' l'"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{currentFuelType}">Rodzaj spalanego opału:</th>
+      <td class="value-column" th:text="#{currentFuelType.${buildingRequirements.currentFuelType}} + ' ' + ${buildingRequirements.fuelUsageAmount}"></td>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{fuelEnergyValue}">Zapotrzebowanie energetyczne C.O.:</th>
+    </tr>
+    <tr>
+      <th class="label-column" th:text="#{fuelEnergyValue}">Zapotrzebowanie energetyczne C.W.U:</th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="navigation">
+  <a th:href="@{'/buildings/add-building-data/' + ${clientId}}">Obliczenia budynku</a>
+  <a href="/clients/showAll" class="btn btn-primary btn-block">Powrót do panelu admina</a>
+  <a href="/energydata/temperatures/{id}(id=${client.id})" class="btn btn-primary btn-block">Wykres oraz zużycie pompy</a>
+  <a th:href="@{/admin_panel}">Pompa ciepła (not work)</a>
+</div>
+
+</body>
+</html>
