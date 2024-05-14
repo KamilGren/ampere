@@ -27,16 +27,36 @@
             <td th:text="${client.address}"></td>
             <td th:text="${client.telephone}"></td>
             <td th:text="${client.createTime}"></td>
-
+            <td>
 
             <div class="btn-group" role="group">
                 <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-primary btn-sm">Edytuj</a>
                 <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>
-                <a th:href="@{/clients/calculateBuilding/{id}(id=${client.id})}" class="btn btn-info btn-sm">Obliczenia budynku</a>
-                <a th:href="@{/clients/addProduct/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dodaj produkt</a>
+<!--                <a th:href="@{/buildings/clients/add/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Dodaj</a>-->
+<!--                <a th:href="@{/buildings/clients/edit/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Edytuj</a>-->
+<!--                <a th:href="@{/buildings/clients/delete/(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>-->
+<!--                <a th:href="@{/buildings/clients/show/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Pokaż</a>-->
+                <a th:href="@{/clients/products/show/{id}(id=${client.id})}" class="btn btn-info btn-sm">Pokaż produkty</a>
+                <a th:href="@{/clients/products/add/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dodaj produkty</a>
+                <a th:href="@{/clients/products/edit/{id}(id=${client.id})}" class="btn btn-info btn-sm">Edytuj produkty</a>
+                <a th:href="@{/clients/products/delete/{id}(id=${client.id})}" class="btn btn-info btn-sm">Usuń produkty</a>
+
                 <a th:href="@{/energydata/temperatures/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dane do umowy</a>
             </div>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Budynek
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" th:href="@{/buildings/clients/add/{id}(id=${client.id})}">Dodaj dane</a>
+                        <a class="dropdown-item" th:href="@{/buildings/clients/edit/{id}(id=${client.id})}">Edytuj dane</a>
+                        <a class="dropdown-item" th:href="@{/buildings/clients/show/{id}(id=${client.id})}">Wyświetl dane</a>
+                        <a class="dropdown-item" th:href="@{/buildings/clients/delete/{id}(id=${client.id})}">Usuń dane</a>
+                    </div>
+                </div>
+        </td>
         </tr>
+
         </tbody>
     </table>
     <a th:href="@{/clients/add/{id}(id=${salesmanId})}" class="btn btn-primary btn-sm">Dodaj klienta</a>

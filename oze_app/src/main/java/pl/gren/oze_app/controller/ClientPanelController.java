@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 
 // tutaj pojda wszystkie funkcjonalnosci klienta, typu dodaj pompe ciepla, dodaj obliczenia budynku etc.
 @Controller
-@RequestMapping("/clientpanel")
+@RequestMapping("/products")
 public class ClientPanelController {
 
     HeatPumpService heatPumpService;
@@ -42,7 +42,7 @@ public class ClientPanelController {
 //    }
 
     @GetMapping("/heatpumps/search/{clientId}")
-    public String showAddHeatPumpToClientForm(Model model, @PathVariable Long clientId)
+    public String searchHeatPump(Model model, @PathVariable Long clientId)
     {
         model.addAttribute("clientId", clientId);
         model.addAttribute("heatPump", new HeatPump());
@@ -77,7 +77,7 @@ public class ClientPanelController {
         return "forms/clientHeatPumpForm";
     }
 
-    @GetMapping("/{clientId}/heatpumps/{heatPumpId}/save")
+    @GetMapping("/heatpumps/{heatPumpId}/save/{clientId}")
     public String saveHeatPumpToClient(@PathVariable Long clientId, @PathVariable Long heatPumpId)
                                       {
 
@@ -104,7 +104,7 @@ public class ClientPanelController {
         return "forms/clientHeatPumpForm";
     }
 
-    @GetMapping("/addco-cwu/{clientId}")
+    @GetMapping("/search-co-cwu/{clientId}")
     public String showAddCOCWUToClientForm(Model model, @PathVariable Long clientId)
     {
         model.addAttribute("clientId", clientId);
@@ -122,7 +122,7 @@ public class ClientPanelController {
     }
 
 
-    @GetMapping("/showco-cwu/{clientId}")
+    @GetMapping("/show-co-cwu/{clientId}")
     public String showCOCWU(@RequestParam("cwuname") String cwuname, @RequestParam("coname") String coname, @RequestParam("heatingCircuits") String heatingCircruits, @RequestParam("hotWaterCirculation") String hotWaterCirculation, Model model, @PathVariable Long clientId) {
 
         CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
@@ -141,7 +141,7 @@ public class ClientPanelController {
         return "forms/clientCWUCO";
     }
 
-    @PostMapping("/saveco-cwu/{clientId}")
+    @PostMapping("/save-co-cwu/{clientId}")
     public String saveCwuCoToClient(CWUBufforTank cwuBufforTank, COBufferTank coBufferTank, @PathVariable Long clientId, Model model) {
 
         // ID POBIERZ od co cwu

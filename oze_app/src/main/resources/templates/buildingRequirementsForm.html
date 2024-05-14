@@ -8,7 +8,7 @@
 <body class="bg-dark text-white">
 <div class="container mt-4">
   <h2 class="text-white">Wprowadź lokalizację:</h2>
-  <form th:action="@{/buildings/add/{clientId}(clientId=${clientId})}" method="post">
+  <form th:action="@{/buildings/clients/add/{clientId}(clientId=${clientId})}" method="post">
     <div class="form-group">
       <label for="location">Lokacja:</label>
       <input type="text" class="form-control" id="location" name="location" th:value="${location}" />

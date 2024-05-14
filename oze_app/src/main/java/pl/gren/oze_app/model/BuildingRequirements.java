@@ -13,113 +13,79 @@ public class BuildingRequirements {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String location;
 
-    @Min(-40)
-    @Max(40) // Zakładam arbitralnie maksymalną temperaturę
     private double locationTemperature;
 
-    @NotBlank
     private String buildingType;
 
-    @Positive
     private double buildingDimensionsX;
 
-    @Positive
     private double buildingDimensionsY;
 
-    @Positive
     private double buildingDimensionsSum;
 
-    @Positive
     private double heatedArea;
 
-    @Positive
     private double roomHeight;
 
-    @Positive
     private double roomHeatingTemperature;
 
-    @Positive
     private double heatingPumpSetTemperature;
 
-    @Positive
     private double roomCoolingTemperature;
 
-    @Positive
     private double coolingPumpSetTemperature;
 
     private boolean basementPresent;
 
-    @Positive
     private String wallType;
 
-    @Positive
     private double wallThickness;
 
-    @Positive
     private String wallInsulation;
 
-    @Positive
     private double wallInsulationThickness;
 
-    @Positive
     private String roofInsulation;
 
-    @Positive
+
     private double roofInsulationThickness;
 
-    @Positive
     private String floorInsulation;
 
-    @Positive
     private double floorInsulationThickness;
 
-    @Positive
     private String windowBlindType;
 
-    @Positive
     private double windowBlindAmount;
 
-    @Positive
     private double entranceDoorsAmount;
 
-    @Positive
     private String ventilationType;
 
-    @Positive
     private String currentFuelType;
 
-    @Positive
     private double fuelUsageAmount;
 
-    @Positive
     private String fuelUsageUnit;
 
-    @Positive
     private double fuelEnergyValue;
 
-    @Positive
     private String fuelEnergyValueUnit;
 
-    @Min(0)
     private int peopleCountWater;
 
-    @Positive
     private double waterDemand;
 
-    @Positive
     private String waterUsageMethod;
 
-    @Positive
     private double heatingSourceEfficiency;
 
     private double CWUValue;
 
     private double COValue;
 
-    @Positive
     private double fuelValue;
 
     private double af47;

@@ -8,29 +8,32 @@
 </head>
 <body>
 
-<div class="container mt-5">
-<form action="#"
+<div class="container">
+    <h1>Edytuj klienta</h1>
+    <form action="#"
       th:action="@{/clients/edit/{id}(id=${client.id})}"
       th:object="${client}"
       method="post">
-    <label for="name">Imię i nazwisko</label>
-    <input type="text" th:field="*{name}" id="name" placeholder="Name">
-
+<div class="form-group">
+    <label for="name">Imię i nazwisko: </label>
+    <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="name">
+</div>
+<div class="form-group">
     <label for="address">Adres</label>
-    <input type="text" th:field="*{address}" id="address" placeholder="Address">
-    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+    <input type="text" class="form-control" id="address" placeholder="address" th:value="*{address}">
+</div>
+<div class="form-group">
+    <label for="telephone">Numer telefonu:</label>
+    <input type="text" class="form-control" id="telephone" placeholder="telephone" th:value="*{telephone}">
+</div>
+        <div class="form-group">
+            <label for="note">Notatka:</label>
+            <input type="text" class="form-control" id="note" placeholder="note" th:value="*{note}">
+        </div>
 
-    <label for="note">Notatka</label>
-    <input type="text" th:field="*{note}" id="note" placeholder="note">
-    <span th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></span>
-
-    <label for="telephone">Numer telefonu</label>
-    <input type="text" th:field="*{telephone}" id="telephone" placeholder="note">
-    <span th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></span>
-
-    <input type="submit" value="Zaktualizuj klienta">
+<button type="submit" class="btn btn-primary">Zapisz zmiany</button>
 </form>
-    </div>
+</div>
 
 
 </body>

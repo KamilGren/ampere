@@ -16,6 +16,7 @@ public interface SalesmanRepository extends JpaRepository<Salesman, Long> {
     Optional<Salesman> findById(Long id);
     void deleteById(Long id);
     List<Salesman> findAll();
+    //Salesman findSalesmanByClientId(Long id);
 
 
 }

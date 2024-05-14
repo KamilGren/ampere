@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.ClientProducts;
+import pl.gren.oze_app.model.Salesman;
 import pl.gren.oze_app.repository.ClientRepository;
 
 import java.util.List;
@@ -32,6 +33,18 @@ public class ClientService {
 
     public List<Client> showClientsBySalesman(Long salesmanId) {
         return clientRepository.findClientsBySalesmanId(salesmanId);
+    }
+
+    public Long showSalesmanIdById(Long clientId) {
+        return clientRepository.findSalesman_IdById(clientId);
+    }
+
+    public Client showClientByBuildingId(Long buildingId) {
+        return clientRepository.findClientByBuilding_Requirements_Id(buildingId);
+    }
+
+    public Long showBuildingIdById(Long clientId) {
+        return clientRepository.findClient_IdById(clientId);
     }
 
     public Client showClientById(Long id) {

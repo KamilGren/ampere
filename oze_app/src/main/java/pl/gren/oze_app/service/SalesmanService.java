@@ -31,6 +31,10 @@ public class SalesmanService {
         return salesmanRepository.findByName(username);
     }
 
+//    public Salesman showSalesmanByClientId(Long clientId) {
+//        return salesmanRepository.findSalesmanByClientId(clientId);
+//    }
+
     public Optional<Salesman> findSalesmanById(Long id) {
         return salesmanRepository.findById(id);
     }

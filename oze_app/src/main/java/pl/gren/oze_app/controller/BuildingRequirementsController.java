@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.BuildingRequirements;
 import pl.gren.oze_app.model.Client;
+import pl.gren.oze_app.model.Salesman;
 import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.BuildingCalculatorService;
 import pl.gren.oze_app.service.BuildingRequirementsService;
@@ -54,9 +55,36 @@ public class BuildingRequirementsController {
         return "buildingRequirementsForm";
     }
 
+    @GetMapping("/clients/add/{id}")
+    public String showBuildingRequirementsForm(Model model, @PathVariable Long id) {
+
+        // Tworzymy nowy obiekt BuildingRequirements, który będzie używany przez formularz
+        BuildingRequirements buildingRequirements = new BuildingRequirements();
+
+        // Przesyłamy pusty obiekt do widoku formularza
+        model.addAttribute("buildingRequirements", buildingRequirements);
+        model.addAttribute("clientId", id);
+
+        // Zwracamy nazwę widoku formularza
+        return "buildingRequirementsForm";
+    }
+
+    @GetMapping("/clients/show/{id}")
+    public String showClientBuildingRequirementsResult(Model model, @PathVariable Long id) {
+
+        // Tworzymy nowy obiekt BuildingRequirements, który będzie używany przez formularz
+        Client client = clientService.showClientById(id);
+
+        // Przesyłamy pusty obiekt do widoku formularza
+        model.addAttribute("buildingRequirements",  client.getBuildingRequirements());
+        model.addAttribute("clientId", id);
+
+        return "buildingRequirementsResult";
+    }
+
 
     // Endpoint obsługujący żądania POST z formularza
-    @PostMapping("/add/{clientId}")
+    @PostMapping("/clients/add/{clientId}")
     public String processBuildingRequirementsForClient(BuildingRequirements buildingRequirements, Model model, @PathVariable Long clientId) {
 
         // building calculator
@@ -101,19 +129,50 @@ public class BuildingRequirementsController {
         return "/forms/updateBuildingRequirements";
     }
 
-    @PostMapping("/edit/{id}")
+    @GetMapping("/clients/edit/{id}")
+    public String showUpdateBuildingFormByClientId(@PathVariable Long id, Model model) {
+
+        Client client = clientService.showClientById(id);
+        Long buildingId = client.getBuildingRequirements().getId();
+        BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(buildingId);
+
+        model.addAttribute("buildingRequirements", buildingRequirements);
+
+        return "/forms/updateBuildingRequirements";
+    }
+
+    @PostMapping("/clients/edit/{id}")
     public String updateBuilding(@PathVariable Long id, @ModelAttribute("buildingRequirements") BuildingRequirements buildingRequirements) {
 
        // client.setId(id); // Ustawienie ID klienta zgodnie z wartością w ścieżce URL
 
         buildingRequirementsService.updateBuildingRequirements(buildingRequirements, id);
-        return "redirect:/clients/";
+
+        Client client = clientService.showClientByBuildingId(id);
+        return "redirect:/salesmen/clients/" + client.getSalesman().getId().toString();
     }
 
+    @DeleteMapping("/delete/{id}")
     public String deleteBuilding(@PathVariable Long id) {
 
         buildingRequirementsService.deleteBuildingRequirementsById(id);
 
-        return "redirect:/clients/";
+        //
+        Client client = clientService.showClientByBuildingId(id);
+        Long salesmanId = client.getSalesman().getId();
+
+        return "redirect:/salesmen/clients/" + salesmanId.toString();
+    }
+
+    @DeleteMapping("/clients/delete/{id}")
+    public String deleteBuildingByClientId(@PathVariable Long id) {
+
+        Client client = clientService.showClientById(id);
+        Long buildingId = client.getBuildingRequirements().getId();
+        buildingRequirementsService.deleteBuildingRequirementsById(buildingId);
+
+        Long salesmanId = client.getSalesman().getId();
+
+        return "redirect:/salesmen/clients/" + salesmanId.toString();
     }
 }

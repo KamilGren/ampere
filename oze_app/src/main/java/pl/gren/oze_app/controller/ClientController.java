@@ -8,6 +8,7 @@ import pl.gren.oze_app.model.BuildingRequirements;
 import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.HeatPump;
 import pl.gren.oze_app.model.Salesman;
+import pl.gren.oze_app.service.BuildingRequirementsService;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.HeatPumpService;
 import pl.gren.oze_app.service.Impl.RedirectServiceImpl;
@@ -24,12 +25,14 @@ public class ClientController {
 
     private final ClientService clientService;
     private final SalesmanService salesmanService;
+    private final BuildingRequirementsService buildingRequirementsService;
     private RedirectServiceImpl redirectService;
 
     @Autowired
-    public ClientController(ClientService clientService, SalesmanService salesmanService) {
+    public ClientController(ClientService clientService, SalesmanService salesmanService, BuildingRequirementsService buildingRequirementsService) {
         this.clientService = clientService;
         this.salesmanService = salesmanService;
+        this.buildingRequirementsService = buildingRequirementsService;
     }
 
 
@@ -72,7 +75,7 @@ public class ClientController {
 
         System.out.println("lISTA KLIENTOW OD SALESMAN: " + salesman.getId() + " " + salesman.getClientList());
 
-        return "redirect:/clients/";
+        return "redirect:/salesmen/clients/" + salesman.getId().toString();
     }
 
     @GetMapping("/edit/{id}")
@@ -86,27 +89,22 @@ public class ClientController {
     public String editClient(@PathVariable Long id, @ModelAttribute("client") Client client) {
         client.setId(id); // Ustawienie ID klienta zgodnie z wartością w ścieżce URL
         clientService.updateClient(client, id);
-        return "redirect:/clients/";
+        Long salesmanId = clientService.showSalesmanIdById(id);
+        return "redirect:/salesmen/clients/" + salesmanId.toString();
+
     }
 
     @GetMapping("/delete/{id}")
     public String deleteClient(@PathVariable("id") Long id) {
+
+        Client client = clientService.showClientById(id);
+        Long salesmanId = clientService.showSalesmanIdById(id);
+
         clientService.deleteClient(id);
-        return "redirect:/clients/";
+
+        return "redirect:/salesmen/clients/" + salesmanId.toString();
+
     }
 
-    @GetMapping("/calculateBuilding/{id}")
-    public String showBuildingRequirementsForm(Model model, @PathVariable Long id) {
-
-        // Tworzymy nowy obiekt BuildingRequirements, który będzie używany przez formularz
-        BuildingRequirements buildingRequirements = new BuildingRequirements();
-
-        // Przesyłamy pusty obiekt do widoku formularza
-        model.addAttribute("buildingRequirements", buildingRequirements);
-        model.addAttribute("clientId", id);
-
-        // Zwracamy nazwę widoku formularza
-        return "buildingRequirementsForm";
-    }
 
 }
