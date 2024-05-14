@@ -18,7 +18,7 @@
 
 <body>
 <div class="container mt-4">
-    <form th:action="@{'/clientpanel/heatpumps/show/' + ${clientId}}" method="get">
+    <form th:action="@{'/products/heatpumps/show/' + ${clientId}}" method="get">
 
     <div class="form-group">
       <label for="producent1">Producent:</label>
@@ -101,7 +101,7 @@ function saveHeatPump() {
 
         $.ajax({
             type: "GET",
-            url: '/clientpanel/' + clientId + '/heatpumps/' + heatPumpId + '/save',
+            url: '/products/heatpumps/' + heatPumpId + '/save/' + clientId,
             success: function(result) {
             console.log("Udalo sie!");
             }

@@ -14,7 +14,10 @@ public class RedirectServiceImpl implements RedirectService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+                .anyMatch(a -> a.getAuthority().equals("ADMIN")))
+
+        {
+
             return "redirect:/home_admin";
         } else if (authentication != null && authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("SALESMAN"))) {
