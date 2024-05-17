@@ -147,14 +147,15 @@ public class ProductController {
         return "forms/clientCWUCO";
     }
 
-    @GetMapping("/co-cwu/save")
-    public String saveCOCWUToClient(@RequestParam("coId") Long coId, @RequestParam("cwuId") Long cwuId) {
+    @GetMapping("/co-cwu/save/{clientId}")
+    public String saveCOCWUToClient(@RequestParam(value = "coId", required = false) Long coId, @RequestParam(value = "cwuId", required = false) Long cwuId, @PathVariable long clientId) {
 
-        Long clientId = 752L;
+        //System.out.println("cyrkulacja: " + waterCirculation)
+        System.out.println("coId" + coId);
         // ID POBIERZ od co cwu
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
-        COBufferTank coBufferTank = coBufferTankService.getCOBufferTankById(coId);
-        CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankById(cwuId);
+        COBufferTank coBufferTank = coBufferTankService.getCOBufferTankById(1L);
+        CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankById(2L);
 
         System.out.println("cwu: " + cwuBufforTank + "co: " + coBufferTank);
 

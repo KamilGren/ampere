@@ -102,7 +102,7 @@
 
 
         <div class="container mt-4">
-        <form th:action="@{/products/co-cwu/save(coId=1, cwuId=1)}" method="get">
+        <form>
         <div class="form-group">
             <label for="hotWaterCirculation2">Obiegi grzewcze:</label>
             <input class="form-control" readonly type="text" id="hotWaterCirculation2" th:value="*{hotWaterCirculation2}" disabled>
@@ -119,9 +119,11 @@
             <label for="coId">Co ID:</label>
             <input class="form-control" readonly type="text" id="coId" th:value="*{coId}" disabled>
         </div>
-        <button type="submit" class="btn btn-secondary">Zapisz urządzenia</button>
         </form>
             </div>
+
+        <button onclick="saveProducts()">Zapisz urządzenia</button>
+
 
     </div>
 
@@ -137,11 +139,11 @@
 
 <script th:inline="javascript">
 
-function saveCO_CWU() {
+function saveProducts() {
 
         $.ajax({
             type: "GET",
-            url: '/products/co-cwu/save' + clientId,
+            url: '/products/co-cwu/save' + clientId + '/?coId=2&cwuId=2',
             success: function(result) {
             console.log("Udalo sie!");
             }
