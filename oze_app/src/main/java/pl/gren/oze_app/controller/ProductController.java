@@ -27,13 +27,13 @@ public class ProductController {
     ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService, HeatPumpService heatPumpService, ClientRepository clientRepository, ClientProductService clientProductService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService) {
+    public ProductController(ProductService productService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService) {
         this.heatPumpService = heatPumpService;
         this.productService = productService;
         this.clientRepository = clientRepository;
-        this.clientProductService = clientProductService;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
+        this.clientProductService = clientProductService;
     }
 
 
@@ -93,30 +93,20 @@ public class ProductController {
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
         HeatPump heatPump = heatPumpService.getHeatPumpById(heatPumpId).orElseThrow(() -> new IllegalArgumentException("Brak pompy ciepla o takim ID"));
 
-        if(client.getClientProducts() == null) {
-
             System.out.println("DODAJEMY POMPE CIEPLA DO PRODUKTOW OD KLIENTA!");
-            ClientProducts clientProducts = new ClientProducts(heatPump);
-            client.setClientProducts(clientProducts);
+            ClientProducts clientProducts = client.getClientProducts();
             clientProducts.setHeatPump(heatPump);
-            clientProductService.addClientProduct(clientProducts);
-        }
-        else
-        {
-            // do sprawdzenia cos czy przypisanie do settera to rownoczesna aktualizacja tego co w bazie danych....
-            client.getClientProducts().setHeatPump(heatPump);
-            System.out.println("Juz bylo client products tutaj zrobione, dodalismy tylko pompe");
-            //ClientProducts clientProducts = clientProductRepository.getReferenceById(clientId);
-            //clientProducts.update....
+            client.setClientProducts(clientProducts);
+            clientProductService.updateClientProducts(clientProducts, clientProducts.getId());
 
-        }
+
         System.out.println("Dodaliśmy pompe o modelu: " + client.getClientProducts().getHeatPump().getModel() + " do clienta o imieniu: " + client.getName());
 
         Long salesmanId = client.getSalesman().getId();
         return "redirect:/salesmen/clients/" + salesmanId.toString();
     }
 
-    @GetMapping("/search-co-cwu/{clientId}")
+    @GetMapping("/co-cwu/search/{clientId}")
     public String showAddCOCWUToClientForm(Model model, @PathVariable Long clientId)
     {
         model.addAttribute("clientId", clientId);
@@ -134,7 +124,7 @@ public class ProductController {
     }
 
 
-    @GetMapping("/show-co-cwu/{clientId}")
+    @GetMapping("/co-cwu/show/{clientId}")
     public String showCOCWU(@RequestParam("cwuname") String cwuname, @RequestParam("coname") String coname, @RequestParam("heatingCircuits") String heatingCircruits, @RequestParam("hotWaterCirculation") String hotWaterCirculation, Model model, @PathVariable Long clientId) {
 
         CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
@@ -142,6 +132,10 @@ public class ProductController {
 
         model.addAttribute("coBuffer", coBufferTank);
         model.addAttribute("cwuBuffor", cwuBufforTank);
+
+        model.addAttribute("cwuId", cwuBufforTank.getId());
+        model.addAttribute("coId", coBufferTank.getId());
+
         model.addAttribute("hotWaterCirculation2", hotWaterCirculation);
         model.addAttribute("heatingCircuits2", heatingCircruits);
         model.addAttribute("clientId", clientId);
@@ -153,48 +147,41 @@ public class ProductController {
         return "forms/clientCWUCO";
     }
 
-    @PostMapping("/save-co-cwu/{clientId}")
-    public String saveCwuCoToClient(CWUBufforTank cwuBufforTank, COBufferTank coBufferTank, @PathVariable Long clientId, Model model) {
+    @GetMapping("/co-cwu/save")
+    public String saveCOCWUToClient(@RequestParam("coId") Long coId, @RequestParam("cwuId") Long cwuId) {
 
+        Long clientId = 752L;
         // ID POBIERZ od co cwu
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
+        COBufferTank coBufferTank = coBufferTankService.getCOBufferTankById(coId);
+        CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankById(cwuId);
+
+        System.out.println("cwu: " + cwuBufforTank + "co: " + coBufferTank);
 
 
-        // przerobic na normalny zapis do repository
-        if(client.getClientProducts() == null) {
-
-            ClientProducts clientProducts = new ClientProducts();
-            client.setClientProducts(clientProducts);
-
-            // creating product list which we will add to clientproducts
-            //adding all products to client products and client products to client
-
-//            clientProducts.setProducts(productService.setCOCWUOthers((Integer.parseInt(heatingCircuits)), hotWaterCirculation));
-            clientProductService.addClientProduct(clientProducts);
+        if(client.getClientProducts() != null) {
+            System.out.println("Client products sa");
             client.getClientProducts().setCwuBufforTank(cwuBufforTank);
             client.getClientProducts().setCoBufferTank(coBufferTank);
 
-        }
-        else
-        {
-            client.getClientProducts().setCwuBufforTank(cwuBufforTank);
-            client.getClientProducts().setCoBufferTank(coBufferTank);
-//            client.getClientProducts().getProducts().addAll(productService.setCOCWUOthers((Integer.parseInt(heatingCircuits)), hotWaterCirculation));
-//            System.out.println("Jestesmy w ELSE: Dodaliśmy produkty: " + client.getClientProducts().getProducts().toString());
+            ClientProducts clientProducts = client.getClientProducts();
+            clientProducts.setCoBufferTank(coBufferTank);
+            coBufferTank.addToCoBufferTankClientList(clientProducts);
+            System.out.println("co z zapisu: " + clientProducts.getCoBufferTank());
+            System.out.println("co z cotank modelu: " + coBufferTank.getCoBufferTankClientList());
 
+            // dosc
+            coBufferTankService.updateCoBufferTank(coBufferTank, coBufferTank.getId());
+            clientProductService.updateClientProducts(clientProducts, client.getClientProducts().getId());
         }
-
-        model.addAttribute("coBuffer", coBufferTank);
+           //clientProducts.setProducts(productService.setCOCWUOthers((Integer.parseInt(heatingCircuits)), hotWaterCirculation));
 
 //        System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getProducts().toString());
+        System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank() + " do klienta o imieniu: " + client.getName());
+        System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank() + " do klienta o imieniu: " + client.getName());
 
-        System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank().getModel() + " do klienta o imieniu: " + client.getName());
-
-        model.addAttribute("cwuBuffor", cwuBufforTank);
-
-        System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank().getModel() + " do klienta o imieniu: " + client.getName());
-
-        return "forms/clientCWUCO";
+        Long salesmanId = client.getSalesman().getId();
+        return "redirect:/salesmen/clients/" + salesmanId.toString();
     }
 
 

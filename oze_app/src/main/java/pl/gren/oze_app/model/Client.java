@@ -25,7 +25,7 @@ public class Client {
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_products_id")
     private ClientProducts clientProducts;
 
@@ -36,7 +36,6 @@ public class Client {
     public BuildingRequirements getBuildingRequirements() {
         return buildingRequirements;
     }
-
 
     public void setBuildingRequirements(BuildingRequirements buildingRequirements) {
         this.buildingRequirements = buildingRequirements;
@@ -83,6 +82,9 @@ public class Client {
         this.clientProducts = clientProducts;
     }
 
+    public void updateClientProducts(ClientProducts clientProducts) {
+        this.getClientProducts().updateClientProducts(clientProducts);
+    }
     public Long getId() {
         return id;
     }

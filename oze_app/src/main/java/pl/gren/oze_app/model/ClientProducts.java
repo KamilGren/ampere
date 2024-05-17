@@ -25,9 +25,9 @@ public class ClientProducts {
     @JoinColumn(name = "cwu_buffor_tank_id")
     private CWUBufforTank cwuBufforTank;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "product_table", joinColumns = @JoinColumn(name = "client_products_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
-    private Set<Product> products = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "product_table", joinColumns = @JoinColumn(name = "client_products_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
+//    private Set<Product> products = new HashSet<>();
 
     public ClientProducts() {
     }
@@ -42,13 +42,26 @@ public class ClientProducts {
         this.cwuBufforTank = cwuBufforTank;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+//    public Set<Product> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(Set<Product> products) {
+//        this.products = products;
+//    }
+
+    public void updateClientProducts(ClientProducts clientProducts) {
+
+        if(clientProducts.getHeatPump() != null)
+            this.heatPump = clientProducts.getHeatPump();
+        if(clientProducts.getCoBufferTank() != null) {
+            this.coBufferTank = clientProducts.getCoBufferTank();
+        }
+        if(clientProducts.getCwuBufforTank()!= null) {
+            this.cwuBufforTank = clientProducts.getCwuBufforTank();
+        }
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
 
     public HeatPump getHeatPump() {
         return heatPump;

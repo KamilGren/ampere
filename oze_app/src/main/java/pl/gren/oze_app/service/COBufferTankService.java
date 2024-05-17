@@ -3,6 +3,7 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.COBufferTank;
+import pl.gren.oze_app.model.ClientProducts;
 import pl.gren.oze_app.repository.COBufferTankRepository;
 
 import java.util.List;
@@ -35,5 +36,15 @@ public class COBufferTankService {
 
     public void deleteCOBufferTank(Long id) {
         coBufferTankRepository.deleteById(id);
+    }
+
+    public void updateCoBufferTank(COBufferTank coBufferTank, Long id) {
+
+        COBufferTank updatedCoBuffer = coBufferTankRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Brak coBufferTank o numerze id: " + id));
+
+        updatedCoBuffer.updateProduct(coBufferTank);
+
+        coBufferTankRepository.save(updatedCoBuffer);
+
     }
 }

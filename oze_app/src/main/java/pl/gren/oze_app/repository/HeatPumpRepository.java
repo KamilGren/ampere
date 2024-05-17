@@ -17,12 +17,12 @@ public interface HeatPumpRepository extends JpaRepository<HeatPump, Long> {
     public static final String FIND_PRODUCENTS = "SELECT DISTINCT Producent FROM heat_pump";
     public static final String FIND_MODELS = "SELECT DISTINCT model FROM heat_pump WHERE producent = :producent AND type = :type";
     public static final String FIND_TYPE = "SELECT DISTINCT model FROM heat_pump WHERE producent = :producent AND type = :type";
-
+    //public static final String FIND_HEATPUMP = "SELECT * FROM heat_pump WHERE producent = :producent AND model = :model AND type = :type";
 
     public Optional<HeatPump> findById(Long id);
 
-    public HeatPump getHeatPumpByProducentAndModelAndType(String producent, String model, String typ); // <--
-
+   // @Query(value = FIND_HEATPUMP, nativeQuery = true)
+    public HeatPump getHeatPumpByProducentAndModelAndType(String producent, String type, String model);
 
     @Query(value = FIND_PRODUCENTS, nativeQuery = true)
     public List<String> findHeatPumpsProducents();

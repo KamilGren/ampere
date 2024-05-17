@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.gren.oze_app.model.BuildingRequirements;
-import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.model.Salesman;
+import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.service.BuildingRequirementsService;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.HeatPumpService;
@@ -71,6 +68,10 @@ public class ClientController {
         salesman.addClient(client); // mappedy by salesman to glowny, wiec do niego tylko dodaje
         client.setSalesman(salesman);
         salesmanService.updateSalesman(salesman, id);
+
+        ClientProducts clientProducts = new ClientProducts();
+        client.setClientProducts(clientProducts);
+
         clientService.addClient(client);
 
         System.out.println("lISTA KLIENTOW OD SALESMAN: " + salesman.getId() + " " + salesman.getClientList());

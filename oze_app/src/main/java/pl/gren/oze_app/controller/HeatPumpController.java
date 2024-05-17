@@ -29,13 +29,11 @@ public class HeatPumpController {
         this.clientRepository = clientRepository;
     }
 
-
     // nie działa, brak template
     @GetMapping
     public List<HeatPump> getAllHeatPump() {
         return heatPumpService.getAllHeatPump();
     }
-
 
     // działa
     @GetMapping("/search/{id}")

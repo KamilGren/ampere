@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@Entity
+@MappedSuperclass
 public class Product {
 
     @Id
@@ -30,8 +30,8 @@ public class Product {
     @PositiveOrZero(message = "Catalog price must be a non-negative number")
     double discount;
 
-    @ManyToMany(mappedBy = "products")
-    Set<ClientProducts> productClientList = new HashSet<>();
+//    @ManyToMany(mappedBy = "products")
+//    Set<ClientProducts> productClientList = new HashSet<>();
 
     @PositiveOrZero(message = "Catalog price must be a non-negative number")
     Double purchasePrice;
@@ -60,13 +60,13 @@ public class Product {
         this.purchasePrice = purchasePrice;
     }
 
-    public Set<ClientProducts> getProductClientList() {
-        return productClientList;
-    }
-
-    public void setProductClientList(Set<ClientProducts> productClientList) {
-        this.productClientList = productClientList;
-    }
+//    public Set<ClientProducts> getProductClientList() {
+//        return productClientList;
+//    }
+//
+//    public void setProductClientList(Set<ClientProducts> productClientList) {
+//        this.productClientList = productClientList;
+//    }
 
     public double getDiscount() {
         return discount;
