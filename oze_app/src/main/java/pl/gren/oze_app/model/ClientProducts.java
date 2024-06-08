@@ -2,6 +2,7 @@ package pl.gren.oze_app.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,9 +26,9 @@ public class ClientProducts {
     @JoinColumn(name = "cwu_buffor_tank_id")
     private CWUBufforTank cwuBufforTank;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "product_table", joinColumns = @JoinColumn(name = "client_products_id"), inverseJoinColumns = @JoinColumn(name = "products_id"))
-//    private Set<Product> products = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "other_product_table", joinColumns = @JoinColumn(name = "client_products_id"), inverseJoinColumns = @JoinColumn(name = "other_products_id"))
+    private List<OtherProduct> otherProducts = new ArrayList<>();
 
     public ClientProducts() {
     }
@@ -62,6 +63,13 @@ public class ClientProducts {
         }
     }
 
+    public List<OtherProduct> getOtherProducts() {
+        return otherProducts;
+    }
+
+    public void setOtherProducts(List<OtherProduct> otherProducts) {
+        this.otherProducts = otherProducts;
+    }
 
     public HeatPump getHeatPump() {
         return heatPump;

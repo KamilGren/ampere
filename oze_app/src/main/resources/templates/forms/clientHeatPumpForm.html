@@ -97,20 +97,39 @@
 
 <script th:inline="javascript">
 
+<!--function saveHeatPump() {-->
+
+<!--        $.ajax({-->
+<!--            type: "GET",-->
+<!--            url: '/products/heatpumps/' + heatPumpId + '/save/' + clientId,-->
+<!--            success: function(result) {-->
+<!--            console.log("Udalo sie!");-->
+<!--            }-->
+<!--            });-->
+<!--            }-->
+
+
+</script>
+
+    <script th:inline="javascript">
+
+
 function saveHeatPump() {
+
+const pathname = window.location.pathname;
+const pathSegments = pathname.split('/');
+const urlParams = new URLSearchParams(window.location.search);
+uri = `heatpumps/save/${clientId}?${urlParams}`;
+
 
         $.ajax({
             type: "GET",
-            url: '/products/heatpumps/' + heatPumpId + '/save/' + clientId,
+            url: uri,
             success: function(result) {
             console.log("Udalo sie!");
             }
             });
             }
-
-</script>
-
-    <script th:inline="javascript">
 
 
 

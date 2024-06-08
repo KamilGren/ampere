@@ -21,6 +21,8 @@ public interface HeatPumpRepository extends JpaRepository<HeatPump, Long> {
 
     public Optional<HeatPump> findById(Long id);
 
+    public Optional<HeatPump> findByModel(String model);
+
    // @Query(value = FIND_HEATPUMP, nativeQuery = true)
     public HeatPump getHeatPumpByProducentAndModelAndType(String producent, String type, String model);
 

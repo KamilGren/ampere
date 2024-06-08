@@ -35,6 +35,10 @@ public class HeatPumpService {
         return heatPumpRepository.findById(id);
     }
 
+    public Optional<HeatPump> getHeatPumpByModel(String model) {
+        return heatPumpRepository.findByModel(model);
+    }
+
     public List<HeatPump> getHeatPumpByProducent(String producent) {
         return heatPumpRepository.findHeatPumpByProducent(producent);
     }

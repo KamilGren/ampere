@@ -11,9 +11,11 @@ import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.*;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/products/")
@@ -24,12 +26,12 @@ public class ProductController {
     ClientProductService clientProductService;
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
-    ProductService productService;
+    OtherProductService otherProductService;
 
     @Autowired
-    public ProductController(ProductService productService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService) {
+    public ProductController(OtherProductService otherProductService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService) {
         this.heatPumpService = heatPumpService;
-        this.productService = productService;
+        this.otherProductService = otherProductService;
         this.clientRepository = clientRepository;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
@@ -43,8 +45,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
-        Product addedProduct = productService.saveProduct(product);
+    public ResponseEntity<OtherProduct> saveProduct(@RequestBody OtherProduct product) {
+        OtherProduct addedProduct = otherProductService.saveProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedProduct);
     }
 
@@ -86,12 +88,17 @@ public class ProductController {
         return "forms/clientHeatPumpForm";
     }
 
-    @GetMapping("/heatpumps/{heatPumpId}/save/{clientId}")
-    public String saveHeatPumpToClient(@PathVariable Long clientId, @PathVariable Long heatPumpId)
+    @GetMapping("/heatpumps/save/{clientId}")
+    public String saveHeatPumpToClient(@PathVariable Long clientId, @RequestParam("producent") String producent,
+                                       @RequestParam("model") String model,
+                                       @RequestParam("type") String type)
     {
 
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
-        HeatPump heatPump = heatPumpService.getHeatPumpById(heatPumpId).orElseThrow(() -> new IllegalArgumentException("Brak pompy ciepla o takim ID"));
+
+        HeatPump heatPump = heatPumpService.getHeatPumpByProducentModelType(producent, model, type);
+
+        System.out.println("Model tej pompy to: " + heatPump.getModel());
 
             System.out.println("DODAJEMY POMPE CIEPLA DO PRODUKTOW OD KLIENTA!");
             ClientProducts clientProducts = client.getClientProducts();
@@ -147,42 +154,64 @@ public class ProductController {
         return "forms/clientCWUCO";
     }
 
+
+    // 21.05.2024
     @GetMapping("/co-cwu/save/{clientId}")
-    public String saveCOCWUToClient(@RequestParam(value = "coId", required = false) Long coId, @RequestParam(value = "cwuId", required = false) Long cwuId, @PathVariable long clientId) {
+    public String saveCOCWUToClient(@RequestParam("cwuname") String cwuname, @RequestParam("coname") String coname, @RequestParam("heatingCircuits") String heatingCircruits, @RequestParam("hotWaterCirculation") String hotWaterCirculation, Model model, @PathVariable Long clientId) {
 
         //System.out.println("cyrkulacja: " + waterCirculation)
-        System.out.println("coId" + coId);
+        System.out.println("coName" + coname);
         // ID POBIERZ od co cwu
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
-        COBufferTank coBufferTank = coBufferTankService.getCOBufferTankById(1L);
-        CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankById(2L);
+        COBufferTank coBufferTank = coBufferTankService.getCOBufferTankByName(coname);
+        CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
+
+        ClientProducts clientProducts = client.getClientProducts();
+        List<OtherProduct> otherProducts = otherProductService.setCOCWUOthers(Integer.parseInt(heatingCircruits), hotWaterCirculation);
+
+        System.out.println("Heating circuits: " + heatingCircruits);
+        System.out.println("Hot water circulation: " + hotWaterCirculation); // int
 
         System.out.println("cwu: " + cwuBufforTank + "co: " + coBufferTank);
 
-
-        if(client.getClientProducts() != null) {
             System.out.println("Client products sa");
-            client.getClientProducts().setCwuBufforTank(cwuBufforTank);
-            client.getClientProducts().setCoBufferTank(coBufferTank);
+            clientProducts.setCwuBufforTank(cwuBufforTank);
+            clientProducts.setCoBufferTank(coBufferTank);
 
-            ClientProducts clientProducts = client.getClientProducts();
+            // adding other products to clientproducts
+            clientProducts.setOtherProducts(otherProducts);
+
             clientProducts.setCoBufferTank(coBufferTank);
             coBufferTank.addToCoBufferTankClientList(clientProducts);
+
             System.out.println("co z zapisu: " + clientProducts.getCoBufferTank());
             System.out.println("co z cotank modelu: " + coBufferTank.getCoBufferTankClientList());
 
             // dosc
             coBufferTankService.updateCoBufferTank(coBufferTank, coBufferTank.getId());
             clientProductService.updateClientProducts(clientProducts, client.getClientProducts().getId());
-        }
-           //clientProducts.setProducts(productService.setCOCWUOthers((Integer.parseInt(heatingCircuits)), hotWaterCirculation));
 
-//        System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getProducts().toString());
+            System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getOtherProducts());
         System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank() + " do klienta o imieniu: " + client.getName());
         System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank() + " do klienta o imieniu: " + client.getName());
 
         Long salesmanId = client.getSalesman().getId();
         return "redirect:/salesmen/clients/" + salesmanId.toString();
+    }
+
+
+    @GetMapping("/clients/{clientId}/show-products")
+    public String showProducts(@PathVariable Long clientId) {
+
+        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta"));
+
+        ClientProducts clientProducts = client.getClientProducts();
+
+        System.out.println("Halo odpowiedz: " + clientProducts);
+        System.out.println(clientProducts.getCoBufferTank().getName());
+        System.out.println(clientProducts.getCwuBufforTank().getName());
+
+        return "redirect:/salesmen";
     }
 
 

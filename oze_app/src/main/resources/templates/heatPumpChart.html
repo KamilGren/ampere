@@ -56,7 +56,7 @@
 
 <script th:inline="javascript">
 
-        var heatPumpId = /*[[${id}]]*/ null; f
+        var heatPumpId = /*[[${heatPumpId}]]*/ null;
 
         </script>
 
@@ -173,7 +173,6 @@
 
         document.getElementById('szacowaneZuzycieEnergiiGrzalka').value = szacowaneZuzycieGrzalka.toFixed(0) + " kWh";
         document.getElementById('kosztEnergiiGrzalka').value = energyCostHeater.toFixed(2) + " zł";
-
 
         document.getElementById('kosztEnergiiCWU').value = energyCostCWU.toFixed(2) + " zł";
 

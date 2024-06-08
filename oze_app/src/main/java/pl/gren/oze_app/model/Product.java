@@ -13,7 +13,7 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @NotBlank
@@ -24,16 +24,10 @@ public class Product {
     @Size(min = 1, max = 255)
     String producent;
 
-    @PositiveOrZero(message = "Catalog price must be a non-negative number")
     Double catalogPrice;
 
-    @PositiveOrZero(message = "Catalog price must be a non-negative number")
     double discount;
 
-//    @ManyToMany(mappedBy = "products")
-//    Set<ClientProducts> productClientList = new HashSet<>();
-
-    @PositiveOrZero(message = "Catalog price must be a non-negative number")
     Double purchasePrice;
 
     double priceWithOverhead;

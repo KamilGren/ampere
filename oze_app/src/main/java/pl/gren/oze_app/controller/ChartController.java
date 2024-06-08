@@ -106,6 +106,7 @@ public class ChartController {
     }
 
     // nie wiem jak inaczej przekazac id na frontend
+    // od tego zaczynamy wyswietlanie wykresu
     @GetMapping("/show/{heatPumpId}")
     public String chart(@PathVariable Long heatPumpId, Model model) throws IOException {
 

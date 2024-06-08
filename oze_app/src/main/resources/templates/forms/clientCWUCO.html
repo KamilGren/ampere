@@ -100,29 +100,30 @@
         <input readonly type="text" class="form-control" id="material1" th:value="*{coBuffer.material}" disabled>
     </div>
 
-
-        <div class="container mt-4">
-        <form>
-        <div class="form-group">
-            <label for="hotWaterCirculation2">Obiegi grzewcze:</label>
-            <input class="form-control" readonly type="text" id="hotWaterCirculation2" th:value="*{hotWaterCirculation2}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="heatingCircuits2">Obiegi grzewcze:</label>
-            <input class="form-control" readonly type="text" id="heatingCircuits2" th:value="*{heatingCircuits2}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="cwuId">Cwu ID:</label>
-            <input class="form-control" readonly type="text" id="cwuId" th:value="*{cwuId}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="coId">Co ID:</label>
-            <input class="form-control" readonly type="text" id="coId" th:value="*{coId}" disabled>
-        </div>
-        </form>
-            </div>
-
         <button onclick="saveProducts()">Zapisz urządzenia</button>
+
+
+        <!--        <div class="container mt-4">-->
+<!--        <form>-->
+<!--        <div class="form-group">-->
+<!--            <label for="hotWaterCirculation2">Obiegi grzewcze:</label>-->
+<!--            <input class="form-control" readonly type="text" id="hotWaterCirculation2" th:value="*{hotWaterCirculation2}" disabled>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="heatingCircuits2">Obiegi grzewcze:</label>-->
+<!--            <input class="form-control" readonly type="text" id="heatingCircuits2" th:value="*{heatingCircuits2}" disabled>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="coName">Cwu ID:</label>-->
+<!--            <input class="form-control" readonly type="text" id="coName" th:value="*{coName}" disabled>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="cwuName">Co ID:</label>-->
+<!--            <input class="form-control" readonly type="text" id="cwuName" th:value="*{cwuName}" disabled>-->
+<!--        </div>-->
+<!--        </form>-->
+<!--            </div>-->
+
 
 
     </div>
@@ -141,16 +142,22 @@
 
 function saveProducts() {
 
+const pathname = window.location.pathname;
+const pathSegments = pathname.split('/');
+const clientId = pathSegments[pathSegments.length - 1]; // Get the last segment
+const urlParams = new URLSearchParams(window.location.search);
+uri = `save/${clientId}?${urlParams}`;
+
+
         $.ajax({
             type: "GET",
-            url: '/products/co-cwu/save' + clientId + '/?coId=2&cwuId=2',
+            url: uri,
             success: function(result) {
             console.log("Udalo sie!");
             }
             });
             }
 
-}
 
 function saveFormData() {
     var formData = $('myForm').serializeArray(); // Pobranie danych formularza jako tablica

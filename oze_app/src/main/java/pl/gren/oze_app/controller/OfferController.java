@@ -17,6 +17,7 @@ import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.OfferService;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -60,6 +61,14 @@ public class OfferController {
         coBufferTank.priceWithOverhead(overhead);
         coBufferTank.priceWithMargin(margin);
         coBufferTank.priceWithVat(vat);
+
+        List<OtherProduct> otherProductList = client.getClientProducts().getOtherProducts();
+
+        for(int i = 0; i < otherProductList.size(); i++) {
+            otherProductList.get(i).priceWithOverhead(overhead);
+            otherProductList.get(i).priceWithOverhead(margin);
+            otherProductList.get(i).priceWithOverhead(vat);
+        }
 
         try {
             return new ResponseEntity<Iterable<ClientProducts>>(clientService.findClientClientProducts(), HttpStatus.OK);
