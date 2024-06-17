@@ -39,22 +39,22 @@
     </div>
         <button type="submit" class="btn btn-primary">Znajdź pompę</button>
         <button type="button" onchange="drawChart()" class="btn btn-secondary">Wyświetl wykres</button>
-        <button type="button" onsubmit="saveHeatPump()" class="btn btn-secondary">Zapisz urządzenie</button>
 
     </form>
 </div>
 
 <div class="container mt-4">
+    <form>
     <div class="form-group">
-        <label for="producent1">Producent: </label>
+        <label for="producent">Producent: </label>
         <input class="form-control" type="text" id="producent" th:value="*{producent}" disabled>
     </div>
     <div class="form-group">
-        <label for="type1">Typ: </label>
+        <label for="type">Typ: </label>
         <input readonly type="text" class="form-control" id="type" th:value="*{type}" disabled>
     </div>
     <div class="form-group">
-    <label for="model1">Model: </label>
+    <label for="model">Model: </label>
     <input readonly type="text" class="form-control" id="model" th:value="*{model}" disabled>
 </div>
     <div class="form-group">
@@ -78,14 +78,17 @@
         <input type="number" class="form-control" id="powerSupply" th:text="*{heatPump.powerSupply} + ' kW'" disabled>
     </div>
     <div class="form-group">
-        <label for="SCOP1">SCOP: </label>
-        <input type="number" class="form-control" id="SCOP1" th:text="*{heatPump.scop}" disabled>
+        <label for="SCOP">SCOP: </label>
+        <input type="number" class="form-control" id="SCOP" th:text="*{heatPump.scop}" disabled>
     </div>
     <div class="form-group">
         <label for="warranty">Gwarancja: </label>
         <input type="number" class="form-control" id="warranty" th:text="*{heatPump.warranty} + ' lat'" disabled>
     </div>
-    <button th:onclick="saveHeatPump()">Zapisz urządzenie</button>
+
+    <button th:onclick="saveHeatPump()" class="btn btn-secondary">Zapisz urządzenie</button>
+    </form>
+
 </div>
 
 
@@ -116,10 +119,18 @@
 
 function saveHeatPump() {
 
+
 const pathname = window.location.pathname;
 const pathSegments = pathname.split('/');
+pathSegments[pathSegments.length - 2] = "save"; // Get the last segment
 const urlParams = new URLSearchParams(window.location.search);
+const baseUri = pathSegments.join("/");
 uri = `heatpumps/save/${clientId}?${urlParams}`;
+
+
+console.log(pathname);
+console.log(pathSegments);
+console.log(urlParams);
 
 
         $.ajax({

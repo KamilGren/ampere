@@ -1,0 +1,35 @@
+
+APACHE POI BOX
+OD ZERA KAZDA LINIJKA PDF dla tekstu
+
+
+SELENIUM, proba zrobienia tego za pomoca screenshotow i partial screenshotow
+Proba zrobienia tego za pomoca screena samego charta z biblioteki highchart
+Proba zrobienia tego za pomoca konwersji html to PDF, PDF to html - problem jest taki, ze musze miec pierw zaladowana strone z kontentem
+wiec to bardziej kwestia tego, zeby zrobic screena strony niz cos takiego i to ew. zapisac jako jedna strone pdf a potem je polaczyc ze soba
+
+Inna opcja, wrzucenie szablonu PDF do html, rozpisanie go i edytowanie tego co trzeba, chyba taka najlepsza... ale zajmie czas, ale moglbym od razu to zapisac do PDF potem. Czyli generuje najpierw co trzeba, a potem zapisuje. To sprobuje zrobic. Jeszcze nie ma pospiechu na to ale musze na to zerkac.
+
+Co ja w ogole chce zapisac? 
+
+Mam w zasadzie 4 strony pdf do ogarniecia
+do wrzucenia mam tam 3 wygenerowane rzeczy
+
+Building Requirements - to raz - do tego mi najblizej
+
+Dwa pompa ciepła wraz z wykresem - tutaj w zasadzie wyswietlic dane pompy trzeba pod wykresem i usunac dane jakos ktore teraz sa...
+
+Trzy szacowane zuzycie energii - wykres wraz z tabela - no tutaj to jest do zrobienia cale choc moze mam juz ta tabele przyszykowana, nie powinno byc az tak duzo pracy - wzialbym to na jutro do zrobienia i postaral sie wygenerowac na jednej stronie 
+
+Cztery czyli tabela podsumowujaca wszystko wraz z kosztami - no to bedzie na koniec jak ogarne na pewno pobieranie tych danych, zaciaganie.. tez sporo pracy
+na kilka dni na pewno 
+
+
+To nie wszystko, trzeba by ogarnac stopki w ktorych beda dane, to fajnie byloby zrobic w html i to sie bedzie powtarzac, to jest dosc latwo zaladowac na szczescie
+Na pierwszej stronie za to ma byc data i autor... do ogarniecia tez to jest 
+Na ostatniej stronie jest znow do wypelnienia 
+
+OK, po kolei...
+
+jUTRO CZYLI W SRODE ZROBIE Z TYMI WYKRESAMI I ROCZNA TABELA, ZOBACZE JAK Z CZASEM BEDZIE TO MOZE JESZCZE COS DOPNE...
+

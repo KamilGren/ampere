@@ -12,6 +12,28 @@ public class CSVReader {
 
     private final String filePath = "Dane_meteo.csv";
 
+
+    public static ArrayList<String> getMonthsList() {
+        // Creating an ArrayList of months
+        ArrayList<String> months = new ArrayList<>();
+
+        // Adding months to the ArrayList
+        months.add("styczeń");
+        months.add("luty");
+        months.add("marzec");
+        months.add("kwiecień");
+        months.add("maj");
+        months.add("czerwiec");
+        months.add("lipiec");
+        months.add("sierpień");
+        months.add("wrzesień");
+        months.add("październik");
+        months.add("listopad");
+        months.add("grudzień");
+
+        // Returning the ArrayList of months
+        return months;
+    }
     public double countHoursWithTemperature(String month, double targetTemperature) throws IOException {
         double temperature = 0;
 
@@ -45,25 +67,26 @@ public class CSVReader {
 
         double temperatureSum = 0;
 
-        temperatureSum += countHoursWithTemperature("styczeń", temp);
-        temperatureSum += countHoursWithTemperature("luty", temp);
-        temperatureSum += countHoursWithTemperature("marzec", temp);
-        temperatureSum += countHoursWithTemperature("kwiecień", temp);
-        temperatureSum += countHoursWithTemperature("maj", temp);
-        temperatureSum += countHoursWithTemperature("czerwiec", temp);
-        temperatureSum += countHoursWithTemperature("lipiec", temp);
-        temperatureSum += countHoursWithTemperature("sierpień", temp);
-        temperatureSum += countHoursWithTemperature("wrzesień", temp);
-        temperatureSum += countHoursWithTemperature("październik", temp);
-        temperatureSum += countHoursWithTemperature("listopad", temp);
-        temperatureSum += countHoursWithTemperature("grudzień", temp);
-
-        System.out.println("Suma dla temp: " + temp + " dla wszystkich miesiecy wynosi: " + temperatureSum);
-
+        for (int i = 0; i < 12; i++) {
+            temperatureSum += countHoursWithTemperature(getMonthsList().get(i), temp);
+            System.out.println("Suma dla temp: " + temp + " dla wszystkich miesiecy wynosi: " + temperatureSum);
+        }
         return temperatureSum;
     }
 
+   // zwraca mape z temperatura od -20 do 30 gdzie dla kazdej tej temp jest podsumowana ilosc godzin w calym roku kiedy ona wystepuje
 
+    public HashMap<Integer, Double> getYearTemperaturesforChart() throws IOException
+    {
+
+        HashMap<Integer, Double> yearAmountTemperature = new HashMap<>();
+
+            for(int i=-20; i < 30; i++) {
+                yearAmountTemperature.put(i, getCountOfYearTempHours((double) i));
+            }
+
+            return yearAmountTemperature;
+    }
 }
 
 

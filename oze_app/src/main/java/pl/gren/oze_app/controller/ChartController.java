@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import pl.gren.oze_app.Reader.CSVReader;
 import pl.gren.oze_app.model.BuildingRequirements;
+import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.EnergyData;
 import pl.gren.oze_app.model.HeatPump;
+import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.BuildingRequirementsService;
+import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.HeatPumpService;
 
 import java.io.IOException;
@@ -28,7 +31,14 @@ public class ChartController {
     HeatPumpService heatPumpService;
 
     @Autowired
+    ClientRepository clientRepository;
+
+    @Autowired
     BuildingRequirementsService buildingRequirementsService;
+
+    CSVReader csvReader = new CSVReader();
+
+
 
     @GetMapping("/create/{heatPumpId}")
     @ResponseBody
@@ -124,28 +134,81 @@ public class ChartController {
         return "heatPumpChart";
     }
 
-    @GetMapping("/data/{heatPumpId}")
-    public ResponseEntity<?> getYearChartData(@PathVariable Long heatPumpId) throws IOException {
+//    @GetMapping("/data/{heatPumpId}")
+//    public ResponseEntity<?> getYearChartData(@PathVariable Long heatPumpId) throws IOException {
+//
+//        BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(1L);
+//        buildingRequirements.setCWUValue(0.5);
+//        buildingRequirements.setCOValue(5.09);
+//        HeatPump heatPump = heatPumpService.getHeatPumpById(heatPumpId).orElseThrow(() -> new NoSuchElementException("Heat pump with id: " + heatPumpId + "not found!"));
+//
+//        EnergyData energyData = new EnergyData(heatPump, buildingRequirements);
+//
+//        double yearCO = energyData.getYearCO();
+//        double yearCWU = energyData.getYearCWU();
+//        double SCOP = energyData.getSCOP();
+//
+//        System.out.println(energyData.getSCOP());
+//        System.out.println(energyData.getYearEnergyProduced());
+//
+//      String jsonData = "{\"yearCO\": " + yearCO + ", \"yearCWU\": " + yearCWU + ", \"SCOP\": " + SCOP + "}";
+//
+//        return ResponseEntity.ok(jsonData);
+//
+//    }
 
-        BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(1L);
+    @GetMapping("/year-temperatures/show/{clientId}")
+    public String showTemperatureValuesChart(@PathVariable Long clientId, Model model)  {
+
+        model.addAttribute("clientId", clientId);
+
+        return "/charts/yearTemperatureValuesChart";
+    }
+
+    // tworzymy wykres temperatur na caly rok przy pobieraniu clientId oraz heatPumpId
+    @GetMapping("/year-temperatures/create/{clientId}")
+    @ResponseBody
+    public String createChartForYearTemperaturesCount(@PathVariable Long clientId) throws IOException {
+
+        // wszystko z klienta pobierzemy
+        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
+
+        BuildingRequirements buildingRequirements = client.getBuildingRequirements();
         buildingRequirements.setCWUValue(0.5);
         buildingRequirements.setCOValue(5.09);
-        HeatPump heatPump = heatPumpService.getHeatPumpById(heatPumpId).orElseThrow(() -> new NoSuchElementException("Heat pump with id: " + heatPumpId + "not found!"));
 
+        HeatPump heatPump = heatPumpService.getHeatPumpById(155L).orElseThrow(() -> new NoSuchElementException("Heat pump with id: " + 155 + "not found!"));
+
+        //dane do wykresu
         EnergyData energyData = new EnergyData(heatPump, buildingRequirements);
 
-        double yearCO = energyData.getYearCO();
-        double yearCWU = energyData.getYearCWU();
-        double SCOP = energyData.getSCOP();
+        List<Integer> temperatures = energyData.getExternalTemperature();
+        HashMap<Integer, Double> yearTemperaturesCount = csvReader.getYearTemperaturesforChart();
 
-        System.out.println(energyData.getSCOP());
-        System.out.println(energyData.getYearEnergyProduced());
+        JsonArray jsonTemperatures = new JsonArray();
+        JsonArray jsonYearTemperaturesCount = new JsonArray();
 
-        String jsonData = "{\"yearCO\": " + yearCO + ", \"yearCWU\": " + yearCWU + ", \"SCOP\": " + SCOP + "}";
 
-        return ResponseEntity.ok(jsonData);
+        List<Double> yearTemperatureValues = new ArrayList<>();
+        yearTemperatureValues.addAll(yearTemperaturesCount.values());
 
+        for(Double entry : yearTemperatureValues) {
+            jsonYearTemperaturesCount.add(entry);
+        }
+
+        temperatures.forEach(temperature -> {
+            jsonTemperatures.add(temperature);
+        });
+
+        JsonObject json = new JsonObject();
+
+        json.add("temperatures", jsonTemperatures);
+        json.add("yearTemperaturesCount", jsonYearTemperaturesCount);
+
+        return json.toString();
     }
+
+
 
 
 

@@ -1,33 +1,184 @@
 <!DOCTYPE html>
 <html lang="pl">
-<html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Tabela z Thymeleaf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela kosztów eksploatacji</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>Kolumna 1</th>
-        <th>Kolumna 2</th>
-        <th>Kolumna 3</th>
-        <th>Kolumna 4</th>
-        <th>Kolumna 5</th>
-        <th>Kolumna 6</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="dane : ${listaDanych}">
-        <td th:text="${dane.właściwość1}"></td>
-        <td th:text="${dane.właściwość2}"></td>
-        <td th:text="${dane.właściwość3}"></td>
-        <td th:text="${dane.właściwość4}"></td>
-        <td th:text="${dane.właściwość5}"></td>
-        <td th:text="${dane.właściwość6}"></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1>Roczny koszt eksploatacji</h1>
+
+    <table id="kosztyEksploatacji" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Miesiąc</th>
+            <th>C.O. (kWh)</th>
+            <th>C.O. (zł)</th>
+            <th>C.W.U. (kWh)</th>
+            <th>C.W.U. (zł)</th>
+            <th>Grzałka (kWh)</th>
+            <th>Grzałka (zł)</th>
+            <th>Suma (zł)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Styczeń</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Luty</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Marzec</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Kwiecień</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Maj</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Czerwiec</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Lipiec</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Sierpień</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Wrzesień</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Październik</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Listopad</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Grudzień</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Suma</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>Roczny koszt eksploatacji</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="rocznyKosztEksploatacji"></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
+
+
+$(document).ready(function() {
+const table = $('#kosztyEksploatacji').DataTable({
+"ajax": {
+"url": "/

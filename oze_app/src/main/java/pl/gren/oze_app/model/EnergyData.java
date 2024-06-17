@@ -1,5 +1,6 @@
 package pl.gren.oze_app.model;
 
+import org.springframework.expression.spel.CodeFlow;
 import pl.gren.oze_app.Reader.CSVReader;
 
 import java.io.IOException;
@@ -383,9 +384,18 @@ public class EnergyData {
 
 
         for (int i = -20; i < 30; i++) {
+            //SPRAWDZAM CZY TU MI NIE CZYTA 12.06.2024 19:46
             COforTemp = getHeatPumpWear(getHeatPump1(), i) / getHeatPumpChartValue(getHeatPump1(), i) * getHeatingValue(i) * csvReader.countHoursWithTemperature(month, i);
+            System.out.println("COFORTEMP" + COforTemp);
+            System.out.println("pOMPA CIEPŁA: " + getHeatPump1());
+            System.out.println("heatpumpwear: " + getHeatPumpWear(getHeatPump1(), i));
+            System.out.println("heatpumpchartvalue: " + getHeatPumpChartValue(getHeatPump1(), i));
+            System.out.println("Heating value: " + getHeatingValue(i));
+            // problem jest przy getheatingvalu b
+            System.out.println(month);
+            System.out.println(i);
+            System.out.println(csvReader.countHoursWithTemperature(month, i));
             monthCO += COforTemp;
-
 
 // Wyświetlenie wartości każdej używanej zmiennej
 //            System.out.println("Heat pump wear: " + getHeatPumpWear(getHeatPump1(), i));
@@ -461,25 +471,42 @@ public class EnergyData {
     }
 
 
-    public double getYearEnergyProduced() throws IOException {
+//    public double getYearEnergyProduced() throws IOException {
+//
+//        double yearEnergyProduced = 0;
+//
+//        for(int i = -20; i < 30; i++) {
+//            yearEnergyProduced += getHeatingValue(i) * csvReader.getCountOfYearTempHours((double) i);
+//
+//            System.out.println("Year energy produced: " + yearEnergyProduced);
+//        }
+//
+//        return yearEnergyProduced;
+//    }
 
-        double yearEnergyProduced = 0;
+    //  dla kazdej temperatury
+    public HashMap<Integer, Integer> getYearEnergyProduced() throws IOException
+    {
+        HashMap<Integer, Integer> yearEnergyProduced = new HashMap<>();
 
-        for(int i = -20; i < 30; i++) {
-            yearEnergyProduced += getHeatingValue(i) * csvReader.getCountOfYearTempHours((double) i);
+        for(int i = -20; i < 30; i++)
+        {
+            yearEnergyProduced.put(i, (int) (getHeatingValue(i) * csvReader.getCountOfYearTempHours((double) i)));
 
             System.out.println("Year energy produced: " + yearEnergyProduced);
         }
-
         return yearEnergyProduced;
     }
 
-    public double getSCOP() throws IOException {
 
-        System.out.println("SCOP:" + getYearEnergyProduced() / getYearCO() );
+    // scop do poprawy
 
-        return getYearEnergyProduced() / getYearCO();
-    }
+//    public double getSCOP() throws IOException {
+//
+//        System.out.println("SCOP:" + getYearEnergyProduced() / getYearCO() );
+//
+//        return getYearEnergyProduced() / getYearCO();
+//    }
 
 
 

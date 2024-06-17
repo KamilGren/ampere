@@ -1,83 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://datatables.net/media/css/site-examples.css">
-    <html xmlns:th="http://www.thymeleaf.org">
     <meta charset="UTF-8">
-    <title>Faktura</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTables with Ajax</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
 </head>
 
-
-<form>
-<div class="form-group">
-    <label for="overhead">Narzut: </label>
-    <input type="text" class="form-control" id="overhead" name="overhead" />
-</div>
-    <div class="form-group">
-        <label for="margin">Marza: </label>
-        <input type="margin" class="form-control" id="margin" name="margin" />
-    </div>
-    <div class="form-group">
-        <label for="vat">Vat: </label>
-        <input type="text" class="form-control" id="vat" name="vat" />
-    </div>
-    <button type="submit" onclick="getData(event)" class="btn btn-primary">Wyświetl dane</button>
-</form>
+<body>
 
 <div id="dataTablesShow" style="margin: 20px;">
 
-    <table id="example" class="display dataTable cell-border" style="width:100%"></table>
+    <table id="mydatatable" class="display dataTable cell-border" style="width:100%"></table>
 
 </div>
 
 
-
-<script th:inline="javascript">
-
-        var clientId = /*[[${clientId}]]*/
-
-</script>
-
-    <script th:inline="javascript">
-
-        function getData(event) {
-
-        event.preventDefault()
-
-         const ajaxUrl = "/offers/calcInvoice/" + clientId;
-        console.log("ladujemy sie");
-
-                let table = new DataTable('#mydatatable', {
-                    paging: false,
-                    serverSide: true,
-                    processing: true,
-                    searchDelay: 500,
-                    ajax: {
-                        url:   ajaxUrl,
-                        type: "GET",
-                        contentType: "application/json",
-                        data: function (d) {
-                            return JSON.stringify(d);
-                                    console.log("ladujemy sieee");
-
-                        }
-                    },
-                    columns: [
-                        {title: "model", data: "model"},
-                        {title: "cena zk.", data: "catalogPrice"},
-                        {title: "wartość", data: "catalogPrice"},
-                        {title: "cena z marżą", data: "priceWithMargin"},
-                        {title: "vat", data: "vat"},
-                        {title: "wartość brutto", data: "priceWithVat"}
-                    ]
-                });
-
-            }
-
-        </script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#mydatatable').DataTable({
+        pageLength: 8,
+        ajax: {
+          url: '/offers/calcInvoice/' + clientId, // Closing double quote added
+          type: 'GET',
+          contentType: 'application/json',
+          dataSrc: 'data'
+        },
+        columns: [
+          { title: "Model", data: "model" },  // Capitalized "Model" for consistency
+          { title: "Cena zk.", data: "catalogPrice" },
+          { title: "Wartość", data: "catalogPrice" },
+          { title: "Cena z marżą", data: "priceWithMargin" },
+          { title: "VAT", data: "vat" },
+          { title: "Wartość brutto", data: "priceWithVat" }
+        ]
+      });
+    });
+  </script>
 </body>
 </html>
+
+

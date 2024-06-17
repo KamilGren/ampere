@@ -3,10 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <title>Wynik Zapotrzebowań Budynku</title>
+
+  <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table td,
+        table th {
+            padding: 5px 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #ddd;
+        }
+    </style>
+
 </head>
 <body>
 
-<div>
+<div class="container">
+  <table class="table table-striped table-bordered">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+
+
   <h2>Zapotrzebowania budynku zostały pomyślnie zapisane do bazy danych.</h2>
 
   <p>Lokacja: <span th:text="${buildingRequirements.location}"></span></p>

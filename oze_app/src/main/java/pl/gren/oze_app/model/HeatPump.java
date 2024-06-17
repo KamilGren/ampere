@@ -41,6 +41,7 @@ public class HeatPump extends Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy ="heatPump")
     private Set<ClientProducts> heatpumpClientList = new HashSet<>();
 
+
     @Min(0)
     private double heatingEfficiencyMinus20;
 
@@ -351,6 +352,9 @@ public class HeatPump extends Product {
         this.energyConsumption20 = energyConsumption20;
     }
 
+    public void addToHeatPumpClientList(ClientProducts clientProducts) {
+        this.heatpumpClientList.add(clientProducts);
+    }
 
 
 }

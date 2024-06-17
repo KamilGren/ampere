@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Chart Page</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        label {
+            color: #18192D !important; /* Dodanie !important, aby zabezpieczyć przed ewentualnym nadpisywaniem przez Bootstrap */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="chart-container" style="height: 400px;"></div>
+
+</div>
+
+<script th:inline="javascript">
+
+
+        var clientId = /*[[${clientId}]]*/ null;
+
+    $(document).ready(function() {
+        $.ajax({
+            url: '/charts/year-temperatures/create/' + clientId,
+            success: function(result) {
+                var data = JSON.parse(result);
+                var temperatures = data.temperatures;
+                var yearTemperaturesCount = data.yearTemperaturesCount;
+
+                console.log(temperatures);
+                console.log(yearTemperaturesCount);
+
+                drawLineChart(temperatures, yearTemperaturesCount);
+            }
+        });
+
+        function drawLineChart(temperatures, yearTemperaturesCount) {
+            Highcharts.chart('chart-container', {
+                chart: {
+                    type: 'line',
+                    width: 500
+                },
+                title: {
+                    text: 'Szacowane zużycie energii'
+                },
+                xAxis: {
+                    categories: temperatures,
+                    title: {
+                        text: 'Wykres temp/godzin w ciągu roku'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Ilość godzin '
+                    }
+                },
+                tooltip: {
+                    shared: true,
+                    formatter: function() {
+                        return '<strong>' + this.x + ': </strong>' + this.series.name + ': ' + this.y;
+                    }
+                },
+                series: [{
+                    name: 'Ilość godzin występowania danej temp.',
+                    data: yearTemperaturesCount,
+
+                    }]
+            });
+        }
+    });
+</script>
+
+<script th:inline="javascript">
+
+    window.onload = function() {
+        updateEnergyConsumption();
+    };
+
+    function updateEnergyConsumption() {
+        const url = "/charts/data/" + heatPumpId;
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                const yearCO = data.yearCO;
+                const yearCWU = data.yearCWU;
+                const SCOP = data.SCOP;
+
+                // Aktualizacja pól na stronie
+                document.getElementById('szacowaneZuzyciePC').value = yearCO.toFixed(2);
+                document.getElementById('szacowaneZuzycieCWU').value = yearCWU.toFixed(2);
+                document.getElementById('SCOP').value = SCOP.toFixed(2);
+
+                updateEnergyCosts();
+            },
+            error: function(xhr, status, error) {
+                console.error('Błąd:', error);
+            }
+        });
+    }
+
+    function updateEnergyCosts() {
+        const kosztEnergii = parseFloat(document.getElementById('kosztEnergii').value);
+        const szacowaneZuzycieGrzalka = parseFloat(document.getElementById('szacowaneZuzycieGrzalka').value);
+        const szacowaneZuzyciePC = parseFloat(document.getElementById('szacowaneZuzyciePC').value);
+        const szacowaneZuzycieCWU = parseFloat(document.getElementById('szacowaneZuzycieCWU').value);
+
+        const energyCostPC = szacowaneZuzyciePC * kosztEnergii;
+        console.log(energyCostPC);
+        const energyCostHeater = szacowaneZuzycieGrzalka * kosztEnergii;
+        const energyCostCWU = szacowaneZuzycieCWU * kosztEnergii;
+
+        document.getElementById('kosztEnergiiPC').value = energyCostPC.toFixed(2);
+        document.getElementById('kosztEnergiiGrzalka').value = energyCostHeater.toFixed(2);
+        document.getElementById('kosztEnergiiCWU').value = energyCostCWU.toFixed(2);
+
+        document.getElementById('szacowaneZuzycieEnergiiGrzalka').value = szacowaneZuzycieGrzalka.toFixed(0) + " kWh";
+        document.getElementById('kosztEnergiiGrzalka').value = energyCostHeater.toFixed(2) + " zł";
+
+        document.getElementById('kosztEnergiiCWU').value = energyCostCWU.toFixed(2) + " zł";
+
+        const totalEnergyConsumption = szacowaneZuzyciePC + szacowaneZuzycieGrzalka + szacowaneZuzycieCWU;
+        const totalEnergyCost = energyCostPC + energyCostHeater + energyCostCWU;
+
+        console.log(totalEnergyCost);
+        document.getElementById('szacowaneZuzycieEnergiiRazem').value = totalEnergyConsumption.toFixed(0);
+        document.getElementById('kosztEnergiiRazem').value = totalEnergyCost.toFixed(2);
+
+    }
+
+</script>
+
+
+</body>
+</html>

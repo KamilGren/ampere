@@ -142,7 +142,7 @@ public class COBufferTank extends Product {
         this.coBufferTankClientList = coBufferTankClientList;
     }
     public void addToCoBufferTankClientList(ClientProducts clientProducts) {
-        this.coBufferTankClientList.add(clientProducts);
+            this.coBufferTankClientList.add(clientProducts);
     }
 }
 

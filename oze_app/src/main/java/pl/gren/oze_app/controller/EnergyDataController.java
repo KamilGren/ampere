@@ -37,9 +37,10 @@ public class EnergyDataController {
         Client client = clientService.showClientById(clientId);
 
         // dodanie pompy byle jakiej - pozniej bedzie to wczytywane z uzytkownika
-        HeatPump heatPump = heatPumpRepository.findById(4L).orElseThrow(() -> new NoSuchElementException("Nie ma takiej pompy"));
+        HeatPump heatPump = heatPumpRepository.findById(145L).orElseThrow(() -> new NoSuchElementException("Nie ma takiej pompy"));
 
         Map<String, MonthData> months = new LinkedHashMap<>();
+
 
         List<String> orderedMonths = new ArrayList<>();
         orderedMonths.add("STYCZEŃ");
@@ -56,6 +57,8 @@ public class EnergyDataController {
         orderedMonths.add("GRUDZIEŃ");
 
         if (client.getBuildingRequirements() != null) {
+
+            // ladujemy wszystkie dane dla konkretnej pompy ciepla oraz za pomoca wlasciwosci budynku
             EnergyData energyData = new EnergyData(heatPump, client.getBuildingRequirements());
 
             // adding CO and CWU values to given month
@@ -64,16 +67,23 @@ public class EnergyDataController {
                 System.out.println("Miesiac: " + month);
             }
 
-            double yearOperationCost = Math.round(energyData.getYearCostOfExploitation() * 100.0) / 100.0;
+            double yearOperationCO = Math.round(energyData.getYearCO() * 100.0) / 100.0;
+            double yearOperationCWU = Math.round(energyData.getYearCWU() * 100.0) / 100.0;
+            double yearOperationCost = yearOperationCO + yearOperationCWU;
+
 
             model.addAttribute("orderedMonths", orderedMonths);
+            model.addAttribute("heatPump", heatPump);
             model.addAttribute("months", months);
             model.addAttribute("yearOperatingCost", yearOperationCost);
+            model.addAttribute("yearOperatingCO", yearOperationCO);
+            model.addAttribute("yearOperatingCWU", yearOperationCWU);
             model.addAttribute("kwHCost", client.getBuildingRequirements().getKwHCost());
 
             System.out.println("Hej, jestem z: " + client.getBuildingRequirements().getLocation());
 
             return "dataToExport";
+
         }
         else {
 
@@ -84,10 +94,12 @@ public class EnergyDataController {
             System.out.println("Hej, jestem tutaj!");
 
             return "dataToExport";
+
         }
 
-
     }
+
+
 
 
 }
