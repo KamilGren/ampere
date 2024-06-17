@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista klientów</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <th:block th:fragment="standard-head">
+        <title th:text="${PAGE_TITLE} ?: 'My Default Title'"></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&display=swap">
+        <link rel="stylesheet" href="https://fonts.google.com/specimen/Bitter">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+    </th:block>
 <body>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
 <div class="container">
     <h1>Lista klientów</h1>
     <!-- Tabela wyświetlająca listę użytkowników -->
@@ -29,20 +42,25 @@
             <td th:text="${client.createTime}"></td>
             <td>
 
-            <div class="btn-group" role="group">
-                <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-primary btn-sm">Edytuj</a>
-                <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>
-<!--                <a th:href="@{/buildings/clients/add/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Dodaj</a>-->
-<!--                <a th:href="@{/buildings/clients/edit/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Edytuj</a>-->
-<!--                <a th:href="@{/buildings/clients/delete/(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>-->
-<!--                <a th:href="@{/buildings/clients/show/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Pokaż</a>-->
-                <a th:href="@{/clients/products/show/{id}(id=${client.id})}" class="btn btn-info btn-sm">Pokaż produkty</a>
-                <a th:href="@{/clients/products/add/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dodaj produkty</a>
-                <a th:href="@{/clients/products/edit/{id}(id=${client.id})}" class="btn btn-info btn-sm">Edytuj produkty</a>
-                <a th:href="@{/clients/products/delete/{id}(id=${client.id})}" class="btn btn-info btn-sm">Usuń produkty</a>
-
-                <a th:href="@{/energydata/temperatures/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dane do umowy</a>
-            </div>
+                <div class="btn-group" role="group">
+                    <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                    <!--                <a th:href="@{/buildings/clients/add/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Dodaj</a>-->
+                    <!--                <a th:href="@{/buildings/clients/edit/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Edytuj</a>-->
+                    <!--                <a th:href="@{/buildings/clients/delete/(id=${client.id})}" class="btn btn-danger btn-sm">Usuń</a>-->
+                    <!--                <a th:href="@{/buildings/clients/show/{id}(id=${client.id})}" class="btn btn-danger btn-sm">Pokaż</a>-->
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" type="button" id="addProductsMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dodaj produkty
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="addProductsMenu">
+                            <a class="dropdown-item" th:href="@{/products/heatpumps/search/{id}(id=${client.id})}">Dodaj pompę ciepła</a>
+                            <a class="dropdown-item" th:href="@{/products/co-cwu/search/{id}(id=${client.id})}">Dodaj CO i CWU</a>
+                        </div>
+                    </div>
+                    <a th:href="@{/clients/products/show/{id}(id=${client.id})}" class="btn btn-info btn-sm">Pokaż produkty</a>
+                    <a th:href="@{/energydata/temperatures/{id}(id=${client.id})}" class="btn btn-info btn-sm">Dane do umowy</a>
+                </div>
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Budynek
@@ -54,12 +72,13 @@
                         <a class="dropdown-item" th:href="@{/buildings/clients/delete/{id}(id=${client.id})}">Usuń dane</a>
                     </div>
                 </div>
-        </td>
+            </td>
         </tr>
 
         </tbody>
     </table>
     <a th:href="@{/clients/add/{id}(id=${salesmanId})}" class="btn btn-primary btn-sm">Dodaj klienta</a>
+
 
 </div>
 </body>

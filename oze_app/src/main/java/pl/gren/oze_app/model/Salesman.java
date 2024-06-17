@@ -9,7 +9,7 @@ import java.util.Set;
 public class Salesman {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String surname;
@@ -19,7 +19,6 @@ public class Salesman {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy ="salesman")
     public Set<Client> clientList = new HashSet<>();
-
 
     public Salesman(Long id, String name, String surname, String password, String role, String email) {
         this.id = id;
