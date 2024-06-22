@@ -26,6 +26,9 @@ public class ClientProducts {
     @JoinColumn(name = "cwu_buffor_tank_id")
     private CWUBufforTank cwuBufforTank;
 
+
+    /// not use the same object, only list of count of this products -Lord Xorium :)
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "other_product_table", joinColumns = @JoinColumn(name = "client_products_id"), inverseJoinColumns = @JoinColumn(name = "other_products_id"))
     private List<OtherProduct> otherProducts = new ArrayList<>();
@@ -41,6 +44,7 @@ public class ClientProducts {
         this.heatPump = heatPump;
         this.coBufferTank = coBufferTank;
         this.cwuBufforTank = cwuBufforTank;
+        this.otherProducts = null;
     }
 
 //    public Set<Product> getProducts() {
@@ -60,6 +64,10 @@ public class ClientProducts {
         }
         if(clientProducts.getCwuBufforTank()!= null) {
             this.cwuBufforTank = clientProducts.getCwuBufforTank();
+        }
+
+        if(clientProducts.getOtherProducts() != null) {
+            this.otherProducts = clientProducts.getOtherProducts();
         }
     }
 

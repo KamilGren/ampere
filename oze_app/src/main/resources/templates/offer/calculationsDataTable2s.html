@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTables with Ajax</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+</head>
+
+<body>
+
+<div id="dataTablesShow" style="margin: 20px;">
+
+    <table id="mydatatable" class="display dataTable cell-border" style="width:100%">
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Ilość</th>
+            <th>Cena Zk.</th>
+            <th>Wartość</th>
+            <th>Cena z marżą</th>
+            <th>Wartość z marzą</th>
+            <th>Vat</th>
+            <th>Wartość brutto</th>
+        </tr>
+        </thead>
+
+    </table>
+
+</div>
+
+<script th:inline="javascript">
+
+
+ var clientId = /*[[${clientId}]]*/
+
+
+$(document).ready(function() {
+  $.ajax({
+    url: '/offers/calcInvoice/' + clientId,
+    method: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      // Dostęp do danych ClientProducts w zmiennej "data"
+      console.log(data); // wyświetl dane w konsoli
+      // Możesz również wykorzystać dane do manipulacji DOM lub dalszego przetwarzania
+    },
+    error: function(xhr, status, error) {
+      console.error('Błąd podczas pobierania danych:', error);
+    }
+  });
+});
+
+
+<!--    $(document).ready(function() {-->
+<!--      $('#mydatatable').DataTable({-->
+<!--        pageLength: 8,-->
+<!--        ajax: {-->
+<!--          url: '/offers/calcInvoice/' + clientId,-->
+<!--          dataSrc: clientProductsList-->
+<!--          contentType: 'application/json',-->
+<!--        },-->
+<!--        columns: [-->
+<!--          { title: 'Model', data: 'model' },-->
+<!--          { title: 'Cena zk.', data: 'catalogPrice' },-->
+<!--          { title: 'Wartość', data: 'catalogPrice' },-->
+<!--          { title: 'Cena z marżą', data: 'priceWithMargin' },-->
+<!--          { title: 'VAT', data: 'vat' },-->
+<!--          { title: 'Wartość brutto', data: 'priceWithVat' }-->
+<!--        ]-->
+<!--      });-->
+<!--    });-->
+  </script>
+</body>
+</html>
+
+

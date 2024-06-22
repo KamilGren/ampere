@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.repository.ProductRepository;
 import pl.gren.oze_app.service.*;
 
 import javax.print.attribute.standard.MediaSize;
@@ -27,15 +28,17 @@ public class ProductController {
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
     OtherProductService otherProductService;
+    ProductRepository productRepository;
 
     @Autowired
-    public ProductController(OtherProductService otherProductService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService) {
+    public ProductController(OtherProductService otherProductService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
         this.heatPumpService = heatPumpService;
         this.otherProductService = otherProductService;
         this.clientRepository = clientRepository;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
         this.clientProductService = clientProductService;
+        this.productRepository = productRepository;
     }
 
 
@@ -44,11 +47,11 @@ public class ProductController {
         return "forms/addProduct";
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<OtherProduct> saveProduct(@RequestBody OtherProduct product) {
-        OtherProduct addedProduct = otherProductService.saveProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedProduct);
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<OtherProduct> saveProduct(@RequestBody OtherProduct product) {
+//        OtherProduct addedProduct = otherProductService.saveProduct(product);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(addedProduct);
+//    }
 
     // HP, CO, CWU
 
@@ -109,7 +112,10 @@ public class ProductController {
 
         System.out.println("Dodaliśmy pompe o modelu: " + client.getClientProducts().getHeatPump().getModel() + " do clienta o imieniu: " + client.getName());
 
+
         Long salesmanId = client.getSalesman().getId();
+        System.out.println(salesmanId);
+
         return "redirect:/salesmen/clients/" + salesmanId.toString();
     }
 
@@ -167,7 +173,15 @@ public class ProductController {
         CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
 
         ClientProducts clientProducts = client.getClientProducts();
-        List<OtherProduct> otherProducts = otherProductService.setCOCWUOthers(Integer.parseInt(heatingCircruits), hotWaterCirculation);
+        String producent = clientProducts.getHeatPump().getProducent();
+
+        // dodawanie wszystkich inny produktow
+        // potrzebujemy producenta, wiec najpierw trzeba dodac pompe ciepla do clientproducts, a dopiero potem co i cwu
+        List<OtherProduct> otherProducts = otherProductService.setCOCWUOthers(producent, Integer.parseInt(heatingCircruits), hotWaterCirculation);
+
+        List<Product> clientOtherProductList = new ArrayList<>();
+
+        clientOtherProductList.addAll(otherProducts);
 
         System.out.println("Heating circuits: " + heatingCircruits);
         System.out.println("Hot water circulation: " + hotWaterCirculation); // int
@@ -179,6 +193,9 @@ public class ProductController {
             clientProducts.setCoBufferTank(coBufferTank);
 
             // adding other products to clientproducts
+            // problem here
+
+        System.out.println(clientOtherProductList);
             clientProducts.setOtherProducts(otherProducts);
 
             clientProducts.setCoBufferTank(coBufferTank);
@@ -192,6 +209,7 @@ public class ProductController {
             clientProductService.updateClientProducts(clientProducts, client.getClientProducts().getId());
 
             System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getOtherProducts());
+            System.out.println("Dodaliśmy produkty: " + clientOtherProductList);
         System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank() + " do klienta o imieniu: " + client.getName());
         System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank() + " do klienta o imieniu: " + client.getName());
 

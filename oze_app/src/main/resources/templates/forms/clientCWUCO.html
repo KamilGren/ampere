@@ -146,10 +146,17 @@ const pathname = window.location.pathname;
 const pathSegments = pathname.split('/');
 const clientId = pathSegments[pathSegments.length - 1]; // Get the last segment
 const urlParams = new URLSearchParams(window.location.search);
-uri = `save/${clientId}?${urlParams}`;
+uri = `/products/co-cwu/save/${clientId}?${urlParams}`;
 
 
-        $.ajax({
+<!--var coname = $("#name1").val();-->
+<!--var cwuname = $("#name").val();-->
+<!--var hotWaterCirculation = $("#hotWaterCirculation").val();-->
+<!--var heatingCircuits = $("#heatingCircuits").val();-->
+
+console.log(uri);
+
+         $.ajax({
             type: "GET",
             url: uri,
             success: function(result) {

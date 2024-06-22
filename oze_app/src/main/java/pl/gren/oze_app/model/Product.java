@@ -16,12 +16,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @NotBlank
-    @Size(min = 1, max = 255)
     String model;
 
-    @NotBlank
-    @Size(min = 1, max = 255)
     String producent;
 
     Double catalogPrice;
@@ -35,6 +31,8 @@ public class Product {
     double priceWithMargin;
 
     double priceWithVat;
+
+    int count;
 
     public Product() {
     }
@@ -62,6 +60,15 @@ public class Product {
 //        this.productClientList = productClientList;
 //    }
 
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public double getDiscount() {
         return discount;
     }
@@ -71,7 +78,7 @@ public class Product {
     }
 
     public void priceWithOverhead(double overhead) {
-        this.priceWithOverhead = getPurchasePrice() + overhead;
+        this.priceWithOverhead = getCatalogPrice() + overhead;
     }
 
     public void priceWithMargin(double margin) {

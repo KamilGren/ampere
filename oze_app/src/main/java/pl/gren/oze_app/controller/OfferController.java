@@ -17,6 +17,7 @@ import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.OfferService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -36,19 +37,19 @@ public class OfferController {
     }
 
 
-    //     public String calcInvoice(@PathVariable Long clientId, @RequestParam("overhead") double overhead, @RequestParam("vat") double vat, @RequestParam("margin") double margin, Model model) {
-    @RequestMapping(value = "calcInvoice/{clientId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE )
-    public ResponseEntity<Iterable<ClientProducts>> calcInvoice(@PathVariable Long clientId) {
+    @GetMapping("/calc-invoice/{clientId}")
+    public String calcInvoice(@PathVariable Long clientId, @RequestParam("overhead") double overhead, @RequestParam("vat") double vat, @RequestParam("margin") double margin, Model model)
+    {
 
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
-        double overhead = 5000;
-        double margin = 25;
-        double vat = 8;
+
+        List<Product> clientProductsList = new ArrayList<>();
 
         HeatPump heatPump = client.getClientProducts().getHeatPump();
         heatPump.priceWithOverhead(overhead);
         heatPump.priceWithMargin(margin);
         heatPump.priceWithVat(vat);
+        clientProductsList.add(heatPump);
 
         System.out.println("VAT: " + heatPump.getPriceWithVat());
 
@@ -56,31 +57,35 @@ public class OfferController {
         cwuBufforTank.priceWithOverhead(overhead);
         cwuBufforTank.priceWithMargin(margin);
         cwuBufforTank.priceWithVat(vat);
+        clientProductsList.add(cwuBufforTank);
+
 
         COBufferTank coBufferTank = client.getClientProducts().getCoBufferTank();
         coBufferTank.priceWithOverhead(overhead);
         coBufferTank.priceWithMargin(margin);
         coBufferTank.priceWithVat(vat);
+        clientProductsList.add(coBufferTank);
 
         List<OtherProduct> otherProductList = client.getClientProducts().getOtherProducts();
 
         for(int i = 0; i < otherProductList.size(); i++) {
-            otherProductList.get(i).priceWithOverhead(overhead);
-            otherProductList.get(i).priceWithOverhead(margin);
-            otherProductList.get(i).priceWithOverhead(vat);
+
+            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(overhead);
+            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(margin);
+            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(vat);
         }
 
-        try {
-            return new ResponseEntity<Iterable<ClientProducts>>(clientService.findClientClientProducts(), HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<Iterable<ClientProducts>>(HttpStatus.BAD_REQUEST);
-        }
+        // here we have all products from this client
+        clientProductsList.addAll(otherProductList);
+
+        model.addAttribute("products", clientProductsList);
+
+        return "offer/calculationsDataTables";
     }
 
 
     // faktura
-    @GetMapping("/showInvoice/{clientId}")
+    @GetMapping("/show-invoice/{clientId}")
     public String showInvoice(@PathVariable Long clientId, Model model) {
 
         model.addAttribute("clientId", clientId);

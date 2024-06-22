@@ -44,7 +44,7 @@
 </div>
 
 <div class="container mt-4">
-    <form>
+    <form th:action="@{'/products/heatpumps/save/' + ${clientId}}" method="get">
     <div class="form-group">
         <label for="producent">Producent: </label>
         <input class="form-control" type="text" id="producent" th:value="*{producent}" disabled>
@@ -86,7 +86,11 @@
         <input type="number" class="form-control" id="warranty" th:text="*{heatPump.warranty} + ' lat'" disabled>
     </div>
 
-    <button th:onclick="saveHeatPump()" class="btn btn-secondary">Zapisz urządzenie</button>
+        <button type="submit" class="btn btn-primary">Znajdź pompę</button>
+        <input type="hidden" name="producent" th:value="${producent}" />
+        <input type="hidden" name="model" th:value="${model}" />
+        <input type="hidden" name="type" th:value="${type}" />
+        <!--        <input type="submit" class="btn btn-secondary" action="/example">Zapsz urz...</input>-->
     </form>
 
 </div>
@@ -98,50 +102,8 @@
 
         </script>
 
-<script th:inline="javascript">
-
-<!--function saveHeatPump() {-->
-
-<!--        $.ajax({-->
-<!--            type: "GET",-->
-<!--            url: '/products/heatpumps/' + heatPumpId + '/save/' + clientId,-->
-<!--            success: function(result) {-->
-<!--            console.log("Udalo sie!");-->
-<!--            }-->
-<!--            });-->
-<!--            }-->
-
-
-</script>
 
     <script th:inline="javascript">
-
-
-function saveHeatPump() {
-
-
-const pathname = window.location.pathname;
-const pathSegments = pathname.split('/');
-pathSegments[pathSegments.length - 2] = "save"; // Get the last segment
-const urlParams = new URLSearchParams(window.location.search);
-const baseUri = pathSegments.join("/");
-uri = `heatpumps/save/${clientId}?${urlParams}`;
-
-
-console.log(pathname);
-console.log(pathSegments);
-console.log(urlParams);
-
-
-        $.ajax({
-            type: "GET",
-            url: uri,
-            success: function(result) {
-            console.log("Udalo sie!");
-            }
-            });
-            }
-
 
 
     // Funkcja do ładowania typów
