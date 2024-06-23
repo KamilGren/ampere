@@ -3,8 +3,7 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.COBufferTank;
-import pl.gren.oze_app.model.ClientProducts;
-import pl.gren.oze_app.repository.COBufferTankRepository;
+import pl.gren.oze_app.oldrepository.COBufferTankRepository;
 
 import java.util.List;
 

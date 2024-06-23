@@ -2,18 +2,13 @@ package pl.gren.oze_app.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.HeatPump;
 import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.SalesmanRepository;
+import pl.gren.oze_app.oldrepository.SalesmanRepository;
 import pl.gren.oze_app.service.Impl.RedirectServiceImpl;
-import pl.gren.oze_app.service.RedirectService;
 import pl.gren.oze_app.service.SalesmanService;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.gren.oze_app.repository;
+package pl.gren.oze_app.oldrepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

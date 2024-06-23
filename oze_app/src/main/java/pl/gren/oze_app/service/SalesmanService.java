@@ -3,12 +3,10 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.SalesmanRepository;
+import pl.gren.oze_app.oldrepository.SalesmanRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

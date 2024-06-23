@@ -1,19 +1,12 @@
 package pl.gren.oze_app.controller;
 
 
-import org.apache.commons.math3.optim.linear.NoFeasibleSolutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
-import pl.gren.oze_app.model.offer.Credit;
-import pl.gren.oze_app.model.offer.FinancialProgram;
-import pl.gren.oze_app.model.offer.Offer;
-import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.OfferService;
 

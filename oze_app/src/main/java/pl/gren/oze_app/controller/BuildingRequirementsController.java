@@ -2,19 +2,14 @@ package pl.gren.oze_app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.BuildingRequirements;
 import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.ClientRepository;
 import pl.gren.oze_app.service.BuildingCalculatorService;
 import pl.gren.oze_app.service.BuildingRequirementsService;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.Impl.RedirectServiceImpl;
-
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/buildings")

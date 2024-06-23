@@ -3,7 +3,7 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.offer.FinancialProgram;
-import pl.gren.oze_app.repository.FinancialProgramRepository;
+import pl.gren.oze_app.oldrepository.FinancialProgramRepository;
 
 @Service
 public class FinancialProgramService {

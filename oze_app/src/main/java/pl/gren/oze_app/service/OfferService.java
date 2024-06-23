@@ -2,10 +2,7 @@ package pl.gren.oze_app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.offer.Credit;
-import pl.gren.oze_app.model.offer.FinancialProgram;
-import pl.gren.oze_app.model.offer.Offer;
-import pl.gren.oze_app.repository.OfferRepository;
+import pl.gren.oze_app.oldrepository.OfferRepository;
 
 @Service
 public class OfferService {

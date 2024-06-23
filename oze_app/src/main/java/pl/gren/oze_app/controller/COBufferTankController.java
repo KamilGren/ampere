@@ -4,14 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.COBufferTank;
-import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.ClientProducts;
-import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.COBufferTankService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/COBuffors")

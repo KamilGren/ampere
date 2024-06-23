@@ -3,7 +3,7 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.repository.HeatPumpRepository;
+import pl.gren.oze_app.oldrepository.HeatPumpRepository;
 
 
 import java.util.List;

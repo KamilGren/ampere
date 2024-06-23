@@ -5,10 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.offer.Credit;
-import pl.gren.oze_app.model.offer.FinancialProgram;
-import pl.gren.oze_app.repository.CreditRepository;
+import pl.gren.oze_app.oldrepository.CreditRepository;
 import pl.gren.oze_app.service.CreditService;
-import pl.gren.oze_app.service.FinancialProgramService;
 
 import java.util.NoSuchElementException;
 

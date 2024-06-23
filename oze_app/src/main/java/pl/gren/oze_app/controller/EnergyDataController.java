@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.gren.oze_app.model.*;
-import pl.gren.oze_app.repository.BuildingRequirementsRepository;
-import pl.gren.oze_app.repository.HeatPumpRepository;
+import pl.gren.oze_app.oldrepository.BuildingRequirementsRepository;
+import pl.gren.oze_app.oldrepository.HeatPumpRepository;
 import pl.gren.oze_app.service.ClientService;
 
 import java.io.IOException;

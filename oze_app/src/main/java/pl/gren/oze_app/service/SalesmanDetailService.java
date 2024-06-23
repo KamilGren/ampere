@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.SalesmanRepository;
+import pl.gren.oze_app.oldrepository.SalesmanRepository;
 
 import java.util.Optional;
 

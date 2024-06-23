@@ -2,12 +2,8 @@ package pl.gren.oze_app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.ClientProducts;
-import pl.gren.oze_app.repository.ClientProductRepository;
-import pl.gren.oze_app.repository.ClientRepository;
-
-import java.util.NoSuchElementException;
+import pl.gren.oze_app.oldrepository.ClientProductRepository;
 
 @Service
 public class ClientProductService {

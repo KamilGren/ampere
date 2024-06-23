@@ -4,7 +4,7 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.CWUBufforTank;
-import pl.gren.oze_app.repository.CWUBufforRepository;
+import pl.gren.oze_app.oldrepository.CWUBufforRepository;
 
 import java.util.List;
 

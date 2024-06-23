@@ -1,22 +1,17 @@
 package pl.gren.oze_app.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
-import pl.gren.oze_app.repository.ClientRepository;
-import pl.gren.oze_app.repository.ProductRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ProductRepository;
 import pl.gren.oze_app.service.*;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/products/")

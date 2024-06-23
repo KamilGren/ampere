@@ -1,20 +1,16 @@
 package pl.gren.oze_app.service;
 
-import jakarta.transaction.TransactionScoped;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gren.oze_app.exceptions.BuildingRequirementsNotFoundException;
 import pl.gren.oze_app.model.BuildingConstants;
 import pl.gren.oze_app.model.BuildingRequirements;
-import pl.gren.oze_app.repository.BuildingRequirementsRepository;
+import pl.gren.oze_app.oldrepository.BuildingRequirementsRepository;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 
 
 @Service

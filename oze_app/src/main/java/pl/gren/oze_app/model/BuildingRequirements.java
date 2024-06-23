@@ -89,9 +89,9 @@ public class BuildingRequirements {
     private double fuelValue;
 
     private double af47;
-    private double lost1, lost2, lost3, lost4, lost5, lost6;
     private double af48, af49;
     private double af51, aj51, ah51;
+    private double lost1, lost2, lost3, lost4, lost5, lost6;
     private double ag52, ah58, ai55, aj58, aj55;
     private double kwHCost;
 

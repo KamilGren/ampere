@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gren.oze_app.model.Image;
-import pl.gren.oze_app.repository.ImageRepository;
+import pl.gren.oze_app.oldrepository.ImageRepository;
 
 
 @Service

@@ -7,11 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.ClientProducts;
 import pl.gren.oze_app.model.HeatPump;
 import pl.gren.oze_app.model.HeatPumpTypes;
-import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.HeatPumpService;
 
 import java.util.*;

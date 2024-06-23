@@ -1,10 +1,9 @@
-package pl.gren.oze_app.repository;
+package pl.gren.oze_app.oldrepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.model.Product;
 
 
 import java.util.List;

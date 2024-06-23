@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.ClientProducts;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;

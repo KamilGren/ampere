@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.repository.SalesmanRepository;
+import pl.gren.oze_app.oldrepository.SalesmanRepository;
 
 @Controller
 public class RegistrationController {

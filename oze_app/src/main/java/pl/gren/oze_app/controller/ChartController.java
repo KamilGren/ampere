@@ -2,9 +2,7 @@ package pl.gren.oze_app.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.aspectj.weaver.bcel.BcelCflowStackFieldAdder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +12,8 @@ import pl.gren.oze_app.model.BuildingRequirements;
 import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.EnergyData;
 import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.repository.ClientRepository;
+import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.BuildingRequirementsService;
-import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.HeatPumpService;
 
 import java.io.IOException;
