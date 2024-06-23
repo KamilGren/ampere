@@ -80,3 +80,13 @@ VALUES
 
 INSERT INTO product_circulation
 (`id`) VALUES (26);
+
+INSERT INTO product
+(`subclass`, `name`, `model`, `manufacturer`, `msrp`, `discount`)
+VALUES
+    ('WifiModule', 'CZ-TAW1', 'CZ-TAW1', 'Panasonic', '785.0', '0.47'),
+    ('WifiModule', 'PWMFDD200', 'PWMFDD200', 'LG', '550.0', '0.50'),
+    ('WifiModule', 'BRP069A62', 'BRP069A62', 'Daikin', '441.0', NULL);
+
+INSERT INTO product_wifi_module
+(`id`) VALUES (27), (28), (29);
