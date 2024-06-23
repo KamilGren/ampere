@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface SalesmanRepository extends CrudRepository<Salesman, Long> {
     List<Salesman> findAll();
-    Optional<Salesman> findByName(String name);
+    Optional<Salesman> findByFirstName(String name);
     Optional<Salesman> findByEmail(String email);
 }

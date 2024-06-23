@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Formularz Lokalizacji</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <h1>Wprowadź lokalizację:</h1>
+    <form th:action="@{/buildings/clients/add/{clientId}(clientId=${clientId})}" method="post" class="row g-3">
+        <div class="col-md-6">
+            <label for="location" class="form-label">Lokacja</label>
+            <input type="text" name="location" class="form-control" id="location" />
+        </div>
+        <div class="col-md-6">
+            <label for="locationTemperature" class="form-label">Temperatura lokalizacji</label>
+            <input type="text" name="locationTemperature" class="form-control" id="locationTemperature" />
+        </div>
+
+        <div class="form-group">
+            <label for="buildingType">Typ budynku:</label>
+            <select class="form-select" id="buildingType" name="buildingType">
+                <option th:each="type : ${buildingTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="buildingDimensionsX" class="form-label">Wymiar budynku X (m)</label>
+            <input type="text" name="buildingDimensionsX" class="form-control" id="buildingDimensionsX" onchange="calculateBuildingArea()" />
+        </div>
+        <div class="col-md-4">
+            <label for="buildingDimensionsY" class="form-label">Wymiar budynku Y (m)</label>
+            <input type="text" name="buildingDimensionsY" class="form-control" id="buildingDimensionsY" onchange="calculateBuildingArea()" />
+        </div>
+        <div class="col-md-4">
+            <label for="buildingArea" class="form-label">Suma wymiarów budynku (m²)</label>
+            <input disabled type="text" class="form-control" id="buildingArea" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="heatedArea">Powierzchnia ogrzewana (m²)</label>
+            <input type="text" class="form-control" id="heatedArea" name="heatedArea" />
+        </div>
+        <div class="col-md-6">
+            <label for="roomHeight">Wysokość pomieszczenia (m)</label>
+            <input type="text" class="form-control" id="roomHeight" name="roomHeight" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="roomHeatingTemperature">Temperatura pomieszczenia (ogrzewanie) (°C)</label>
+            <input type="text" class="form-control" id="roomHeatingTemperature" name="roomHeatingTemperature" />
+        </div>
+        <div class="col-md-6">
+            <label for="roomCoolingTemperature">Temperatura pomieszczenia (chłodzenie) (°C)</label>
+            <input type="text" class="form-control" id="roomCoolingTemperature" name="roomCoolingTemperature" />
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="0" id="basementPresent" name="basementPresent">
+                <label class="form-check-label" for="basementPresent">
+                    Czy istnieje piwnica
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="wallType">Typ ściany</label>
+            <select class="form-select" id="wallType" name="wallType">
+                <option th:each="type : ${wallTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="wallThickness">Grubość ściany (cm)</label>
+            <input type="text" class="form-control" id="wallThickness" name="wallThickness" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="wallInsulationType">Izolacja ściany</label>
+            <select class="form-select" id="wallInsulationType" name="wallInsulationType">
+                <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="wallInsulationThickness">Grubość izolacji ściany (cm)</label>
+            <input type="text" class="form-control" id="wallInsulationThickness" name="wallInsulationThickness" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="roofInsulationType">Izolacja dachu</label>
+            <select class="form-select" id="roofInsulationType" name="roofInsulationType">
+                <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="roofInsulationThickness">Grubość izolacji dachu (cm)</label>
+            <input type="text" class="form-control" id="roofInsulationThickness" name="roofInsulationThickness" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="floorInsulationType">Izolacja podłogi</label>
+            <select class="form-select" id="floorInsulationType" name="floorInsulationType">
+                <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="floorInsulationThickness">Grubość izolacji podłogi (cm)</label>
+            <input type="text" class="form-control" id="floorInsulationThickness" name="floorInsulationThickness" />
+        </div>
+
+        <div class="col-md-6">
+            <label for="windowGlazingType">Typ rolet okiennych</label>
+            <select class="form-select" id="windowGlazingType" name="windowGlazingType">
+                <option th:each="type : ${windowGlazingTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="windowCount">Ilość (1.5 x 1.5m) sztuk</label>
+            <input type="text" class="form-control" id="windowCount" name="windowCount" />
+        </div>
+
+        <div class="col-md-12">
+            <label for="externalDoorCount">Ilość drzwi wejściowych</label>
+            <input type="text" class="form-control" id="externalDoorCount" name="externalDoorCount" />
+        </div>
+
+        <div class="col-md-12">
+            <label for="ventilationSystem">System wentylacji</label>
+            <select class="form-select" id="ventilationSystem" name="ventilationSystem">
+                <option th:each="type : ${ventTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="fuelType">System wentylacji</label>
+            <select class="form-select" id="fuelType" name="fuelType">
+                <option th:each="type : ${fuelTypes}"
+                        th:value="${type.id}"
+                        th:text="${type.name}"
+                        th:attr="data-efficiency=${type.efficiencyPercentage}, data-kwh=${type.energyAmountKwh}, data-unit=${type.unit}"
+                ></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="fuelAmount">Ilość zużywanego paliwa</label>
+            <input type="text" class="form-control" id="fuelAmount" name="fuelAmount" />
+        </div>
+        <div class="col-md-3">
+            <label for="fuelEfficiency">Sprawność źródła ciepła</label>
+            <input disabled type="text" class="form-control" id="fuelEfficiency" />
+        </div>
+        <div class="col-md-3">
+            <label for="fuelEnergy">Wartość energetyczna paliwa</label>
+            <input disabled type="text" class="form-control" id="fuelEnergy" />
+        </div>
+
+        <div class="col-md-4">
+            <label for="peopleCount">Liczba osób</label>
+            <input type="text" class="form-control" id="peopleCount" name="peopleCount" />
+        </div>
+        <div class="col-md-4">
+            <label for="waterUsageType">System wentylacji</label>
+            <select class="form-select" id="waterUsageType" name="waterUsageType">
+                <option th:each="type : ${waterUsageTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="waterCapacityNeeded">Wynik</label>
+            <input disabled type="text" class="form-control" id="waterCapacityNeeded" />
+        </div>
+
+    </form>
+</main>
+</body>
+</html>

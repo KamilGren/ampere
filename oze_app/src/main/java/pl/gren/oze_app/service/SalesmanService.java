@@ -13,12 +13,10 @@ import java.util.Optional;
 public class SalesmanService {
 
     private final SalesmanRepository salesmanRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SalesmanService(SalesmanRepository salesmanRepository, PasswordEncoder passwordEncoder) {
+    public SalesmanService(SalesmanRepository salesmanRepository) {
         this.salesmanRepository = salesmanRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Salesman> findAll() {
@@ -34,7 +32,7 @@ public class SalesmanService {
     }
 
     public Optional<Salesman> findByName(String name) {
-        return salesmanRepository.findByName(name);
+        return salesmanRepository.findByFirstName(name);
     }
 
     public void deleteById(Long id) {

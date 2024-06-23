@@ -23,7 +23,7 @@ public interface HeatPumpRepository extends CrudRepository<HeatPump, Long> {
     List<String> findAllModels();
 
     @Query(value = "SELECT model FROM HeatPump WHERE manufacturer = :m AND heatPumpType = :t")
-    List<String> findAllModelsByManufacturerAndType(@Param(":m") String manufacturer, @Param(":t") HeatPumpType heatPumpType);
+    List<String> findAllModelsByManufacturerAndType(@Param("m") String manufacturer, @Param("t") HeatPumpType heatPumpType);
 
 
 }
