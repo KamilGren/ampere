@@ -2,6 +2,7 @@ package pl.gren.oze_app.model;
 
 import org.springframework.expression.spel.CodeFlow;
 import pl.gren.oze_app.Reader.CSVReader;
+import pl.gren.oze_app.model.db.entity.BuildingInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class EnergyData {
 
-    private BuildingRequirements buildingRequirements;
+    private BuildingInfo buildingRequirements;
     private HeatPump heatPump1;
     private HeatPump heatPump2;
     private List<Integer> externalTemperature = new ArrayList<>();
@@ -37,7 +38,7 @@ public class EnergyData {
 
 
 
-    public EnergyData(HeatPump heatPump1, HeatPump heatPump2, BuildingRequirements buildingRequirements) {
+    public EnergyData(HeatPump heatPump1, HeatPump heatPump2, BuildingInfo buildingRequirements) {
         this.heatPump1 = heatPump1;
         this.heatPump2 = heatPump2;
         this.buildingRequirements = buildingRequirements;
@@ -46,7 +47,7 @@ public class EnergyData {
 
     }
 
-    public EnergyData(HeatPump heatPump, BuildingRequirements buildingRequirements) {
+    public EnergyData(HeatPump heatPump, BuildingInfo buildingRequirements) {
         this.heatPump1 = heatPump;
         this.buildingRequirements = buildingRequirements;
         this.externalTemperature = fillExternalTemperature();
@@ -187,11 +188,11 @@ public class EnergyData {
         return Math.round(energyConsumptionInterpolation * 100.0) / 100.0;
     }
 
-    public BuildingRequirements getBuildingRequirements() {
+    public BuildingInfo getBuildingRequirements() {
         return buildingRequirements;
     }
 
-    public void setBuildingRequirements(BuildingRequirements buildingRequirements) {
+    public void setBuildingRequirements(BuildingInfo buildingRequirements) {
         this.buildingRequirements = buildingRequirements;
     }
 
@@ -292,14 +293,14 @@ public class EnergyData {
 
 
     public double getCwuValue() {
-        return buildingRequirements.getCWUValue();
+        return -1; // TODO
     }
 
 
     public double getHeatingValue(double temperature) {
 
         double heatPumpOnTemperature = 24;
-        double heatingCO = buildingRequirements.getCOValue();
+        double heatingCO = -1; // TODO
         double heatingValue = 0;
 
         double heatingValueForMinus20 = heatingCO;
@@ -321,7 +322,7 @@ public class EnergyData {
 
     public double getEnergyDemandValue(Integer temperature) {
 
-        if (buildingRequirements.getHeatingPumpSetTemperature() >= temperature) {
+        if (buildingRequirements.getHeatingTemperatureCelcius().doubleValue() >= temperature) {
             return energyDemandValue = this.getHeatingValue(temperature) + this.getCwuValue();
         } else
             return 0;

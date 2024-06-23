@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import pl.gren.oze_app.Reader.CSVReader;
 import pl.gren.oze_app.model.BuildingRequirements;
-import pl.gren.oze_app.model.Client;
 import pl.gren.oze_app.model.EnergyData;
 import pl.gren.oze_app.model.HeatPump;
-import pl.gren.oze_app.oldrepository.ClientRepository;
+import pl.gren.oze_app.model.db.entity.BuildingInfo;
+import pl.gren.oze_app.model.db.entity.Client;
+import pl.gren.oze_app.model.db.repository.BuildingInfoRepository;
 import pl.gren.oze_app.service.BuildingRequirementsService;
+import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.HeatPumpService;
 
 import java.io.IOException;
@@ -27,7 +29,11 @@ public class ChartController {
     HeatPumpService heatPumpService;
 
     @Autowired
-    ClientRepository clientRepository;
+    ClientService clientService;
+
+    @Autowired
+    BuildingInfoRepository buildingInfoRepository;
+
 
     @Autowired
     BuildingRequirementsService buildingRequirementsService;
@@ -39,15 +45,15 @@ public class ChartController {
     @GetMapping("/create/{heatPumpId}")
     @ResponseBody
     public ResponseEntity<Object> createChart(@PathVariable Long heatPumpId, Model model) throws IOException {
+        BuildingInfo buildingInfo = buildingInfoRepository.findById(1L).orElseThrow();
 
-        BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(1L);
-        buildingRequirements.setCWUValue(0.5);
-        buildingRequirements.setCOValue(5.09);
+//        buildingInfo.setCWUValue(0.5);
+//        buildingInfo.setCOValue(5.09);
 
         HeatPump heatPump = heatPumpService.getHeatPumpById(heatPumpId).orElseThrow(() -> new NoSuchElementException("Heat pump with id: " + heatPumpId + "not found!"));
 
         //dane do wykresu
-        EnergyData energyData = new EnergyData(heatPump, buildingRequirements);
+        EnergyData energyData = new EnergyData(heatPump, buildingInfo);
 
         // wydajnosć grzewcza lista
         List<Double> heatingEfficiencyList = new ArrayList<>();
@@ -139,16 +145,17 @@ public class ChartController {
     public ResponseEntity<Object> createChartForYearTemperaturesCount(@PathVariable Long clientId) throws IOException {
 
         // wszystko z klienta pobierzemy
-        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
+        Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
 
-        BuildingRequirements buildingRequirements = client.getBuildingRequirements();
-        buildingRequirements.setCWUValue(0.5);
-        buildingRequirements.setCOValue(5.09);
+        BuildingInfo info = new BuildingInfo();
+//        BuildingRequirements buildingRequirements = client.getBuildingRequirements();
+//        buildingRequirements.setCWUValue(0.5);
+//        buildingRequirements.setCOValue(5.09);
 
         HeatPump heatPump = heatPumpService.getHeatPumpById(155L).orElseThrow(() -> new NoSuchElementException("Heat pump with id: " + 155 + "not found!"));
 
         //dane do wykresu
-        EnergyData energyData = new EnergyData(heatPump, buildingRequirements);
+        EnergyData energyData = new EnergyData(heatPump, info);
 
         List<Integer> temperatures = energyData.getExternalTemperature();
         HashMap<Integer, Double> yearTemperaturesCount = csvReader.getYearTemperaturesforChart();

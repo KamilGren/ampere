@@ -5,7 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.BuildingRequirements;
-import pl.gren.oze_app.model.Client;
+import pl.gren.oze_app.model._Client;
+import pl.gren.oze_app.model.db.entity.Client;
 import pl.gren.oze_app.service.BuildingCalculatorService;
 import pl.gren.oze_app.service.BuildingRequirementsService;
 import pl.gren.oze_app.service.ClientService;
@@ -68,10 +69,10 @@ public class BuildingRequirementsController {
     public String showClientBuildingRequirementsResult(Model model, @PathVariable Long id) {
 
         // Tworzymy nowy obiekt BuildingRequirements, który będzie używany przez formularz
-        Client client = clientService.showClientById(id);
+        Client client = clientService.findById(id).orElseThrow();
 
         // Przesyłamy pusty obiekt do widoku formularza
-        model.addAttribute("buildingRequirements",  client.getBuildingRequirements());
+        model.addAttribute("buildingRequirements",  client.getBuildings().getFirst());
         model.addAttribute("clientId", id);
 
         return "buildingRequirementsResult";
@@ -87,10 +88,10 @@ public class BuildingRequirementsController {
 
         buildingRequirementsService.saveBuildingRequirements(buildingRequirements);
 
-        Client client = clientService.showClientById(clientId);
+        Client client = clientService.findById(clientId).orElseThrow();
         System.out.println("imie: " + client.getName());
-        client.setBuildingRequirements(buildingRequirements);
-        clientService.updateClient(client, clientId);
+//        client.setBuildingRequirements(buildingRequirements); TODO
+        clientService.save(client);
 
 
         // Przesyłamy dane do widoku wyniku
@@ -127,8 +128,8 @@ public class BuildingRequirementsController {
     @GetMapping("/clients/edit/{id}")
     public String showUpdateBuildingFormByClientId(@PathVariable Long id, Model model) {
 
-        Client client = clientService.showClientById(id);
-        Long buildingId = client.getBuildingRequirements().getId();
+        Client client = clientService.findById(id).orElseThrow();
+        Long buildingId = client.getBuildings().getFirst().getId();
         BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(buildingId);
 
         model.addAttribute("buildingRequirements", buildingRequirements);
@@ -162,8 +163,8 @@ public class BuildingRequirementsController {
     @DeleteMapping("/clients/delete/{id}")
     public String deleteBuildingByClientId(@PathVariable Long id) {
 
-        Client client = clientService.showClientById(id);
-        Long buildingId = client.getBuildingRequirements().getId();
+        Client client = clientService.findById(id).orElseThrow();
+        Long buildingId = client.getBuildings().getFirst().getId();
         buildingRequirementsService.deleteBuildingRequirementsById(buildingId);
 
         Long salesmanId = client.getSalesman().getId();

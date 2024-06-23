@@ -42,6 +42,27 @@ public class Client {
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
 
+    public List<BuildingInfo> getBuildings() {
+        List<BuildingInfo> result = new ArrayList<>();
+        for (Order o : orders) {
+            if (o.getBuildingInfo() != null) {
+                result.add(o.getBuildingInfo());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", note='" + note + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

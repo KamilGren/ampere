@@ -14,13 +14,11 @@ import java.util.List;
 public class COBufferTankController {
 
     private COBufferTankService COBufferTankService;
-    private final ClientRepository clientRepository;
 
 
     @Autowired
-    public COBufferTankController(COBufferTankService COBufferTankService, ClientRepository clientRepository) {
+    public COBufferTankController(COBufferTankService COBufferTankService) {
         this.COBufferTankService = COBufferTankService;
-        this.clientRepository = clientRepository;
     }
 
     @GetMapping("/all")

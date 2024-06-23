@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Client {
+public class _Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,7 +23,7 @@ public class Client {
 
     @ManyToOne
     @JoinColumn(name = "salesman_id")
-    private Salesman salesman;
+    private _Salesman salesman;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_products_id")
@@ -41,21 +41,21 @@ public class Client {
         this.buildingRequirements = buildingRequirements;
     }
 
-    public Client() {
+    public _Client() {
     }
 
-    public Client(Long id, Salesman salesman) {
+    public _Client(Long id, _Salesman salesman) {
         this.id = id;
         this.salesman = salesman;
     }
 
-    public Client(Long id, Salesman salesman, BuildingRequirements buildingRequirements) {
+    public _Client(Long id, _Salesman salesman, BuildingRequirements buildingRequirements) {
         this.id = id;
         this.salesman = salesman;
         this.buildingRequirements = buildingRequirements;
     }
 
-    public Client(Long id, String name, String address, Salesman salesman, String note, String telephone) {
+    public _Client(Long id, String name, String address, _Salesman salesman, String note, String telephone) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -65,7 +65,7 @@ public class Client {
         this.createTime = LocalDateTime.now();
     }
 
-    public void updateClient(Client updatedClient) {
+    public void updateClient(_Client updatedClient) {
         this.name = updatedClient.getName();
         this.address = updatedClient.getAddress();
         this.note = updatedClient.getNote();
@@ -129,11 +129,11 @@ public class Client {
         return createTime;
     }
 
-    public Salesman getSalesman() {
+    public _Salesman getSalesman() {
         return salesman;
     }
 
-    public void setSalesman(Salesman salesman) {
+    public void setSalesman(_Salesman salesman) {
         this.salesman = salesman;
     }
 }

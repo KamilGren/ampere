@@ -34,7 +34,7 @@ public class OfferController {
     public String calcInvoice(@PathVariable Long clientId, @RequestParam("overhead") double overhead, @RequestParam("vat") double vat, @RequestParam("margin") double margin, Model model)
     {
 
-        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
+        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
 
         List<Product> clientProductsList = new ArrayList<>();
 
@@ -59,17 +59,17 @@ public class OfferController {
         coBufferTank.priceWithVat(vat);
         clientProductsList.add(coBufferTank);
 
-        List<OtherProduct> otherProductList = client.getClientProducts().getOtherProducts();
-
-        for(int i = 0; i < otherProductList.size(); i++) {
-
-            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(overhead);
-            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(margin);
-            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(vat);
-        }
-
-        // here we have all products from this client
-        clientProductsList.addAll(otherProductList);
+//        List<OtherProduct> otherProductList = client.getClientProducts().getOtherProducts();
+//
+//        for(int i = 0; i < otherProductList.size(); i++) {
+//
+//            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(overhead);
+//            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(margin);
+//            client.getClientProducts().getOtherProducts().get(i).priceWithOverhead(vat);
+//        }
+//
+//        // here we have all products from this client
+//        clientProductsList.addAll(otherProductList);
 
         model.addAttribute("products", clientProductsList);
 

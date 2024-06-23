@@ -2,12 +2,11 @@ package pl.gren.oze_app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.ClientProducts;
-import pl.gren.oze_app.oldrepository.ClientRepository;
+import pl.gren.oze_app.model.db.entity.Client;
+import pl.gren.oze_app.model.db.repository.ClientRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -19,48 +18,40 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public Iterable<ClientProducts> findClientClientProducts() {
-        return clientRepository.findClientProducts();
-    }
-    public void addClient(Client client) {
-        clientRepository.save(client);
+    public Client save(Client client) {
+        return clientRepository.save(client);
     }
 
-    public List<Client> showClients() {
+    public List<Client> findAll() {
         return clientRepository.findAll();
     }
 
-    public List<Client> showClientsBySalesman(Long salesmanId) {
-        return clientRepository.findClientsBySalesmanId(salesmanId);
+    public Optional<Client> findById(Long id) {
+        return clientRepository.findById(id);
     }
 
-    public Long showSalesmanIdById(Long clientId) {
-        return clientRepository.findSalesman_IdById(clientId);
+    public List<Client> findAllBySalesman(Long salesmanId) {
+        return clientRepository.findAllBySalesmanId(salesmanId);
+    }
+
+    public Long getSalesmanId(Long clientId) {
+        return clientRepository.findSalesmanIdById(clientId);
     }
 
     public Client showClientByBuildingId(Long buildingId) {
-        return clientRepository.findClientByBuilding_Requirements_Id(buildingId);
+        return clientRepository.findByBuildingInfoId(buildingId);
     }
 
-    public Long showBuildingIdById(Long clientId) {
-        return clientRepository.findClient_IdById(clientId);
+    public List<Long> getBuildingIds(Long clientId) {
+        return clientRepository.findAllBuildingInfoIds(clientId);
     }
 
-    public Client showClientById(Long id) {
-        return clientRepository.findClientById(id).orElseThrow(() -> new NoSuchElementException("Nie znaleziono klienta"));
-    }
-
-    public void updateClient(Client client, Long id)
-    {
-        Client searchedClient = clientRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-
-        searchedClient.updateClient(client);
-
-        clientRepository.save(searchedClient);
-    }
-
-    public void deleteClient(Long id) {
+    public void delete(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    public void delete(Client client) {
+        clientRepository.delete(client);
     }
 
 }

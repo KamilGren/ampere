@@ -22,13 +22,11 @@ public class ProductController {
     ClientProductService clientProductService;
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
-    OtherProductService otherProductService;
     ProductRepository productRepository;
 
     @Autowired
-    public ProductController(OtherProductService otherProductService, HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
+    public ProductController(HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
         this.heatPumpService = heatPumpService;
-        this.otherProductService = otherProductService;
         this.clientRepository = clientRepository;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
@@ -92,7 +90,7 @@ public class ProductController {
                                        @RequestParam("type") String type)
     {
 
-        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
+        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
 
         HeatPump heatPump = heatPumpService.getHeatPumpByProducentModelType(producent, model, type);
 
@@ -163,7 +161,7 @@ public class ProductController {
         //System.out.println("cyrkulacja: " + waterCirculation)
         System.out.println("coName" + coname);
         // ID POBIERZ od co cwu
-        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
+        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
         COBufferTank coBufferTank = coBufferTankService.getCOBufferTankByName(coname);
         CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
 
@@ -172,11 +170,11 @@ public class ProductController {
 
         // dodawanie wszystkich inny produktow
         // potrzebujemy producenta, wiec najpierw trzeba dodac pompe ciepla do clientproducts, a dopiero potem co i cwu
-        List<OtherProduct> otherProducts = otherProductService.setCOCWUOthers(producent, Integer.parseInt(heatingCircruits), hotWaterCirculation);
+//        List<OtherProduct> otherProducts = otherProductService.setCOCWUOthers(producent, Integer.parseInt(heatingCircruits), hotWaterCirculation);
 
         List<Product> clientOtherProductList = new ArrayList<>();
 
-        clientOtherProductList.addAll(otherProducts);
+//        clientOtherProductList.addAll(otherProducts);
 
         System.out.println("Heating circuits: " + heatingCircruits);
         System.out.println("Hot water circulation: " + hotWaterCirculation); // int
@@ -191,7 +189,7 @@ public class ProductController {
             // problem here
 
         System.out.println(clientOtherProductList);
-            clientProducts.setOtherProducts(otherProducts);
+//            clientProducts.setOtherProducts(otherProducts);
 
             clientProducts.setCoBufferTank(coBufferTank);
             coBufferTank.addToCoBufferTankClientList(clientProducts);
@@ -216,7 +214,7 @@ public class ProductController {
     @GetMapping("/clients/{clientId}/show-products")
     public String showProducts(@PathVariable Long clientId) {
 
-        Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta"));
+        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta"));
 
         ClientProducts clientProducts = client.getClientProducts();
 

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.gren.oze_app.model.*;
+import pl.gren.oze_app.model.db.entity.BuildingInfo;
+import pl.gren.oze_app.model.db.entity.Client;
+import pl.gren.oze_app.model.db.entity.Order;
 import pl.gren.oze_app.oldrepository.BuildingRequirementsRepository;
 import pl.gren.oze_app.oldrepository.HeatPumpRepository;
 import pl.gren.oze_app.service.ClientService;
@@ -34,7 +37,7 @@ public class EnergyDataController {
     @GetMapping("/temperatures/{clientId}")
     public String getData(@PathVariable Long clientId, Model model) throws IOException {
 
-        Client client = clientService.showClientById(clientId);
+        Client client = clientService.findById(clientId).orElseThrow();
 
         // dodanie pompy byle jakiej - pozniej bedzie to wczytywane z uzytkownika
         HeatPump heatPump = heatPumpRepository.findById(145L).orElseThrow(() -> new NoSuchElementException("Nie ma takiej pompy"));
@@ -55,15 +58,16 @@ public class EnergyDataController {
         orderedMonths.add("PAŹDZIERNIK");
         orderedMonths.add("LISTOPAD");
         orderedMonths.add("GRUDZIEŃ");
-
-        if (client.getBuildingRequirements() != null) {
-
+        Optional<Order> order = client.getOrders().stream().findFirst();
+        if (order.isPresent()) {
+            BuildingInfo buildingInfo = order.get().getBuildingInfo();
             // ladujemy wszystkie dane dla konkretnej pompy ciepla oraz za pomoca wlasciwosci budynku
-            EnergyData energyData = new EnergyData(heatPump, client.getBuildingRequirements());
+            EnergyData energyData = new EnergyData(heatPump, buildingInfo);
 
+            double kwhCost = -1; // TODO
             // adding CO and CWU values to given month
             for (String month : orderedMonths) {
-                months.put(month, new MonthData(energyData.getMonthCO(month), energyData.getMonthCWU(month), client.getBuildingRequirements().getKwHCost()));
+                months.put(month, new MonthData(energyData.getMonthCO(month), energyData.getMonthCWU(month), kwhCost));
                 System.out.println("Miesiac: " + month);
             }
 
@@ -78,9 +82,9 @@ public class EnergyDataController {
             model.addAttribute("yearOperatingCost", yearOperationCost);
             model.addAttribute("yearOperatingCO", yearOperationCO);
             model.addAttribute("yearOperatingCWU", yearOperationCWU);
-            model.addAttribute("kwHCost", client.getBuildingRequirements().getKwHCost());
+            model.addAttribute("kwHCost", -1); // TODO add this compuation
 
-            System.out.println("Hej, jestem z: " + client.getBuildingRequirements().getLocation());
+            System.out.println("Hej, jestem z: " + kwhCost);
 
             return "dataToExport";
 

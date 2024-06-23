@@ -41,6 +41,28 @@ public class Salesman {
     @OneToMany(mappedBy = "salesman", fetch = FetchType.LAZY)
     private Set<Client> clients = new HashSet<>();
 
+    public void addOrder(Order order) {
+        order.setSalesman(this);
+        this.orders.add(order);
+    }
+
+    public void addClient(Client client) {
+        client.setSalesman(this);
+        this.clients.add(client);
+    }
+
+    @Override
+    public String toString() {
+        return "Salesman{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
