@@ -1,4 +1,4 @@
-package pl.gren.oze_app.security;
+package pl.gren.oze_app.configuration.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

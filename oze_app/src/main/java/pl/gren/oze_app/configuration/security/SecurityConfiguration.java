@@ -1,4 +1,4 @@
-package pl.gren.oze_app.security;
+package pl.gren.oze_app.configuration.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
