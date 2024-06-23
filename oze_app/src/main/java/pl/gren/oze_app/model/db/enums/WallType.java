@@ -1,4 +1,4 @@
-package pl.gren.oze_app.model;
+package pl.gren.oze_app.model.db.enums;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum WallTypes {
+public enum WallType {
     CERAMIC_BRICK(1, "ceramicBrick", 0.77),
     CONCRETE_BLOCK(2, "concreteBlock", 0.5),
     CERAMIC_BLOCK(3, "ceramicBlock", 0.5),
@@ -20,17 +20,25 @@ public enum WallTypes {
     SILICATE(10, "silicate", 0.8),
     CLICKER_CONCRETE(11, "clinkerConcrete", 0.56);
 
-    private int id;
-    private String name;
-    private double scalar;
+    private final int id;
+    private final String name;
+    private final double scalar;
 
-    private static List<WallTypes> TYPES = Arrays.asList(values());
-    private static Map<Integer, WallTypes> ID_MAP = TYPES.stream().collect(Collectors.toMap(
-            WallTypes::getId,
+    private static final List<WallType> TYPES = Arrays.asList(values());
+    private static final Map<Integer, WallType> ID_MAP = TYPES.stream().collect(Collectors.toMap(
+            WallType::getId,
             Function.identity()
     ));
 
-    WallTypes(int id, String name, double scalar) {
+    public static List<WallType> getTypes() {
+        return TYPES;
+    }
+
+    public static Optional<WallType> findById(int id) {
+        return Optional.ofNullable(ID_MAP.get(id));
+    }
+
+    WallType(int id, String name, double scalar) {
         this.id = id;
         this.name = name;
         this.scalar = scalar;
@@ -48,7 +56,4 @@ public enum WallTypes {
         return scalar;
     }
 
-    public static Optional<WallTypes> findById(int id) {
-        return Optional.ofNullable(ID_MAP.get(id));
-    }
 }
