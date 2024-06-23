@@ -110,7 +110,7 @@ CREATE TABLE `product_domestic_hot_water_tank` (
 CREATE TABLE `product_heat_pump` (
     `id` BIGINT PRIMARY KEY,
     `heat_pump_type_id` INTEGER NOT NULL,
-    `indoor_unit` VARCHAR(255) NOT NULL,
+    `indoor_unit` VARCHAR(255),
     `outdoor_unit` VARCHAR(255) NOT NULL,
     `rated_power_kw` DECIMAL(10, 2) NOT NULL,
     `heater_power_kw` DECIMAL(10, 2) NOT NULL,
