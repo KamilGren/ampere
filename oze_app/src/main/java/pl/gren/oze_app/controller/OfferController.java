@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
+import pl.gren.oze_app.model.db.entity.Client;
 import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.ClientService;
 import pl.gren.oze_app.service.OfferService;
@@ -19,13 +20,11 @@ import java.util.NoSuchElementException;
 public class OfferController {
 
     private OfferService offerService;
-    private ClientRepository clientRepository;
     private ClientService clientService;
 
     @Autowired
-    public OfferController(OfferService offerService, ClientRepository clientRepository, ClientService clientService) {
+    public OfferController(OfferService offerService, ClientService clientService) {
         this.offerService = offerService;
-        this.clientRepository = clientRepository;
         this.clientService = clientService;
     }
 
@@ -34,30 +33,30 @@ public class OfferController {
     public String calcInvoice(@PathVariable Long clientId, @RequestParam("overhead") double overhead, @RequestParam("vat") double vat, @RequestParam("margin") double margin, Model model)
     {
 
-        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
+        Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
 
         List<Product> clientProductsList = new ArrayList<>();
-
-        HeatPump heatPump = client.getClientProducts().getHeatPump();
-        heatPump.priceWithOverhead(overhead);
-        heatPump.priceWithMargin(margin);
-        heatPump.priceWithVat(vat);
-        clientProductsList.add(heatPump);
-
-        System.out.println("VAT: " + heatPump.getPriceWithVat());
-
-        CWUBufforTank cwuBufforTank = client.getClientProducts().getCwuBufforTank();
-        cwuBufforTank.priceWithOverhead(overhead);
-        cwuBufforTank.priceWithMargin(margin);
-        cwuBufforTank.priceWithVat(vat);
-        clientProductsList.add(cwuBufforTank);
-
-
-        COBufferTank coBufferTank = client.getClientProducts().getCoBufferTank();
-        coBufferTank.priceWithOverhead(overhead);
-        coBufferTank.priceWithMargin(margin);
-        coBufferTank.priceWithVat(vat);
-        clientProductsList.add(coBufferTank);
+//      now in orders
+//        HeatPump heatPump = client.getClientProducts().getHeatPump();
+//        heatPump.priceWithOverhead(overhead);
+//        heatPump.priceWithMargin(margin);
+//        heatPump.priceWithVat(vat);
+//        clientProductsList.add(heatPump);
+//
+//        System.out.println("VAT: " + heatPump.getPriceWithVat());
+//
+//        CWUBufforTank cwuBufforTank = client.getClientProducts().getCwuBufforTank();
+//        cwuBufforTank.priceWithOverhead(overhead);
+//        cwuBufforTank.priceWithMargin(margin);
+//        cwuBufforTank.priceWithVat(vat);
+//        clientProductsList.add(cwuBufforTank);
+//
+//
+//        COBufferTank coBufferTank = client.getClientProducts().getCoBufferTank();
+//        coBufferTank.priceWithOverhead(overhead);
+//        coBufferTank.priceWithMargin(margin);
+//        coBufferTank.priceWithVat(vat);
+//        clientProductsList.add(coBufferTank);
 
 //        List<OtherProduct> otherProductList = client.getClientProducts().getOtherProducts();
 //

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.BuildingRequirements;
-import pl.gren.oze_app.model._Client;
 import pl.gren.oze_app.model.db.entity.Client;
 import pl.gren.oze_app.service.BuildingCalculatorService;
 import pl.gren.oze_app.service.BuildingRequirementsService;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
+import pl.gren.oze_app.model.db.entity.Client;
 import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.oldrepository.ProductRepository;
 import pl.gren.oze_app.service.*;
@@ -18,16 +19,16 @@ import java.util.NoSuchElementException;
 public class ProductController {
 
     HeatPumpService heatPumpService;
-    ClientRepository clientRepository;
+    ClientService clientService;
     ClientProductService clientProductService;
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
     ProductRepository productRepository;
 
     @Autowired
-    public ProductController(HeatPumpService heatPumpService, ClientRepository clientRepository, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
+    public ProductController(HeatPumpService heatPumpService, ClientService clientService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
         this.heatPumpService = heatPumpService;
-        this.clientRepository = clientRepository;
+        this.clientService = clientService;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
         this.clientProductService = clientProductService;
@@ -90,20 +91,20 @@ public class ProductController {
                                        @RequestParam("type") String type)
     {
 
-        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
+        Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
 
         HeatPump heatPump = heatPumpService.getHeatPumpByProducentModelType(producent, model, type);
 
         System.out.println("Model tej pompy to: " + heatPump.getModel());
 
             System.out.println("DODAJEMY POMPE CIEPLA DO PRODUKTOW OD KLIENTA!");
-            ClientProducts clientProducts = client.getClientProducts();
-            clientProducts.setHeatPump(heatPump);
-            client.setClientProducts(clientProducts);
-            clientProductService.updateClientProducts(clientProducts, clientProducts.getId());
+//            ClientProducts clientProducts = client.getClientProducts();
+//            clientProducts.setHeatPump(heatPump);
+//            client.setClientProducts(clientProducts);
+//            clientProductService.updateClientProducts(clientProducts, clientProducts.getId());
 
 
-        System.out.println("Dodaliśmy pompe o modelu: " + client.getClientProducts().getHeatPump().getModel() + " do clienta o imieniu: " + client.getName());
+//        System.out.println("Dodaliśmy pompe o modelu: " + client.getClientProducts().getHeatPump().getModel() + " do clienta o imieniu: " + client.getName());
 
 
         Long salesmanId = client.getSalesman().getId();
@@ -161,12 +162,12 @@ public class ProductController {
         //System.out.println("cyrkulacja: " + waterCirculation)
         System.out.println("coName" + coname);
         // ID POBIERZ od co cwu
-        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
+        Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Nie ma klienta o takim ID"));
         COBufferTank coBufferTank = coBufferTankService.getCOBufferTankByName(coname);
         CWUBufforTank cwuBufforTank = cwuBufforTankService.getCWUBufforTankByName(cwuname);
 
-        ClientProducts clientProducts = client.getClientProducts();
-        String producent = clientProducts.getHeatPump().getProducent();
+//        ClientProducts clientProducts = client.getClientProducts();
+//        String producent = clientProducts.getHeatPump().getProducent();
 
         // dodawanie wszystkich inny produktow
         // potrzebujemy producenta, wiec najpierw trzeba dodac pompe ciepla do clientproducts, a dopiero potem co i cwu
@@ -182,8 +183,8 @@ public class ProductController {
         System.out.println("cwu: " + cwuBufforTank + "co: " + coBufferTank);
 
             System.out.println("Client products sa");
-            clientProducts.setCwuBufforTank(cwuBufforTank);
-            clientProducts.setCoBufferTank(coBufferTank);
+//            clientProducts.setCwuBufforTank(cwuBufforTank);
+//            clientProducts.setCoBufferTank(coBufferTank);
 
             // adding other products to clientproducts
             // problem here
@@ -191,20 +192,20 @@ public class ProductController {
         System.out.println(clientOtherProductList);
 //            clientProducts.setOtherProducts(otherProducts);
 
-            clientProducts.setCoBufferTank(coBufferTank);
-            coBufferTank.addToCoBufferTankClientList(clientProducts);
+//            clientProducts.setCoBufferTank(coBufferTank);
+//            coBufferTank.addToCoBufferTankClientList(clientProducts);
 
-            System.out.println("co z zapisu: " + clientProducts.getCoBufferTank());
-            System.out.println("co z cotank modelu: " + coBufferTank.getCoBufferTankClientList());
+//            System.out.println("co z zapisu: " + clientProducts.getCoBufferTank());
+//            System.out.println("co z cotank modelu: " + coBufferTank.getCoBufferTankClientList());
 
             // dosc
-            coBufferTankService.updateCoBufferTank(coBufferTank, coBufferTank.getId());
-            clientProductService.updateClientProducts(clientProducts, client.getClientProducts().getId());
+//            coBufferTankService.updateCoBufferTank(coBufferTank, coBufferTank.getId());
+//            clientProductService.updateClientProducts(clientProducts, client.getClientProducts().getId());
 
-            System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getOtherProducts());
+//            System.out.println("Dodaliśmy produkty: " + client.getClientProducts().getOtherProducts());
             System.out.println("Dodaliśmy produkty: " + clientOtherProductList);
-        System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank() + " do klienta o imieniu: " + client.getName());
-        System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank() + " do klienta o imieniu: " + client.getName());
+//        System.out.println("Dodaliśmy cobufferTank: " + client.getClientProducts().getCoBufferTank() + " do klienta o imieniu: " + client.getName());
+//        System.out.println("Dodaliśmy cwoBufforTank: " + client.getClientProducts().getCwuBufforTank() + " do klienta o imieniu: " + client.getName());
 
         Long salesmanId = client.getSalesman().getId();
         return "redirect:/salesmen/clients/" + salesmanId.toString();
@@ -214,14 +215,14 @@ public class ProductController {
     @GetMapping("/clients/{clientId}/show-products")
     public String showProducts(@PathVariable Long clientId) {
 
-        _Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta"));
+        Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta"));
 
-        ClientProducts clientProducts = client.getClientProducts();
+//        ClientProducts clientProducts = client.getClientProducts();
 
-        System.out.println("Halo odpowiedz: " + clientProducts);
-        System.out.println(clientProducts.getCoBufferTank().getName());
-        System.out.println(clientProducts.getCwuBufforTank().getName());
-
+//        System.out.println("Halo odpowiedz: " + clientProducts);
+//        System.out.println(clientProducts.getCoBufferTank().getName());
+//        System.out.println(clientProducts.getCwuBufforTank().getName());
+//
         return "redirect:/salesmen";
     }
 
