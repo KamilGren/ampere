@@ -37,11 +37,7 @@ public class HeatPump extends Product {
 
     @PositiveOrZero(message = "Warranty must be a non-negative number")
     private int warranty;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy ="heatPump")
-    private Set<ClientProducts> heatpumpClientList = new HashSet<>();
-
-
+    
     @Min(0)
     private double heatingEfficiencyMinus20;
 
@@ -95,14 +91,6 @@ public class HeatPump extends Product {
 
     @Min(0)
     private double energyConsumption20;
-
-    public Set<ClientProducts> getHeatpumpClientList() {
-        return heatpumpClientList;
-    }
-
-    public void setHeatpumpClientList(Set<ClientProducts> heatpumpClientList) {
-        this.heatpumpClientList = heatpumpClientList;
-    }
 
     public Long getId() {
         return id;
@@ -350,10 +338,6 @@ public class HeatPump extends Product {
 
     public void setEnergyConsumption20(double energyConsumption20) {
         this.energyConsumption20 = energyConsumption20;
-    }
-
-    public void addToHeatPumpClientList(ClientProducts clientProducts) {
-        this.heatpumpClientList.add(clientProducts);
     }
 
 
