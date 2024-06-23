@@ -28,15 +28,6 @@ CREATE TABLE `building_info` (
     `water_usage_type_id` INTEGER NOT NULL
 );
 
-CREATE TABLE `client` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(255) NOT NULL,
-    `address` VARCHAR(255) NOT NULL,
-    `note` VARCHAR(255) NOT NULL,
-    `phone` VARCHAR(255) NOT NULL,
-    `created_at` DATETIME NOT NULL
-);
-
 CREATE TABLE `inverter` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
@@ -78,6 +69,17 @@ CREATE TABLE `salesman` (
     `email` VARCHAR(255) NOT NULL,
     `password_hash` VARCHAR(255) NOT NULL,
     `role` VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE `client` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `address` VARCHAR(255) NOT NULL,
+    `note` VARCHAR(255) NOT NULL,
+    `phone` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME NOT NULL,
+    `salesman_id` BIGINT NOT NULL,
+    FOREIGN KEY (`salesman_id`) REFERENCES `salesman`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE `product_central_heating_buffer_tank` (

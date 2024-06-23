@@ -38,6 +38,10 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "salesman_id")
+    private Salesman salesman;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

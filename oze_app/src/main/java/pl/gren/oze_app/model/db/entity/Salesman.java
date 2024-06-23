@@ -38,6 +38,9 @@ public class Salesman {
     @OneToMany(mappedBy = "salesman", fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
+    @OneToMany(mappedBy = "salesman", fetch = FetchType.LAZY)
+    private Set<Client> clients = new HashSet<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
