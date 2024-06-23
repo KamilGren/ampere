@@ -8,17 +8,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum WallType {
-    CERAMIC_BRICK(1, "ceramicBrick", 0.77),
-    CONCRETE_BLOCK(2, "concreteBlock", 0.5),
-    CERAMIC_BLOCK(3, "ceramicBlock", 0.5),
-    WOODEN_BLOCK(4, "wooden", 0.16),
-    FRAME(5, "frame", 0.1),
-    CONCRETE(6, "concrete", 1.0),
-    AERATED_CONCRETE(7, "aeratedConcrete", 0.17),
-    POROTHERM(8, "porotherm", 0.079),
-    YTONG(9, "ytong", 0.095),
-    SILICATE(10, "silicate", 0.8),
-    CLICKER_CONCRETE(11, "clinkerConcrete", 0.56);
+    CERAMIC_BRICK(1, "Ceramic Brick", 0.77),
+    CONCRETE_BLOCK(2, "Concrete Block", 0.5),
+    CERAMIC_BLOCK(3, "Ceramic Block", 0.5),
+    WOODEN_BLOCK(4, "Wooden", 0.16),
+    FRAME(5, "Frame", 0.1),
+    CONCRETE(6, "Concrete", 1.0),
+    AERATED_CONCRETE(7, "Aerated Concrete", 0.17),
+    POROTHERM(8, "Porotherm", 0.079),
+    YTONG(9, "Ytong", 0.095),
+    SILICATE(10, "Silicate", 0.8),
+    CLICKER_CONCRETE(11, "Clinker Concrete", 0.56);
 
     private final int id;
     private final String name;
