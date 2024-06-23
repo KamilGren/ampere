@@ -1,8 +1,7 @@
 package pl.gren.oze_app.controller;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class ChartController {
 
     @GetMapping("/create/{heatPumpId}")
     @ResponseBody
-    public String createChart(@PathVariable Long heatPumpId, Model model) throws IOException {
+    public ResponseEntity<Object> createChart(@PathVariable Long heatPumpId, Model model) throws IOException {
 
         BuildingRequirements buildingRequirements = buildingRequirementsService.getBuildingReqById(1L);
         buildingRequirements.setCWUValue(0.5);
@@ -75,41 +74,13 @@ public class ChartController {
             energyDemandValueList.add(energyData.getEnergyDemandValue(temperatures.get(i)));
         }
 
-        JsonArray jsonTemperatures = new JsonArray();
-        JsonArray jsonHeatingEfficiencies = new JsonArray();
-        JsonArray jsonHeatPumpsPowerWithHeater = new JsonArray();
-        JsonArray jsonEnergyDemandValues = new JsonArray();
-
-        JsonObject json = new JsonObject();
-
-        heatingEfficiencyList.forEach(heatingEfficiency -> {
-            jsonHeatingEfficiencies.add(heatingEfficiency);
-        });
-        temperatures.forEach(temperature -> {
-            jsonTemperatures.add(temperature);
-        });
-        heatPumpsPowerWithHeaterList.forEach(heatPumpPowerWithHeater -> {
-            jsonHeatPumpsPowerWithHeater.add(heatPumpPowerWithHeater);
-        });
-
-        energyDemandValueList.forEach(energyDemandValue -> {
-            jsonEnergyDemandValues.add(energyDemandValue);
-        });
-
-        json.add("temperatures", jsonTemperatures);
-        json.add("heatingEfficiencies", jsonHeatingEfficiencies);
-        json.add("heatPumpsPowerWithHeater", jsonHeatPumpsPowerWithHeater);
-        json.add("energyDemandValues", jsonEnergyDemandValues);
-
-
-        // potrzebne poniewaz bedziemy ladowac cala strone heatPumpForm i tam powinny byc zapisane uzyte juz dane z formularza
-        model.addAttribute("heatPump", heatPump);
-        model.addAttribute("id", heatPump.getId());
-        model.addAttribute("producent", heatPump.getProducent());
-        model.addAttribute("model", heatPump.getModel());
-        model.addAttribute("type", heatPump.getType());
-
-        return json.toString();
+        Map<String, List<?>> jsonResponse = Map.of(
+                "temperatures", temperatures,
+                "heatingEfficiencies", heatingEfficiencyList,
+                "heatPumpsPowerWithHeater", heatPumpsPowerWithHeaterList,
+                "energyDemandValues", energyDemandValueList
+        );
+        return ResponseEntity.ok(jsonResponse);
     }
 
     // nie wiem jak inaczej przekazac id na frontend
@@ -165,7 +136,7 @@ public class ChartController {
     // tworzymy wykres temperatur na caly rok przy pobieraniu clientId oraz heatPumpId
     @GetMapping("/year-temperatures/create/{clientId}")
     @ResponseBody
-    public String createChartForYearTemperaturesCount(@PathVariable Long clientId) throws IOException {
+    public ResponseEntity<Object> createChartForYearTemperaturesCount(@PathVariable Long clientId) throws IOException {
 
         // wszystko z klienta pobierzemy
         Client client = clientRepository.findClientById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
@@ -182,31 +153,13 @@ public class ChartController {
         List<Integer> temperatures = energyData.getExternalTemperature();
         HashMap<Integer, Double> yearTemperaturesCount = csvReader.getYearTemperaturesforChart();
 
-        JsonArray jsonTemperatures = new JsonArray();
-        JsonArray jsonYearTemperaturesCount = new JsonArray();
-
-
         List<Double> yearTemperatureValues = new ArrayList<>();
         yearTemperatureValues.addAll(yearTemperaturesCount.values());
-
-        for(Double entry : yearTemperatureValues) {
-            jsonYearTemperaturesCount.add(entry);
-        }
-
-        temperatures.forEach(temperature -> {
-            jsonTemperatures.add(temperature);
-        });
-
-        JsonObject json = new JsonObject();
-
-        json.add("temperatures", jsonTemperatures);
-        json.add("yearTemperaturesCount", jsonYearTemperaturesCount);
-
-        return json.toString();
+        Map<String, List<?>> json = new LinkedHashMap<>();
+        json.put("temperatures", temperatures);
+        json.put("yearTemperaturesCount", yearTemperatureValues);
+        return ResponseEntity.ok(json);
     }
-
-
-
 
 
 }

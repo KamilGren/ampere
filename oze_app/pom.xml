@@ -97,13 +97,6 @@
 		</dependency>
 		<!-- END: Misc -->
 
-		<!-- TODO remove this as Jackson is included already -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.10.1</version>
-		</dependency>
-
 		<!-- BEGIN: WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
