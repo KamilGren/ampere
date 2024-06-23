@@ -72,3 +72,11 @@ VALUES
     (23),
     (24),
     (25);
+
+INSERT INTO product
+(`subclass`, `name`, `model`, `manufacturer`, `msrp`, `discount`)
+VALUES
+    ('Circulation', 'Wilo STAR Z NOVA', 'Wilo STAR Z NOVA', 'Wilo', '800.0', NULL);
+
+INSERT INTO product_circulation
+(`id`) VALUES (26);
