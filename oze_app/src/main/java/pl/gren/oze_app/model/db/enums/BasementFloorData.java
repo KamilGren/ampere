@@ -72,6 +72,14 @@ public enum BasementFloorData {
         }
     }
 
+    public static List<BasementFloorData> getInsulated(boolean isInsulated) {
+        return WITH_TYPES;
+    }
+
+    public static List<BasementFloorData> getUninsulated(boolean isInsulated) {
+        return WITHOUT_TYPES;
+    }
+
     public static Optional<BasementFloorData> findByIdAndInsulated(int id, boolean insulated) {
         if (insulated) {
             return Optional.ofNullable(WITH_ID_MAP.get(id));
