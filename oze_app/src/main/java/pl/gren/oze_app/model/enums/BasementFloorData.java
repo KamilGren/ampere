@@ -1,4 +1,4 @@
-package pl.gren.oze_app.model.db.enums;
+package pl.gren.oze_app.model.enums;
 
 import java.util.Arrays;
 import java.util.List;
