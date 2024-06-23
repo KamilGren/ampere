@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import pl.gren.oze_app.model.db.entity.OrderConfig;
+import pl.gren.oze_app.model.db.entity.embedded.TemperatureSpecification;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
 
 import java.math.BigDecimal;
@@ -44,60 +45,34 @@ public class HeatPump extends Product {
 
     @Column(name = "warranty_years")
     private Integer warrantyYears;
+    
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="negative20C", column = @Column(name = "heating_capacity_negative_20_c")),
+            @AttributeOverride(name="negative15C", column = @Column(name = "heating_capacity_negative_15_c")),
+            @AttributeOverride(name="negative7C", column = @Column(name = "heating_capacity_negative_7_c")),
+            @AttributeOverride(name="negative2C", column = @Column(name = "heating_capacity_negative_2_c")),
+            @AttributeOverride(name="positive2C", column = @Column(name = "heating_capacity_positive_2_c")),
+            @AttributeOverride(name="positive7C", column = @Column(name = "heating_capacity_positive_7_c")),
+            @AttributeOverride(name="positive12C", column = @Column(name = "heating_capacity_positive_12_c")),
+            @AttributeOverride(name="positive15C", column = @Column(name = "heating_capacity_positive_15_c")),
+            @AttributeOverride(name="positive20C", column = @Column(name = "heating_capacity_positive_20_c"))
+    })
+    private TemperatureSpecification heatingCapacity;
 
-    @Column(name = "heating_capacity_negative_20_c")
-    private BigDecimal heatingCapacityNegative20C;
-
-    @Column(name = "heating_capacity_negative_15_c")
-    private BigDecimal heatingCapacityNegative15C;
-
-    @Column(name = "heating_capacity_negative_7_c")
-    private BigDecimal heatingCapacityNegative7C;
-
-    @Column(name = "heating_capacity_negative_2_c")
-    private BigDecimal heatingCapacityNegative2C;
-
-    @Column(name = "heating_capacity_positive_2_c")
-    private BigDecimal heatingCapacityPositive2C;
-
-    @Column(name = "heating_capacity_positive_7_c")
-    private BigDecimal heatingCapacityPositive7C;
-
-    @Column(name = "heating_capacity_positive_12_c")
-    private BigDecimal heatingCapacityPositive12C;
-
-    @Column(name = "heating_capacity_positive_15_c")
-    private BigDecimal heatingCapacityPositive15C;
-
-    @Column(name = "heating_capacity_positive_20_c")
-    private BigDecimal heatingCapacityPositive20C;
-
-    @Column(name = "energy_consumption_negative_20_c")
-    private BigDecimal energyConsumptionNegative20C;
-
-    @Column(name = "energy_consumption_negative_15_c")
-    private BigDecimal energyConsumptionNegative15C;
-
-    @Column(name = "energy_consumption_negative_7_c")
-    private BigDecimal energyConsumptionNegative7C;
-
-    @Column(name = "energy_consumption_negative_2_c")
-    private BigDecimal energyConsumptionNegative2C;
-
-    @Column(name = "energy_consumption_positive_2_c")
-    private BigDecimal energyConsumptionPositive2C;
-
-    @Column(name = "energy_consumption_positive_7_c")
-    private BigDecimal energyConsumptionPositive7C;
-
-    @Column(name = "energy_consumption_positive_12_c")
-    private BigDecimal energyConsumptionPositive12C;
-
-    @Column(name = "energy_consumption_positive_15_c")
-    private BigDecimal energyConsumptionPositive15C;
-
-    @Column(name = "energy_consumption_positive_20_c")
-    private BigDecimal energyConsumptionPositive20C;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="negative20C", column = @Column(name = "energy_consumption_negative_20_c")),
+            @AttributeOverride(name="negative15C", column = @Column(name = "energy_consumption_negative_15_c")),
+            @AttributeOverride(name="negative7C", column = @Column(name = "energy_consumption_negative_7_c")),
+            @AttributeOverride(name="negative2C", column = @Column(name = "energy_consumption_negative_2_c")),
+            @AttributeOverride(name="positive2C", column = @Column(name = "energy_consumption_positive_2_c")),
+            @AttributeOverride(name="positive7C", column = @Column(name = "energy_consumption_positive_7_c")),
+            @AttributeOverride(name="positive12C", column = @Column(name = "energy_consumption_positive_12_c")),
+            @AttributeOverride(name="positive15C", column = @Column(name = "energy_consumption_positive_15_c")),
+            @AttributeOverride(name="positive20C", column = @Column(name = "energy_consumption_positive_20_c"))
+    })
+    private TemperatureSpecification energyConsumption;
 
     @OneToMany(mappedBy = "heatPump", fetch = FetchType.LAZY)
     private Set<OrderConfig> orderConfigs = new HashSet<>();
