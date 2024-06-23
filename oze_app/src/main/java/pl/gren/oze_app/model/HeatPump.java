@@ -37,7 +37,7 @@ public class HeatPump extends Product {
 
     @PositiveOrZero(message = "Warranty must be a non-negative number")
     private int warranty;
-    
+
     @Min(0)
     private double heatingEfficiencyMinus20;
 

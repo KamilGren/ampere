@@ -9,12 +9,6 @@ public class OzeAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OzeAppApplication.class, args);
-
-//		ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(OzeAppApplication.class, args);
-//
-//		ProductRepository productRepository = configurableApplicationContext.getBean(ProductRepository.class);
-//		ProductRepository heatPumpRepository = configurableApplicationContext.getBean(HeatPumpRepository.class);
-
 	}
 
 }

@@ -6,8 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.model.db.entity.Client;
-import pl.gren.oze_app.oldrepository.ClientRepository;
-import pl.gren.oze_app.oldrepository.ProductRepository;
 import pl.gren.oze_app.service.*;
 
 import java.util.ArrayList;
@@ -22,15 +20,15 @@ public class ProductController {
     ClientService clientService;
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
-    ProductRepository productRepository;
+    ProductService productService;
 
     @Autowired
-    public ProductController(HeatPumpService heatPumpService, ClientService clientService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ProductRepository productRepository) {
+    public ProductController(HeatPumpService heatPumpService, ClientService clientService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ProductService productService) {
         this.heatPumpService = heatPumpService;
         this.clientService = clientService;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
-        this.productRepository = productRepository;
+        this.productService = productService;
     }
 
 

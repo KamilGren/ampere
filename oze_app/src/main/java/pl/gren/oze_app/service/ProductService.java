@@ -2,8 +2,8 @@ package pl.gren.oze_app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Product;
-import pl.gren.oze_app.oldrepository.ProductRepository;
+import pl.gren.oze_app.model.db.entity.product.Product;
+import pl.gren.oze_app.model.db.repository.product.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ProductService {
         // trzeba dodac ilosc tych produktow, a nie dodatkowe produkty
         if (heatingCircuitsAmount > 0) {
             productList.add(product);
-            product.setCount(heatingCircuitsAmount);
+//            product.setCount(heatingCircuitsAmount);
         }
 
         if (hotWaterCirculation.equals("yes")) {
