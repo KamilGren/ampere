@@ -57,3 +57,18 @@ VALUES
     (20, 3, 200, 1306, 607, 'B'),
     (21, 3, 300, 1462, 657, 'B');
 
+INSERT INTO product
+(`subclass`, `name`, `model`, `manufacturer`, `msrp`, `discount`)
+VALUES
+    ('HeatingCircuit', 'Grundfos Alpha 1 25-60', 'Grundfos Alpha 1 25-60', 'Grundfos', '800.0', NULL),
+    ('HeatingCircuit', 'Grundfos Alpha 1 25-60', 'Grundfos Alpha 1 25-60', 'Grundfos', '800.0', NULL),
+    ('HeatingCircuit', 'Grundfos Alpha 1 25-60', 'Grundfos Alpha 1 25-60', 'Grundfos', '800.0', NULL),
+    ('HeatingCircuit', 'Grundfos Alpha 1 25-60', 'Grundfos Alpha 1 25-60', 'Grundfos', '800.0', NULL);
+
+INSERT INTO product_heating_circuit
+(`id`)
+VALUES
+    (22),
+    (23),
+    (24),
+    (25);
