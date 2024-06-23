@@ -45,7 +45,7 @@ public class HeatPump extends Product {
 
     @Column(name = "warranty_years")
     private Integer warrantyYears;
-    
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="negative20C", column = @Column(name = "heating_capacity_negative_20_c")),
