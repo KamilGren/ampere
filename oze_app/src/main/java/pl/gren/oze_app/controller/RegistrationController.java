@@ -5,21 +5,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.oldrepository.SalesmanRepository;
+import pl.gren.oze_app.model.db.entity.Salesman;
+import pl.gren.oze_app.service.SalesmanService;
 
 @Controller
 public class RegistrationController {
 
     @Autowired
-    private SalesmanRepository salesmanRepository;
+    private SalesmanService salesmanService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register/user")
     public Salesman createUser(@RequestBody Salesman user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return salesmanRepository.save(user);
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+        return salesmanService.save(user);
     }
 
 }

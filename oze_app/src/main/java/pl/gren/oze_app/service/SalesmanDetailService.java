@@ -5,8 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.oldrepository.SalesmanRepository;
+import pl.gren.oze_app.model.db.entity.Salesman;
 
 import java.util.Optional;
 
@@ -14,16 +13,16 @@ import java.util.Optional;
 public class SalesmanDetailService implements UserDetailsService {
 
     @Autowired
-    private SalesmanRepository salesmanRepository;
+    private SalesmanService salesmanService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Salesman> salesman = salesmanRepository.findByName(username);
+        Optional<Salesman> salesman = salesmanService.findByName(username);
         if (salesman.isPresent()) {
             Salesman salesmanObj = salesman.get();
             return org.springframework.security.core.userdetails.User.builder()
-                    .username(salesmanObj.getName() + " " + salesmanObj.getSurname())
-                    .password(salesmanObj.getPassword())
+                    .username(salesmanObj.getFirstName() + " " + salesmanObj.getLastName())
+                    .password(salesmanObj.getPasswordHash())
                     .roles(getRoles(salesmanObj))
                     .build();
         } else {

@@ -3,8 +3,8 @@ package pl.gren.oze_app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.oldrepository.SalesmanRepository;
+import pl.gren.oze_app.model.db.entity.Salesman;
+import pl.gren.oze_app.model.db.repository.SalesmanRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,42 +21,28 @@ public class SalesmanService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Salesman> getAllSalesmen() {
+    public List<Salesman> findAll() {
         return salesmanRepository.findAll();
     }
 
-    public Optional<Salesman> findSalesmanByUsername(String username) {
-        return salesmanRepository.findByName(username);
-    }
-
-//    public Salesman showSalesmanByClientId(Long clientId) {
-//        return salesmanRepository.findSalesmanByClientId(clientId);
-//    }
-
-    public Optional<Salesman> findSalesmanById(Long id) {
+    public Optional<Salesman> findById(Long id) {
         return salesmanRepository.findById(id);
     }
 
-    public Optional<Salesman> findSalesmanByEmail(String email) {
+    public Optional<Salesman> findByEmail(String email) {
         return salesmanRepository.findByEmail(email);
     }
 
-    public void updateSalesman(Salesman salesman, Long id)
-    {
-        Salesman searchedSalesman = salesmanRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Brak handlowca o takim numerze id: " + id));
-
-        searchedSalesman.updateSalesman(salesman);
-        //searchedSalesman.setPassword(passwordEncoder.encode(salesman.getPassword()));
-
-        salesmanRepository.save(searchedSalesman);
+    public Optional<Salesman> findByName(String name) {
+        return salesmanRepository.findByName(name);
     }
 
-    public void deleteSalesmanById(Long id) {
+    public void deleteById(Long id) {
         salesmanRepository.deleteById(id);
     }
 
-    public Salesman saveSalesman(Salesman salesman) {
-        salesman.setPassword(passwordEncoder.encode(salesman.getPassword()));
+    public Salesman save(Salesman salesman) {
         return salesmanRepository.save(salesman);
     }
+
 }

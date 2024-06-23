@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.gren.oze_app.model.Client;
-import pl.gren.oze_app.model.Salesman;
-import pl.gren.oze_app.oldrepository.SalesmanRepository;
-import pl.gren.oze_app.service.Impl.RedirectServiceImpl;
+import pl.gren.oze_app.model.db.entity.Client;
+import pl.gren.oze_app.model.db.entity.Salesman;
 import pl.gren.oze_app.service.SalesmanService;
 
 import java.util.List;
@@ -20,18 +18,15 @@ import java.util.Set;
 public class SalesmanController {
 
     private final SalesmanService salesmanService;
-    private final SalesmanRepository salesmanRepository;
-    private RedirectServiceImpl redirectService;
 
     @Autowired
-    public SalesmanController(SalesmanService salesmanService, SalesmanRepository salesmanRepository) {
+    public SalesmanController(SalesmanService salesmanService) {
         this.salesmanService = salesmanService;
-        this.salesmanRepository = salesmanRepository;
     }
 
     @GetMapping("/")
     public String getAllSalesmen(Model model) {
-        List<Salesman> salesmen = salesmanService.getAllSalesmen();
+        List<Salesman> salesmen = salesmanService.findAll();
         model.addAttribute("salesmen", salesmen);
         return "forms/showSalesmen";
     }
@@ -39,7 +34,7 @@ public class SalesmanController {
 
     @GetMapping("/{id}")
     public String getSalesmanById(@PathVariable("id") Long id, Model model) {
-        Optional<Salesman> salesmanOptional = salesmanService.findSalesmanById(id);
+        Optional<Salesman> salesmanOptional = salesmanService.findById(id);
         if (salesmanOptional.isPresent()) {
             Salesman salesman = salesmanOptional.get();
             model.addAttribute("salesman", salesman);
@@ -55,45 +50,42 @@ public class SalesmanController {
     }
 
     @PostMapping("/add")
-    public String addSalesman( @Valid Salesman salesman) {
-        salesmanService.saveSalesman(salesman);
-
-        System.out.println("imie salesman: " + salesman.getName());
+    public String addSalesman(@Valid Salesman salesman) {
+        salesmanService.save(salesman);
+        System.out.println("imie salesman: " + salesman.getFirstName());
         return "redirect:/salesmen/";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Salesman salesman= salesmanRepository.findById(id)
+        Salesman salesman= salesmanService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Zły numer id hamdlowca:" + id));
-
         model.addAttribute("salesman", salesman);
         return "forms/editSalesman";
     }
 
     @PostMapping("/edit/{id}")
     public String editSalesman(@PathVariable Long id, @ModelAttribute("salesman") Salesman salesman) {
-        salesmanService.updateSalesman(salesman, id);
+        salesmanService.save(salesman);
         return "redirect:/salesmen/";
-
     }
 
     @GetMapping("/delete/{id}")
     public String deleteSalesman(@PathVariable("id") Long id) {
-        salesmanService.deleteSalesmanById(id);
+        salesmanService.deleteById(id);
         return "redirect:/salesmen/";
     }
 
     @GetMapping("/clients/{id}")
     public String salesmanClients(@PathVariable("id") Long id, Model model) {
 
-        Salesman salesman = salesmanService.findSalesmanById(id).orElseThrow(() -> new IllegalArgumentException("Brak handlowca o tym numerze id: " + id));
-        Set<Client> clients = salesman.getClientList();
+        Salesman salesman = salesmanService.findById(id).orElseThrow(() -> new IllegalArgumentException("Brak handlowca o tym numerze id: " + id));
+        Set<Client> clients = salesman.getClients();
 
         model.addAttribute("salesmanClients", clients);
         model.addAttribute("salesmanId", id);
 
-        System.out.println("Salesman " + salesman.getClientList());
+        System.out.println("Salesman " + clients);
 
         return "forms/salesmanClients";
     }
