@@ -7,9 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.model.db.entity.Client;
-import pl.gren.oze_app.oldrepository.ClientRepository;
 import pl.gren.oze_app.service.ClientService;
-import pl.gren.oze_app.service.OfferService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +17,10 @@ import java.util.NoSuchElementException;
 @RequestMapping("/offers/")
 public class OfferController {
 
-    private OfferService offerService;
     private ClientService clientService;
 
     @Autowired
-    public OfferController(OfferService offerService, ClientService clientService) {
-        this.offerService = offerService;
+    public OfferController(ClientService clientService) {
         this.clientService = clientService;
     }
 
@@ -35,7 +31,7 @@ public class OfferController {
 
         Client client = clientService.findById(clientId).orElseThrow(() -> new NoSuchElementException("Brak klienta z takim nr Id: " + clientId));
 
-        List<Product> clientProductsList = new ArrayList<>();
+//        List<Product> clientProductsList = new ArrayList<>();
 //      now in orders
 //        HeatPump heatPump = client.getClientProducts().getHeatPump();
 //        heatPump.priceWithOverhead(overhead);
@@ -70,7 +66,7 @@ public class OfferController {
 //        // here we have all products from this client
 //        clientProductsList.addAll(otherProductList);
 
-        model.addAttribute("products", clientProductsList);
+//        model.addAttribute("products", clientProductsList);
 
         return "offer/calculationsDataTables";
     }
