@@ -38,14 +38,6 @@ public class COBufferTank extends Product {
     @NotBlank
     private String erpClass; // Zmieniono nazwę klasy ERP na "erpClass"
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy ="coBufferTank")
-    private Set<ClientProducts> coBufferTankClientList = new HashSet<>();
-
-    // update iwth only one thing, need to update
-    public void updateProduct(COBufferTank coBufferTank) {
-        this.coBufferTankClientList = coBufferTank.getCoBufferTankClientList();
-    }
-
     public Long getId() {
         return id;
     }
@@ -134,15 +126,5 @@ public class COBufferTank extends Product {
         this.erpClass = erpClass;
     }
 
-    public Set<ClientProducts> getCoBufferTankClientList() {
-        return coBufferTankClientList;
-    }
-
-    public void setCoBufferTankClientList(Set<ClientProducts> coBufferTankClientList) {
-        this.coBufferTankClientList = coBufferTankClientList;
-    }
-    public void addToCoBufferTankClientList(ClientProducts clientProducts) {
-            this.coBufferTankClientList.add(clientProducts);
-    }
 }
 

@@ -20,18 +20,16 @@ public class ProductController {
 
     HeatPumpService heatPumpService;
     ClientService clientService;
-    ClientProductService clientProductService;
     CWUBufforTankService cwuBufforTankService;
     COBufferTankService coBufferTankService;
     ProductRepository productRepository;
 
     @Autowired
-    public ProductController(HeatPumpService heatPumpService, ClientService clientService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ClientProductService clientProductService, ProductRepository productRepository) {
+    public ProductController(HeatPumpService heatPumpService, ClientService clientService, CWUBufforTankService cwuBufforTankService, COBufferTankService coBufferTankService, ProductRepository productRepository) {
         this.heatPumpService = heatPumpService;
         this.clientService = clientService;
         this.coBufferTankService = coBufferTankService;
         this.cwuBufforTankService = cwuBufforTankService;
-        this.clientProductService = clientProductService;
         this.productRepository = productRepository;
     }
 

@@ -52,13 +52,6 @@ public class Product {
         this.purchasePrice = purchasePrice;
     }
 
-//    public Set<ClientProducts> getProductClientList() {
-//        return productClientList;
-//    }
-//
-//    public void setProductClientList(Set<ClientProducts> productClientList) {
-//        this.productClientList = productClientList;
-//    }
 
 
     public int getCount() {

@@ -32,9 +32,6 @@ public class CWUBufforTank extends Product {
     @NotBlank(message = "Please provide heater information")
     private String heater;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy ="cwuBufforTank")
-    private Set<ClientProducts> cwuBufforTankClientList = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -139,11 +136,4 @@ public class CWUBufforTank extends Product {
         this.heater = heater;
     }
 
-    public Set<ClientProducts> getCwuBufforTankClientList() {
-        return cwuBufforTankClientList;
-    }
-
-    public void setCwuBufforTankClientList(Set<ClientProducts> cwuBufforTankClientList) {
-        this.cwuBufforTankClientList = cwuBufforTankClientList;
-    }
 }
