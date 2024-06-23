@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.*;
 import pl.gren.oze_app.model.db.entity.Client;
+import pl.gren.oze_app.model.db.entity.product.Product;
 import pl.gren.oze_app.service.*;
 
 import java.util.ArrayList;
