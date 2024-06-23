@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import pl.gren.oze_app.model.db.entity.OrderConfig;
+import pl.gren.oze_app.model.db.enums.MaterialType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class CentralHeatingBufferTank extends Product {
 
     @Column(name = "material_type_id")
-    private Integer materialType;
+    private MaterialType materialType;
 
     @Column(name = "capacity_l")
     private Integer capacityL;

@@ -22,9 +22,6 @@ public abstract class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "dtype")
-    private String dtype;
-
     @Column(name = "name")
     private String name;
 

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+import pl.gren.oze_app.model.db.enums.*;
+
 import java.util.*;
 import java.math.BigDecimal;
 
@@ -27,7 +29,7 @@ public class BuildingInfo {
     private BigDecimal locationTemperatureCelcius;
 
     @Column(name = "building_type_id")
-    private Integer buildingType;
+    private BuildingType buildingType;
 
     @Column(name = "length_m")
     private BigDecimal lengthMeters;
@@ -51,16 +53,16 @@ public class BuildingInfo {
     private Boolean hasBasement;
 
     @Column(name = "wall_type_id")
-    private Integer wallType;
+    private WallType wallType;
 
     @Column(name = "wall_insulation_type_id")
-    private Integer wallInsulationType;
+    private InsulationType wallInsulationType;
 
     @Column(name = "roof_insulation_type_id")
-    private Integer roofInsulationType;
+    private InsulationType roofInsulationType;
 
     @Column(name = "floor_insulation_type_id")
-    private Integer floorInsulationType;
+    private InsulationType floorInsulationType;
 
     @Column(name = "wall_thickness_cm")
     private BigDecimal wallThicknessCm;
@@ -75,7 +77,7 @@ public class BuildingInfo {
     private BigDecimal floorInsulationThicknessCm;
 
     @Column(name = "window_glazing_type_id")
-    private Integer windowGlazingType;
+    private WindowGlazingType windowGlazingType;
 
     @Column(name = "window_count")
     private Integer windowCount;
@@ -84,10 +86,10 @@ public class BuildingInfo {
     private Integer exteriorDoorCount;
 
     @Column(name = "ventilation_type_id")
-    private Integer ventilationType;
+    private VentilationType ventilationType;
 
     @Column(name = "fuel_type_id")
-    private Integer fuelType;
+    private FuelType fuelType;
 
     @Column(name = "fuel_usage_amount")
     private BigDecimal fuelUsageAmount;
@@ -96,7 +98,7 @@ public class BuildingInfo {
     private Integer peopleCount;
 
     @Column(name = "water_usage_type_id")
-    private Integer waterUsageType;
+    private WaterUsageType waterUsageType;
 
     @OneToOne(mappedBy = "buildingInfo", fetch = FetchType.LAZY)
     private Order order;

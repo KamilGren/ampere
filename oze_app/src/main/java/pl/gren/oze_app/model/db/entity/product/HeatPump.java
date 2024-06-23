@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import pl.gren.oze_app.model.db.entity.OrderConfig;
+import pl.gren.oze_app.model.db.enums.HeatPumpType;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class HeatPump extends Product {
 
     @Column(name = "heat_pump_type_id")
-    private Integer heatPumpType;
+    private HeatPumpType heatPumpType;
 
     @Column(name = "indoor_unit")
     private String indoorUnit;

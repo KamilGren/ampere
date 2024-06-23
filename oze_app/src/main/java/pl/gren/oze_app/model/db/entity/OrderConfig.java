@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
-import pl.gren.oze_app.entity.product.*;
 import pl.gren.oze_app.model.db.entity.product.*;
 
 import java.util.Objects;
