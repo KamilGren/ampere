@@ -36,3 +36,24 @@ VALUES
     (14, 2, 300, 1745, NULL, '1.8', '3', 'B'),
     (15, 2, 300, 1646, 595, '5,6+2,66', NULL, 'B');
 
+
+INSERT INTO product
+(`subclass`, `name`, `model`, `manufacturer`, `msrp`, `discount`)
+VALUES
+    ('CentralHeatingBufferTank', 'Nierdzewny 50l', 'PAW-BTANK50L-2', 'Panasonic / OSO', '1874.00', '0.47'),
+    ('CentralHeatingBufferTank', 'Nierdzewny 100l', 'PAW-BTANK100L', 'Panasonic / OSO', '2928.00', '0.47'),
+    ('CentralHeatingBufferTank', 'Standard 80l wiszący', 'W4B 80', 'Weber', '970.00', '0.18'),
+    ('CentralHeatingBufferTank', 'Standard 100l stojący', 'W4 100', 'Weber', '1130.00', '0.18'),
+    ('CentralHeatingBufferTank', 'Standard 200l stojący', 'W4 200', 'Weber', '1670.00', '0.18'),
+    ('CentralHeatingBufferTank', 'Standard 300l stojący', 'W4 300', 'Weber', '2255.00', '0.18');
+
+INSERT INTO product_central_heating_buffer_tank
+(`id`, `material_type_id`, `capacity_l`, `height_mm`, `diameter_mm`, `erp`)
+VALUES
+    (16, 2, 50, 636, 430, 'B'),
+    (17, 2, 100, 1175, 430, 'C'),
+    (18, 3, 80, 747, 440, 'B'),
+    (19, 3, 100, 906, 471, 'B'),
+    (20, 3, 200, 1306, 607, 'B'),
+    (21, 3, 300, 1462, 657, 'B');
+
