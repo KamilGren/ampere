@@ -95,11 +95,6 @@ CREATE TABLE `product_central_heating_buffer_tank` (
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE `product_circulation` (
-    `id` BIGINT PRIMARY KEY,
-    FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
 CREATE TABLE `product_domestic_hot_water_tank` (
     `id` BIGINT PRIMARY KEY,
     `material_type_id` INTEGER NOT NULL,
@@ -143,14 +138,10 @@ CREATE TABLE `product_heat_pump` (
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE `product_heating_circuit` (
+CREATE TABLE `product_other` (
     `id` BIGINT PRIMARY KEY,
-    FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE `product_wifi_module` (
-    `id` BIGINT PRIMARY KEY,
-    FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    `other_product_type_id` INT NOT NULL,
+    FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `order_config` (
@@ -164,9 +155,9 @@ CREATE TABLE `order_config` (
     FOREIGN KEY (`heat_pump_id`) REFERENCES `product_heat_pump`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`cwu_tank_id`) REFERENCES `product_domestic_hot_water_tank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`co_buffer_id`) REFERENCES `product_central_heating_buffer_tank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`heating_circuit_id`) REFERENCES `product_heating_circuit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`circulation_id`) REFERENCES `product_circulation`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`wifi_module_id`) REFERENCES `product_wifi_module`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`heating_circuit_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (`circulation_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (`wifi_module_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE `order` (

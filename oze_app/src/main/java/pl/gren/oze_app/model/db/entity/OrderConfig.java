@@ -33,18 +33,6 @@ public class OrderConfig {
     @JoinColumn(name = "co_buffer_id")
     private CentralHeatingBufferTank coBuffer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "heating_circuit_id")
-    private HeatingCircuit heatingCircuit;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "circulation_id")
-    private Circulation circulation;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wifi_module_id")
-    private WifiModule wifiModule;
-
     @OneToOne(mappedBy = "orderConfig", fetch = FetchType.LAZY)
     private Order order;
 
