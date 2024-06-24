@@ -144,7 +144,7 @@ CREATE TABLE `product_heating_circuit` (
     `id` BIGINT PRIMARY KEY,
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
+5
 CREATE TABLE `product_wifi_module` (
     `id` BIGINT PRIMARY KEY,
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -177,5 +177,5 @@ CREATE TABLE `order` (
     FOREIGN KEY (`building_info_id`) REFERENCES `building_info`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`salesman_id`) REFERENCES `salesman`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`order_config_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`order_config_id`) REFERENCES `order_config`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
