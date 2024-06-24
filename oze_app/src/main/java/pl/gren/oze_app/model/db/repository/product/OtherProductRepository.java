@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface OtherProductRepository extends CrudRepository<OtherProduct, Long> {
     List<OtherProduct> findAll();
 
-    @Query("SELECT OtherProduct FROM OtherProduct where OtherProduct.type = :type")
+    @Query("SELECT p FROM OtherProduct p where p.type = :type")
     List<OtherProduct> findAllByType(OtherProductType type);
 
-    @Query("SELECT OtherProduct FROM OtherProduct where OtherProduct.type = :type AND OtherProduct.id = :id")
+    @Query("SELECT p FROM OtherProduct p where p.type = :type AND p.id = :id")
     Optional<OtherProduct> findByIdAndType(Long id, OtherProductType type);
 }
