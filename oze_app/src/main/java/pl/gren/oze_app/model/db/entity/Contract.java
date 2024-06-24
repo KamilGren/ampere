@@ -72,6 +72,14 @@ public class Contract {
     @Column(name = "margin")
     private BigDecimal margin;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tax_credit_id")
+    private TaxCredit taxCredit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "financial_program_id")
+    private FinancialProgram financialProgram;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

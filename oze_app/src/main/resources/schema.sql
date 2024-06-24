@@ -148,6 +148,18 @@ CREATE TABLE `product_other` (
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE `tax_credit` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `percentage` DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE `financial_program` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `percentage` DECIMAL(10, 2) NOT NULL,
+    `limit` DECIMAL(10, 2) NOT NULL
+);
+
 CREATE TABLE `contract` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
@@ -159,10 +171,14 @@ CREATE TABLE `contract` (
     `markup` DECIMAL(10, 2) NOT NULL,
     `tax_rate` DECIMAL(10, 2) NOT NULL,
     `margin` DECIMAL(10, 2) NOT NULL,
+    `tax_credit_id` BIGINT,
+    `financial_program_id` BIGINT,
     `created_at` DATETIME NOT NULL,
     FOREIGN KEY (`building_info_id`) REFERENCES `building_info`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`salesman_id`) REFERENCES `salesman`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (`tax_credit_id`) REFERENCES `tax_credit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (`financial_program_id`) REFERENCES `financial_program`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE `contract_quantity_co_buffer` (
@@ -204,4 +220,3 @@ CREATE TABLE `contract_quantity_other` (
 INSERT INTO salesman (first_name, last_name, username, email, password_hash, `role`)
 VALUES ('foo', 'bar', 'user', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'HANDLOWIEC'),
        ('admin', 'admin', 'admin', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'ADMIN');
-
