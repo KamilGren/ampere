@@ -1,33 +1,3 @@
-CREATE TABLE `building_info` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `location` VARCHAR(255) NOT NULL,
-    `location_temperature_c` DECIMAL(10, 2),
-    `building_type_id` INTEGER NOT NULL,
-    `length_m` DECIMAL(10, 2) NOT NULL,
-    `width_m` DECIMAL(10, 2) NOT NULL,
-    `heated_area_m2` DECIMAL(10, 2) NOT NULL,
-    `ceiling_height_m` DECIMAL(10, 2) NOT NULL,
-    `heating_temperature_c` DECIMAL(10, 2) NOT NULL,
-    `cooling_temperature_c` DECIMAL(10, 2) NOT NULL,
-    `has_basement` BOOLEAN NOT NULL,
-    `wall_type_id` INTEGER NOT NULL,
-    `wall_insulation_type_id` INTEGER NOT NULL,
-    `roof_insulation_type_id` INTEGER NOT NULL,
-    `floor_insulation_type_id` INTEGER NOT NULL,
-    `wall_thickness_cm` DECIMAL(10, 2) NOT NULL,
-    `wall_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
-    `roof_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
-    `floor_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
-    `window_glazing_type_id` INTEGER NOT NULL,
-    `window_count` INTEGER NOT NULL,
-    `exterior_door_count` INTEGER NOT NULL,
-    `ventilation_type_id` INTEGER NOT NULL,
-    `fuel_type_id` INTEGER NOT NULL,
-    `fuel_usage_amount` DECIMAL(10, 2) NOT NULL,
-    `people_count` INTEGER NOT NULL,
-    `water_usage_type_id` INTEGER NOT NULL
-);
-
 CREATE TABLE `inverter` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
@@ -81,6 +51,39 @@ CREATE TABLE `client` (
     `salesman_id` BIGINT NOT NULL,
     FOREIGN KEY (`salesman_id`) REFERENCES `salesman`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE TABLE `building_info` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `client_id` BIGINT NOT NULL,
+    `location` VARCHAR(255) NOT NULL,
+    `location_temperature_c` DECIMAL(10, 2),
+    `building_type_id` INTEGER NOT NULL,
+    `length_m` DECIMAL(10, 2) NOT NULL,
+    `width_m` DECIMAL(10, 2) NOT NULL,
+    `heated_area_m2` DECIMAL(10, 2) NOT NULL,
+    `ceiling_height_m` DECIMAL(10, 2) NOT NULL,
+    `heating_temperature_c` DECIMAL(10, 2) NOT NULL,
+    `cooling_temperature_c` DECIMAL(10, 2) NOT NULL,
+    `has_basement` BOOLEAN NOT NULL,
+    `wall_type_id` INTEGER NOT NULL,
+    `wall_insulation_type_id` INTEGER NOT NULL,
+    `roof_insulation_type_id` INTEGER NOT NULL,
+    `floor_insulation_type_id` INTEGER NOT NULL,
+    `wall_thickness_cm` DECIMAL(10, 2) NOT NULL,
+    `wall_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
+    `roof_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
+    `floor_insulation_thickness_cm` DECIMAL(10, 2) NOT NULL,
+    `window_glazing_type_id` INTEGER NOT NULL,
+    `window_count` INTEGER NOT NULL,
+    `exterior_door_count` INTEGER NOT NULL,
+    `ventilation_type_id` INTEGER NOT NULL,
+    `fuel_type_id` INTEGER NOT NULL,
+    `fuel_usage_amount` DECIMAL(10, 2) NOT NULL,
+    `people_count` INTEGER NOT NULL,
+    `water_usage_type_id` INTEGER NOT NULL,
+    FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 
 CREATE TABLE `product_central_heating_buffer_tank` (
     `id` BIGINT PRIMARY KEY,
@@ -144,7 +147,7 @@ CREATE TABLE `product_heating_circuit` (
     `id` BIGINT PRIMARY KEY,
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-5
+
 CREATE TABLE `product_wifi_module` (
     `id` BIGINT PRIMARY KEY,
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
