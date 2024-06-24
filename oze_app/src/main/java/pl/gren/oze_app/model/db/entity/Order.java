@@ -25,7 +25,7 @@ public class Order {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "building_info_id")
     private BuildingInfo buildingInfo;
 

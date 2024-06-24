@@ -104,8 +104,8 @@ public class BuildingInfo {
     @Column(name = "water_usage_type_id")
     private WaterUsageType waterUsageType;
 
-    @OneToOne(mappedBy = "buildingInfo", fetch = FetchType.LAZY)
-    private Order order;
+    @OneToMany(mappedBy = "buildingInfo", fetch = FetchType.LAZY)
+    private Set<Order> orders = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
