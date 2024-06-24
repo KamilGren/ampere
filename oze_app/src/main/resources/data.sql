@@ -1,3 +1,17 @@
+INSERT INTO `tax_credit` (`percentage`)
+VALUES ('0.12'), ('0.32');
+
+INSERT INTO financial_program
+    (`name`, `percentage`, `limit`, `condition`)
+VALUES
+    ('Czyste powietrze podstawowy PC', '19400.00', '0.55', 'Wymiana starego kotła. Dochód do 135tyś. Brutto'),
+    ('Czyste powietrze podstawowy PC + CO', '27500.00', '0.55', 'Wymiana starego kotła. Dochód do 135tyś. Brutto'),
+    ('Czyste powietrze podwyższony PC', '28100.00', '0.8', 'Wymiana starego kotła. Miesięczny dochód na gospodarstwo jednoosobowe 2651 zł brutto, na gospodarstwo wieloosobowe 1894 brutto'),
+    ('Czyste powietrze podwyższony PC + CO', '42400.00', '0.8', 'Wymiana starego kotła. Miesięczny dochód na gospodarstwo jednoosobowe 2651 zł brutto, na gospodarstwo wieloosobowe 1894 brutto'),
+    ('Czyste powietrze najwyższy PC', '35200.00', '1.0', 'Wymiana starego kotła. Miesięczny dochód na gospodarstwo jednoosobowe 1526 zł brutto, na gospodarstwo wieloosobowe 1090 brutto'),
+    ('Czyste powietrze najwyższy PC + CO', '55600.00', '1.0', 'Wymiana starego kotła. Miesięczny dochód na gospodarstwo jednoosobowe 1526 zł brutto, na gospodarstwo wieloosobowe 1090 brutto');
+
+
 INSERT INTO product
     (`subclass`, `name`, `model`, `manufacturer`, `msrp`, `discount`)
 VALUES

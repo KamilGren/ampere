@@ -30,6 +30,9 @@ public class FinancialProgram {
     @Column(name = "limit")
     private BigDecimal limit;
 
+    @Column(name = "condition")
+    private String condition;
+
     private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
     private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
 
@@ -45,6 +48,7 @@ public class FinancialProgram {
                 ", name='" + name + '\'' +
                 ", percentage=" + percentage +
                 ", limit=" + limit +
+                ", condition='" + condition + '\'' +
                 '}';
     }
 
@@ -53,6 +57,6 @@ public class FinancialProgram {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FinancialProgram that = (FinancialProgram) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getPercentage(), that.getPercentage()) && Objects.equals(getLimit(), that.getLimit());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getPercentage(), that.getPercentage()) && Objects.equals(getLimit(), that.getLimit()) && Objects.equals(getCondition(), that.getCondition());
     }
 }

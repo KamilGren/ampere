@@ -157,7 +157,8 @@ CREATE TABLE `financial_program` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     `percentage` DECIMAL(10, 2) NOT NULL,
-    `limit` DECIMAL(10, 2) NOT NULL
+    `limit` DECIMAL(10, 2) NOT NULL,
+    `condition` VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE `contract` (
