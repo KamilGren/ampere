@@ -296,3 +296,6 @@ VALUES
 (124, 1, 'EDLA16D3V37', NULL, '16', '3', '4.62', 16, 5, '9.07', '9.87', '11.15', '12.02', '12.35', '15.96', '17.08', '17.73', '18.82', '4.68', '4.59', '4.44', '4.25', '3.94', '3.52', '3.24', '3.04', '2.7'),
 (125, 1, 'EDLA16D3W17', NULL, '16', '3', '4.62', 16, 5, '9.07', '9.87', '11.15', '12.02', '12.35', '15.96', '17.08', '17.73', '18.82', '4.68', '4.59', '4.44', '4.25', '3.94', '3.52', '3.24', '3.04', '2.7');
 
+INSERT INTO salesman (first_name, last_name, username, email, password_hash, `role`)
+VALUES ('foo', 'bar', 'user', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'HANDLOWIEC'),
+       ('admin', 'admin', 'admin', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'ADMIN');

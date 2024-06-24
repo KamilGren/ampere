@@ -61,7 +61,7 @@ CREATE TABLE `building_info` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `client_id` BIGINT NOT NULL,
     `location` VARCHAR(255) NOT NULL,
-    `location_temperature_c` DECIMAL(10, 2),
+    `location_temperature_c` DECIMAL(10, 2) NOT NULL,
     `building_type_id` INTEGER NOT NULL,
     `length_m` DECIMAL(10, 2) NOT NULL,
     `width_m` DECIMAL(10, 2) NOT NULL,
@@ -218,6 +218,3 @@ CREATE TABLE `contract_quantity_other` (
     FOREIGN KEY (`contract_id`) REFERENCES `contract`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO salesman (first_name, last_name, username, email, password_hash, `role`)
-VALUES ('foo', 'bar', 'user', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'HANDLOWIEC'),
-       ('admin', 'admin', 'admin', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'ADMIN');
