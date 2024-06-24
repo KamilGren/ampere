@@ -5,13 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
-import pl.gren.oze_app.model.db.entity.OrderConfig;
 import pl.gren.oze_app.model.db.entity.embedded.TemperatureSpecification;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -74,6 +71,4 @@ public class HeatPump extends Product {
     })
     private TemperatureSpecification energyConsumption;
 
-    @OneToMany(mappedBy = "heatPump", fetch = FetchType.LAZY)
-    private Set<OrderConfig> orderConfigs = new HashSet<>();
 }

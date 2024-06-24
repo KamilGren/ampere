@@ -5,12 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
-import pl.gren.oze_app.model.db.entity.OrderConfig;
 import pl.gren.oze_app.model.db.enums.MaterialType;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -41,7 +38,4 @@ public class DomesticHotWaterTank extends Product {
 
     @Column(name = "erp")
     private String erp;
-
-    @OneToMany(mappedBy = "cwuTank", fetch = FetchType.LAZY)
-    private Set<OrderConfig> orderConfigs = new HashSet<>();
 }

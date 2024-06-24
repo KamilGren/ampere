@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
-import pl.gren.oze_app.model.db.entity.OrderConfig;
 import pl.gren.oze_app.model.db.enums.MaterialType;
-
-import java.util.HashSet;
-import java.util.Set;
-
 
 @Getter
 @Setter
@@ -36,6 +31,4 @@ public class CentralHeatingBufferTank extends Product {
     @Column(name = "erp")
     private String erp;
 
-    @OneToMany(mappedBy = "coBuffer", fetch = FetchType.LAZY)
-    private Set<OrderConfig> orderConfigs = new HashSet<>();
 }
