@@ -7,6 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
@@ -35,21 +36,22 @@ public class Client {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "salesman_id")
+    private Salesman salesman;
+
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<Order> orders = new HashSet<>();
+    private Set<Contract> contracts = new HashSet<>();
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<BuildingInfo> buildings = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "salesman_id")
-    private Salesman salesman;
 
     public List<BuildingInfo> getBuildings() {
         List<BuildingInfo> result = new ArrayList<>();
-        for (Order o : orders) {
-            if (o.getBuildingInfo() != null) {
-                result.add(o.getBuildingInfo());
+        for (Contract c : contracts) {
+            if (c.getBuildingInfo() != null) {
+                result.add(c.getBuildingInfo());
             }
         }
         return result;
@@ -66,16 +68,19 @@ public class Client {
                 '}';
     }
 
+    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
+    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
+
+    @Override
+    public int hashCode() {
+        return HASH_CODE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client that = (Client) o;
         return Objects.equals(this.id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, getClass());
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
@@ -81,6 +82,33 @@ public class Inverter {
     private BigDecimal thdiHz;
 
     @Override
+    public String toString() {
+        return "Inverter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", efficiencyPercent=" + efficiencyPercent +
+                ", phases=" + phases +
+                ", mppt=" + mppt +
+                ", catalogue=" + catalogue +
+                ", net=" + net +
+                ", gross=" + gross +
+                ", nominalWatts=" + nominalWatts +
+                ", minWatts=" + minWatts +
+                ", maxWatts=" + maxWatts +
+                ", percent=" + percent +
+                ", maxVoltage='" + maxVoltage + '\'' +
+                ", acProtections='" + acProtections + '\'' +
+                ", warranty='" + warranty + '\'' +
+                ", image=" + image +
+                ", maxAdc=" + maxAdc +
+                ", rangeDc=" + rangeDc +
+                ", minDc=" + minDc +
+                ", thdiHz=" + thdiHz +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -88,8 +116,11 @@ public class Inverter {
         return Objects.equals(this.id, that.id);
     }
 
+    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
+    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, getClass());
+        return HASH_CODE;
     }
 }

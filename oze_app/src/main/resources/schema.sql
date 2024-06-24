@@ -1,3 +1,7 @@
+drop schema if exists db_oze;
+create schema db_oze;
+use db_oze;
+
 CREATE TABLE `inverter` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
@@ -85,7 +89,6 @@ CREATE TABLE `building_info` (
     FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-
 CREATE TABLE `product_central_heating_buffer_tank` (
     `id` BIGINT PRIMARY KEY,
     `material_type_id` INTEGER NOT NULL,
@@ -141,36 +144,63 @@ CREATE TABLE `product_heat_pump` (
 
 CREATE TABLE `product_other` (
     `id` BIGINT PRIMARY KEY,
-    `other_product_type_id` INT NOT NULL,
+    `type_id` INT NOT NULL,
     FOREIGN KEY (`id`) REFERENCES `product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `order_config` (
-    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `heat_pump_id` BIGINT NOT NULL,
-    `cwu_tank_id` BIGINT,
-    `co_buffer_id` BIGINT,
-    `heating_circuit_id` BIGINT NOT NULL,
-    `circulation_id` BIGINT,
-    `wifi_module_id` BIGINT NOT NULL,
-    FOREIGN KEY (`heat_pump_id`) REFERENCES `product_heat_pump`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`cwu_tank_id`) REFERENCES `product_domestic_hot_water_tank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`co_buffer_id`) REFERENCES `product_central_heating_buffer_tank`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`heating_circuit_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`circulation_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`wifi_module_id`) REFERENCES `product_other`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE `order` (
+CREATE TABLE `contract` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     `building_info_id` BIGINT NOT NULL,
     `salesman_id` BIGINT NOT NULL,
     `client_id` BIGINT NOT NULL,
-    `order_config_id` BIGINT NOT NULL,
+    `material_cost` DECIMAL(10, 2) NOT NULL,
+    `labor_cost` DECIMAL(10, 2) NOT NULL,
+    `markup` DECIMAL(10, 2) NOT NULL,
+    `tax_rate` DECIMAL(10, 2) NOT NULL,
+    `margin` DECIMAL(10, 2) NOT NULL,
     `created_at` DATETIME NOT NULL,
     FOREIGN KEY (`building_info_id`) REFERENCES `building_info`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (`salesman_id`) REFERENCES `salesman`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (`order_config_id`) REFERENCES `order_config`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`client_id`) REFERENCES `client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE TABLE `contract_quantity_co_buffer` (
+    `product_id` BIGINT NOT NULL,
+    `contract_id` BIGINT NOT NULL,
+    `quantity` INT NOT NULL,
+    PRIMARY KEY (`product_id`, `contract_id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product_central_heating_buffer_tank`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`contract_id`) REFERENCES `contract`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `contract_quantity_cwu_tank` (
+    `product_id` BIGINT NOT NULL,
+    `contract_id` BIGINT NOT NULL,
+    `quantity` INT NOT NULL,
+    PRIMARY KEY (`product_id`, `contract_id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product_domestic_hot_water_tank`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`contract_id`) REFERENCES `contract`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `contract_quantity_heat_pump` (
+    `product_id` BIGINT NOT NULL,
+    `contract_id` BIGINT NOT NULL,
+    `quantity` INT NOT NULL,
+    PRIMARY KEY (`product_id`, `contract_id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product_heat_pump`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`contract_id`) REFERENCES `contract`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `contract_quantity_other` (
+    `product_id` BIGINT NOT NULL,
+    `contract_id` BIGINT NOT NULL,
+    `quantity` INT NOT NULL,
+    PRIMARY KEY (`product_id`, `contract_id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product_other`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`contract_id`) REFERENCES `contract`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO salesman (first_name, last_name, username, email, password_hash, `role`)
+VALUES ('foo', 'bar', 'user', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'HANDLOWIEC'),
+       ('admin', 'admin', 'admin', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'ADMIN');

@@ -15,7 +15,15 @@ import pl.gren.oze_app.model.db.enums.OtherProductType;
 @DiscriminatorValue("OtherProduct")
 @Table(name = "product_other")
 public class OtherProduct extends Product {
-    @Column(name = "other_product_type_id")
+    @Column(name = "type_id")
     private OtherProductType type;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        OtherProduct that = (OtherProduct) o;
+        return getType() == that.getType();
+    }
 }

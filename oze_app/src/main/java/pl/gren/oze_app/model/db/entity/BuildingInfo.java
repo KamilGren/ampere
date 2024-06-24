@@ -9,6 +9,7 @@ import pl.gren.oze_app.model.db.enums.*;
 
 import java.util.*;
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
@@ -105,7 +106,48 @@ public class BuildingInfo {
     private WaterUsageType waterUsageType;
 
     @OneToMany(mappedBy = "buildingInfo", fetch = FetchType.LAZY)
-    private Set<Order> orders = new HashSet<>();
+    private Set<Contract> contract = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "BuildingInfo{" +
+                "id=" + id +
+                ", location='" + location + '\'' +
+                ", locationTemperatureCelcius=" + locationTemperatureCelcius +
+                ", buildingType=" + buildingType +
+                ", lengthMeters=" + lengthMeters +
+                ", widthMeters=" + widthMeters +
+                ", heatedAreaSquareMeters=" + heatedAreaSquareMeters +
+                ", ceilingHeightMeters=" + ceilingHeightMeters +
+                ", heatingTemperatureCelcius=" + heatingTemperatureCelcius +
+                ", coolingTemperatureCelcius=" + coolingTemperatureCelcius +
+                ", hasBasement=" + hasBasement +
+                ", wallType=" + wallType +
+                ", wallInsulationType=" + wallInsulationType +
+                ", roofInsulationType=" + roofInsulationType +
+                ", floorInsulationType=" + floorInsulationType +
+                ", wallThicknessCm=" + wallThicknessCm +
+                ", wallInsulationThicknessCm=" + wallInsulationThicknessCm +
+                ", roofInsulationThicknessCm=" + roofInsulationThicknessCm +
+                ", floorInsulationThicknessCm=" + floorInsulationThicknessCm +
+                ", windowGlazingType=" + windowGlazingType +
+                ", windowCount=" + windowCount +
+                ", exteriorDoorCount=" + exteriorDoorCount +
+                ", ventilationType=" + ventilationType +
+                ", fuelType=" + fuelType +
+                ", fuelUsageAmount=" + fuelUsageAmount +
+                ", peopleCount=" + peopleCount +
+                ", waterUsageType=" + waterUsageType +
+                '}';
+    }
+
+    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
+    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
+
+    @Override
+    public int hashCode() {
+        return HASH_CODE;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -113,10 +155,5 @@ public class BuildingInfo {
         if (o == null || getClass() != o.getClass()) return false;
         BuildingInfo that = (BuildingInfo) o;
         return Objects.equals(this.id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, getClass());
     }
 }

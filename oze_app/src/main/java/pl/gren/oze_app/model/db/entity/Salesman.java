@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Getter
@@ -39,14 +40,14 @@ public class Salesman {
     private String role;
 
     @OneToMany(mappedBy = "salesman", fetch = FetchType.LAZY)
-    private Set<Order> orders = new HashSet<>();
+    private Set<Contract> contracts = new HashSet<>();
 
     @OneToMany(mappedBy = "salesman", fetch = FetchType.LAZY)
     private Set<Client> clients = new HashSet<>();
 
-    public void addOrder(Order order) {
-        order.setSalesman(this);
-        this.orders.add(order);
+    public void addContract(Contract contract) {
+        contract.setSalesman(this);
+        this.contracts.add(contract);
     }
 
     public void addClient(Client client) {
@@ -66,16 +67,19 @@ public class Salesman {
                 '}';
     }
 
+    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
+    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
+
+    @Override
+    public int hashCode() {
+        return HASH_CODE;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Salesman that = (Salesman) o;
         return Objects.equals(this.id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, getClass());
     }
 }

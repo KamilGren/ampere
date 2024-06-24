@@ -9,6 +9,7 @@ import pl.gren.oze_app.model.db.entity.embedded.TemperatureSpecification;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -71,4 +72,12 @@ public class HeatPump extends Product {
     })
     private TemperatureSpecification energyConsumption;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        HeatPump heatPump = (HeatPump) o;
+        return getHeatPumpType() == heatPump.getHeatPumpType() && Objects.equals(getIndoorUnit(), heatPump.getIndoorUnit()) && Objects.equals(getOutdoorUnit(), heatPump.getOutdoorUnit()) && Objects.equals(getRatedPowerKw(), heatPump.getRatedPowerKw()) && Objects.equals(getHeaterPowerKw(), heatPump.getHeaterPowerKw()) && Objects.equals(getScop(), heatPump.getScop()) && Objects.equals(getPowerPhases(), heatPump.getPowerPhases()) && Objects.equals(getWarrantyYears(), heatPump.getWarrantyYears()) && Objects.equals(getHeatingCapacity(), heatPump.getHeatingCapacity()) && Objects.equals(getEnergyConsumption(), heatPump.getEnergyConsumption());
+    }
 }

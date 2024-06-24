@@ -1,6 +1,5 @@
 package pl.gren.oze_app.model.db.repository.product;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

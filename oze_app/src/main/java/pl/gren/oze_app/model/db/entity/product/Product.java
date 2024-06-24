@@ -7,6 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
 import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
@@ -37,17 +38,31 @@ public abstract class Product {
     @Column(name = "discount")
     private BigDecimal discount;
 
+    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
+    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o instanceof Product p) {
-            return Objects.equals(this.id, p.id);
-        }
-        return false;
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", model='" + model + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", msrp=" + msrp +
+                ", discount=" + discount +
+                '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, getClass());
+        return HASH_CODE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getModel(), product.getModel()) && Objects.equals(getManufacturer(), product.getManufacturer()) && Objects.equals(getMsrp(), product.getMsrp()) && Objects.equals(getDiscount(), product.getDiscount());
     }
 }

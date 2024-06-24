@@ -14,7 +14,7 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 
     @Query(value = """
         SELECT * FROM client c
-        WHERE `id` = (SELECT client_id FROM `order` WHERE `building_info_id` = :buildingInfoId)
+        WHERE `id` = (SELECT client_id FROM `contract` WHERE `building_info_id` = :buildingInfoId)
     """, nativeQuery = true)
     Client findByBuildingInfoId(@Param("buildingInfoId") Long buildingInfoId);
 
@@ -25,7 +25,7 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
     Long findSalesmanIdById(Long clientId);
 
     @Query(value = """
-        SELECT building_info_id FROM `order` WHERE client_id = :clientId
+        SELECT building_info_id FROM `contract` WHERE client_id = :clientId
     """, nativeQuery = true)
     List<Long> findAllBuildingInfoIds(Long clientId);
 }
