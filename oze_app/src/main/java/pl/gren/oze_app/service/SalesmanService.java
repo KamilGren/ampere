@@ -27,6 +27,10 @@ public class SalesmanService {
         return salesmanRepository.findById(id);
     }
 
+    public Optional<Salesman> findByUsername(String username) {
+        return salesmanRepository.findByUsername(username);
+    }
+
     public Optional<Salesman> findByEmail(String email) {
         return salesmanRepository.findByEmail(email);
     }

@@ -26,6 +26,9 @@ public class Salesman {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "email")
     private String email;
 
@@ -57,8 +60,8 @@ public class Salesman {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

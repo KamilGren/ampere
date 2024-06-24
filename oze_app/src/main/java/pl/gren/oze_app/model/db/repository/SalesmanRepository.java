@@ -12,4 +12,5 @@ public interface SalesmanRepository extends CrudRepository<Salesman, Long> {
     List<Salesman> findAll();
     Optional<Salesman> findByFirstName(String name);
     Optional<Salesman> findByEmail(String email);
+    Optional<Salesman> findByUsername(String username);
 }

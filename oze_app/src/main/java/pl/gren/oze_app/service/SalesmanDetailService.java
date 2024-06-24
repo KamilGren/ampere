@@ -17,11 +17,11 @@ public class SalesmanDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Salesman> salesman = salesmanService.findByName(username);
+        Optional<Salesman> salesman = salesmanService.findByUsername(username);
         if (salesman.isPresent()) {
             Salesman salesmanObj = salesman.get();
             return org.springframework.security.core.userdetails.User.builder()
-                    .username(salesmanObj.getFirstName() + " " + salesmanObj.getLastName())
+                    .username(salesmanObj.getUsername())
                     .password(salesmanObj.getPasswordHash())
                     .roles(getRoles(salesmanObj))
                     .build();
