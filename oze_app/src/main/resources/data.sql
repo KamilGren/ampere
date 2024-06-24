@@ -299,3 +299,44 @@ VALUES
 INSERT INTO salesman (first_name, last_name, username, email, password_hash, `role`)
 VALUES ('foo', 'bar', 'user', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'HANDLOWIEC'),
        ('admin', 'admin', 'admin', 'foobar@gmail.com', '$2a$10$StYjK5xVUax5oo1uc5ryl.FvsUcz08yFbp7gvzx/AfLsyWGXseiiG', 'ADMIN');
+
+INSERT INTO `client`
+    (`name`, `address`, `note`, `phone`, `created_at`, `salesman_id`)
+VALUES
+    ('TestClient1', '123 Main Street', 'A testificate', '1234567', NOW(), '1'),
+    ('TestClient2', '321 Main Street', 'B testificate', '1862754', NOW(), '1'),
+    ('TestClient3', '333 Adams Street', 'C testificate', '23456239', NOW(), '2'),
+    ('TestClient4', '444 Washington Street', 'C testificate', '2378523', NOW(), '2');
+
+INSERT INTO `building_info` (
+    `client_id`,
+    `location`,
+    `location_temperature_c`,
+    `building_type_id`,
+    `length_m`,
+    `width_m`,
+    `heated_area_m2`,
+    `ceiling_height_m`,
+    `heating_temperature_c`,
+    `cooling_temperature_c`,
+    `has_basement`,
+    `wall_type_id`,
+    `wall_insulation_type_id`,
+    `roof_insulation_type_id`,
+    `floor_insulation_type_id`,
+    `wall_thickness_cm`,
+    `wall_insulation_thickness_cm`,
+    `roof_insulation_thickness_cm`,
+    `floor_insulation_thickness_cm`,
+    `window_glazing_type_id`,
+    `window_count`,
+    `exterior_door_count`,
+    `ventilation_type_id`,
+    `fuel_type_id`,
+    `fuel_usage_amount`,
+    `people_count`,
+    `water_usage_type_id`
+) VALUES
+      (1, 'Poland', '-20.5', 1, '20.0', '30.0', '550.0', '3.0', '17.0', '20.0', true, 1, 2, 3, 4, '1.0', '1.5', '2.0', '2.5', 2, 6, 2, 1, 3, '900.0', 5, 2),
+      (1, 'Poland2', '-21.5', 1, '15.0', '35.0', '570.0', '2.7', '18.0', '21.0', false, 2, 4, 3, 4, '1.4', '0.8', '0.5', '1.5', 2, 4, 1, 2, 2, '800.0', 4, 3),
+      (2, 'Poland3', '-19.5', 1, '25.0', '36.0', '580.0', '3.3', '19.0', '22.0', true, 3, 3, 2, 1, '1.1', '1.8', '2.2', '1.3', 2, 8, 3, 3, 4, '500.0', 3, 1);
