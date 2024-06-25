@@ -7,7 +7,6 @@ function tryDeleteCurrentUrl(successfulRedirect="/") {
         url: window.location.href,
         type: 'DELETE',
         success: function(result) {
-            alert("Successfully deleted!");
             window.location.href = successfulRedirect;
         },
         error: function(xhr, status, error) {
