@@ -1,4 +1,4 @@
-package pl.gren.oze_app.exceptions;
+package pl.gren.oze_app.exception;
 
 public class BuildingRequirementsNotFoundException extends RuntimeException {
 

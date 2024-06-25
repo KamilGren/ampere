@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Edit</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container-sm mt-2">
+        <h1>Edit Salesman</h1>
+        <form th:action="@{/salesmen/{id}/edit(id=${salesman.id})}" method="post">
+            <div class="col-md-12">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" th:value="${salesman.getFirstName()}" name="firstName" class="form-control" id="firstName" required />
+            </div>
+            <div class="col-md-12">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" th:value="${salesman.getLastName()}" name="lastName" class="form-control" id="lastName" required />
+            </div>
+            <div class="col-md-12">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" th:value="${salesman.getUsername()}" name="username" class="form-control" id="username" required />
+            </div>
+            <div class="col-md-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" th:value="${salesman.getEmail()}" name="email" class="form-control" id="email" required />
+            </div>
+            <div class="col-md-12">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role">
+                    <option value="1" th:selected="${!isAdminSelected}">Salesman</option>
+                    <option value="2" th:selected="${isAdminSelected}">Admin</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

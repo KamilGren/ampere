@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title th:text="${salesman.getFullName()}"></title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container mt-2">
+        <div class="d-flex align-items-center">
+            <h1 th:text="|${salesman.getFullName()}|">John Smith</h1>
+            <a class="pl-3" th:href="@{/salesmen/{id}/edit(id=${salesman.id})}">
+                <svg th:replace="~{fragments/svg :: edit-icon(20)}" ></svg>
+            </a>
+            <div class="pl-3 c-pointer" onclick="tryDeleteCurrentUrl('/salesmen')">
+                <svg th:replace="~{fragments/svg :: trash-can(20)}" ></svg>
+            </div>
+        </div>
+
+        <div class="individual-details mt-1">
+            <div th:text="|ID: ${salesman.getId()}|"></div>
+            <div th:text="|Username: ${salesman.getUsername()}|"></div>
+            <div th:text="|Email: ${salesman.getEmail()}|"></div>
+            <div th:text="|Role: ${salesman.getRole()}|"></div>
+        </div>
+
+        <h2 class="mt-3">Clients</h2>
+
+        <table class="table table-light table-bordered mt-1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="client : ${clients}">
+                <td>
+                    <a th:href="|/clients/${client.getId()}|" th:text="${client.getId()}">1</a>
+                </td>
+                <td th:text="${client.getName()}">John Smith</td>
+                <td th:text="${client.getAddress()}">123 Main Street</td>
+                <td th:text="${client.getPhone()}">1-234-567-8910</td>
+                <td th:text="${client.getCreatedAt()}">1/2/3 4:56</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <h2 class="mt-3">Contracts</h2>
+
+        <table class="table table-light table-bordered mt-1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Client</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="contract : ${contracts}">
+                <td>
+                    <a th:href="|/contracts/${contract.getId()}|" th:text="${contract.getId()}">1</a>
+                </td>
+                <td th:text="${contract.getName()}">John Smith</td>
+                <td th:text="${contract.getClient().getName()}">123 Main Street</td>
+                <td th:text="${contract.getCreatedAt()}">1/2/3 4:56</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

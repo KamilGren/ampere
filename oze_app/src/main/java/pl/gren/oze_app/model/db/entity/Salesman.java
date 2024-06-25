@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 
 @Getter
@@ -55,6 +55,10 @@ public class Salesman {
         this.clients.add(client);
     }
 
+    public String getFullName() {
+        return firstName + ' ' + lastName;
+    }
+
     @Override
     public String toString() {
         return "Salesman{" +
@@ -67,12 +71,9 @@ public class Salesman {
                 '}';
     }
 
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 15;
     }
 
     @Override

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Create</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container-sm mt-2">
+        <h1>Create Salesman</h1>
+        <form th:action="@{/salesmen/create}" method="post">
+            <div class="col-md-12">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" name="firstName" class="form-control" id="firstName" required />
+            </div>
+            <div class="col-md-12">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" name="lastName" class="form-control" id="lastName" required />
+            </div>
+            <div class="col-md-12">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" id="username" required />
+            </div>
+            <div class="col-md-12">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" id="email" required />
+            </div>
+            <div class="col-md-12">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="password" required />
+            </div>
+            <div class="col-md-12">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" name="role">
+                    <option value="1" selected>Salesman</option>
+                    <option value="2">Admin</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

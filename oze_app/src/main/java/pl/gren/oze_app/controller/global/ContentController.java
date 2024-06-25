@@ -1,4 +1,4 @@
-package pl.gren.oze_app.controller;
+package pl.gren.oze_app.controller.global;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

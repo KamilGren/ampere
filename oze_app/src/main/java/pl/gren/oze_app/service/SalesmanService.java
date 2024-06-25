@@ -5,6 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.db.entity.Salesman;
 import pl.gren.oze_app.model.db.repository.SalesmanRepository;
+import pl.gren.oze_app.model.dto.SalesmanCreateDto;
+import pl.gren.oze_app.model.dto.SalesmanUpdateDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,9 @@ import java.util.Optional;
 public class SalesmanService {
 
     private final SalesmanRepository salesmanRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public SalesmanService(SalesmanRepository salesmanRepository) {
@@ -47,4 +52,32 @@ public class SalesmanService {
         return salesmanRepository.save(salesman);
     }
 
+    public Salesman insert(SalesmanCreateDto salesmanDto) {
+        // TODO validation somewhere or with @Valid
+        Salesman salesman = new Salesman();
+        salesman.setFirstName(salesmanDto.getFirstName());
+        salesman.setLastName(salesmanDto.getLastName());
+        salesman.setUsername(salesmanDto.getUsername());
+        salesman.setEmail(salesmanDto.getEmail());
+        salesman.setPasswordHash(passwordEncoder.encode(salesmanDto.getPassword()));
+        salesman.setRole(roleIdToString(salesmanDto.getRole()));
+        return salesmanRepository.save(salesman);
+    }
+
+    private String roleIdToString(int id) {
+        return switch (id) {
+            case 1 -> "HANDLOWIEC";
+            case 2 -> "ADMIN";
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
+    public void update(Salesman salesman, SalesmanUpdateDto salesmanDto) {
+        salesman.setFirstName(salesmanDto.getFirstName());
+        salesman.setLastName(salesmanDto.getLastName());
+        salesman.setUsername(salesmanDto.getUsername());
+        salesman.setEmail(salesmanDto.getEmail());
+        salesman.setRole(roleIdToString(salesmanDto.getRole()));
+        salesmanRepository.save(salesman);
+    }
 }

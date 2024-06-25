@@ -10,7 +10,7 @@ import pl.gren.oze_app.model.db.entity.embedded.ProductQuantityId;
 import pl.gren.oze_app.model.db.entity.product.OtherProduct;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -32,9 +32,6 @@ public class OtherProductQuantity {
 
     private Integer quantity;
 
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
     @Override
     public String toString() {
         return "OtherProductQuantity{" +
@@ -46,7 +43,7 @@ public class OtherProductQuantity {
 
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 4;
     }
 
     @Override

@@ -19,6 +19,11 @@ public class OtherProduct extends Product {
     private OtherProductType type;
 
     @Override
+    public int hashCode() {
+        return 8;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

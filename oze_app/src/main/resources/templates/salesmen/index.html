@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Salesmen</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container">
+        <h1>All Salesmen</h1>
+
+        <table class="table table-light table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="salesman : ${salesmen}">
+                <td>
+                    <a th:href="|salesmen/${salesman.getId()}|" th:text="${salesman.getId()}">1</a>
+                </td>
+                <td th:text="${salesman.getFirstName()}">John</td>
+                <td th:text="${salesman.getLastName()}">Smith</td>
+                <td th:text="${salesman.getUsername()}">jsmith</td>
+                <td th:text="${salesman.getEmail()}">jsmith@example.com</td>
+                <td th:text="${salesman.getRole()}">Salesman</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a href="salesmen/create" class="btn btn-primary">Create Salesman</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

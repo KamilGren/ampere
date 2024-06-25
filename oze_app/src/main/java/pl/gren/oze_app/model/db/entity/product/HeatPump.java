@@ -73,6 +73,11 @@ public class HeatPump extends Product {
     private TemperatureSpecification energyConsumption;
 
     @Override
+    public int hashCode() {
+        return 7;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

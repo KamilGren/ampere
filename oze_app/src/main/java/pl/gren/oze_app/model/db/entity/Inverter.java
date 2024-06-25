@@ -7,7 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -116,11 +116,8 @@ public class Inverter {
         return Objects.equals(this.id, that.id);
     }
 
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 14;
     }
 }

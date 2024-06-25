@@ -7,7 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 import java.util.*;
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -37,10 +37,7 @@ public abstract class Product {
 
     @Column(name = "discount")
     private BigDecimal discount;
-
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
+    
     @Override
     public String toString() {
         return "Product{" +
@@ -55,7 +52,7 @@ public abstract class Product {
 
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 9;
     }
 
     @Override

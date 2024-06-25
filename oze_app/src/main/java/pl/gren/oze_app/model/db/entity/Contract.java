@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -84,18 +84,16 @@ public class Contract {
     private LocalDateTime createdAt;
 
     @Override
+    public int hashCode() {
+        return 12;
+    }
+    
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contract that = (Contract) o;
         return Objects.equals(this.id, that.id);
     }
-
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
-    @Override
-    public int hashCode() {
-        return HASH_CODE;
-    }
+    
 }

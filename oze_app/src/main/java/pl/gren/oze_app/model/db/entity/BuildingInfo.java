@@ -9,7 +9,7 @@ import pl.gren.oze_app.model.db.enums.*;
 
 import java.util.*;
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -141,12 +141,9 @@ public class BuildingInfo {
                 '}';
     }
 
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 10;
     }
 
     @Override

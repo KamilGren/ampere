@@ -11,7 +11,7 @@ import pl.gren.oze_app.model.db.entity.embedded.ProductQuantityId;
 import pl.gren.oze_app.model.db.entity.product.DomesticHotWaterTank;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Getter
 @Setter
@@ -41,12 +41,9 @@ public class DomesticHotWaterTankQuantity {
                 '}';
     }
 
-    private static AtomicInteger RANDOM_HASH_CODE = new AtomicInteger(1);
-    private final int HASH_CODE = RANDOM_HASH_CODE.getAndIncrement();
-
     @Override
     public int hashCode() {
-        return HASH_CODE;
+        return 2;
     }
 
     @Override
