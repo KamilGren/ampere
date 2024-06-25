@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Buildings</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container">
+        <h1>All Buildings</h1>
+
+        <table class="table table-light table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Area</th>
+                <th>Ceiling Height</th>
+                <th>Basement</th>
+                <th>Windows</th>
+                <th>Doors</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="building : ${rows}">
+                <td>
+                    <a th:href="|/buildings/${building.getId()}|" th:text="${building.getId()}">1</a>
+                </td>
+                <td>
+                    <a th:href="|/clients/${building.getClient().getId()}|"
+                       th:text="${building.getClient().getName()}">
+                        ClientName
+                    </a>
+                </td>
+                <td th:text="${building.getLocation()}">Poland</td>
+                <td th:text="${building.getBuildingType().getName()}">Single Story</td>
+                <td th:text="|${building.getArea()}| + 'm²'">123m²</td>
+                <td th:text="|${building.getCeilingHeightMeters()}m|">3m</td>
+                <td th:text="|${building.getHasBasement() ? 'Yes' : 'No'}|">No</td>
+                <td th:text="|${building.getWindowCount()}|">6</td>
+                <td th:text="|${building.getExteriorDoorCount()}|">2</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a href="/buildings/create" class="btn btn-primary">New Building</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
