@@ -36,7 +36,7 @@ public class Client {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
 
@@ -45,17 +45,6 @@ public class Client {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<BuildingInfo> buildings = new HashSet<>();
-
-
-    public List<BuildingInfo> getBuildings() {
-        List<BuildingInfo> result = new ArrayList<>();
-        for (Contract c : contracts) {
-            if (c.getBuildingInfo() != null) {
-                result.add(c.getBuildingInfo());
-            }
-        }
-        return result;
-    }
 
     @Override
     public String toString() {

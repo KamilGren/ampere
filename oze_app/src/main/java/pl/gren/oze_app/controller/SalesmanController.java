@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.exception.Error404;
 import pl.gren.oze_app.model.db.entity.Salesman;
-import pl.gren.oze_app.model.dto.SalesmanCreateDto;
-import pl.gren.oze_app.model.dto.SalesmanUpdateDto;
+import pl.gren.oze_app.model.dto.salesman.SalesmanCreateDto;
+import pl.gren.oze_app.model.dto.salesman.SalesmanUpdateDto;
 import pl.gren.oze_app.service.SalesmanService;
 
 import java.util.List;

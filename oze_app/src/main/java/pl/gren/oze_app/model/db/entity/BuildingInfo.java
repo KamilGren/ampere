@@ -108,6 +108,10 @@ public class BuildingInfo {
     @OneToMany(mappedBy = "buildingInfo", fetch = FetchType.LAZY)
     private Set<Contract> contract = new HashSet<>();
 
+    public BigDecimal getArea() {
+        return this.lengthMeters.multiply(this.widthMeters);
+    }
+
     @Override
     public String toString() {
         return "BuildingInfo{" +

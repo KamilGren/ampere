@@ -1,4 +1,4 @@
-package pl.gren.oze_app.model.dto;
+package pl.gren.oze_app.model.dto.salesman;
 
 import lombok.Data;
 

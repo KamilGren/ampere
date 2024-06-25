@@ -5,8 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.db.entity.Salesman;
 import pl.gren.oze_app.model.db.repository.SalesmanRepository;
-import pl.gren.oze_app.model.dto.SalesmanCreateDto;
-import pl.gren.oze_app.model.dto.SalesmanUpdateDto;
+import pl.gren.oze_app.model.dto.salesman.SalesmanCreateDto;
+import pl.gren.oze_app.model.dto.salesman.SalesmanUpdateDto;
 
 import java.util.List;
 import java.util.Optional;

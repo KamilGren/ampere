@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Salesmen</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container">
+        <h1>All Clients</h1>
+
+        <table class="table table-light table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Note</th>
+                <th>Created</th>
+                <th>Salesman</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="client : ${rows}">
+                <td>
+                    <a th:href="|clients/${client.getId()}|" th:text="${client.getId()}">1</a>
+                </td>
+                <td th:text="${client.getName()}">John Smith</td>
+                <td th:text="${client.getAddress()}">123 Main Street</td>
+                <td th:text="${client.getPhone()}">123-456-7890</td>
+                <td th:text="${client.getNote()}">Cool guy</td>
+                <td th:text="${client.getCreatedAt()}"></td>
+                <td>
+                    <a th:href="@{/salesmen/{id}(id=${client.getSalesman().getId()})}"
+                       th:text="${client.getSalesman().getFullName()}">
+                        Billy Mays
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a href="/clients/create" class="btn btn-primary">New Client</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
