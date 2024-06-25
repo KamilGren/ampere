@@ -19,9 +19,10 @@ import java.util.Optional;
 @RequestMapping("/clients")
 public class ClientController {
 
-    @Autowired private ClientService clientService;
-    @Autowired private SalesmanService salesmanService;
+    private final ClientService clientService;
+    private final SalesmanService salesmanService;
 
+    @Autowired
     public ClientController(ClientService clientService, SalesmanService salesmanService) {
         this.clientService = clientService;
         this.salesmanService = salesmanService;
