@@ -1,6 +1,9 @@
 package pl.gren.oze_app.model.db.enums;
 
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +11,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum BuildingType {
+public enum BuildingType implements CustomJson, Identity32 {
     SINGLE_STORY(1, "Single Story", 1.0, 1.1),
     SINGLE_STORY_WITH_USABLE_ATTIC(2, "Single Story (Usable Attic)", 1.2, 1.5),
     SINGLE_STORY_WITH_UNUSABLE_ATTIC(3, "Single Story (Unusable Attic)", 1.2, 1.1),
@@ -39,6 +42,15 @@ public enum BuildingType {
         this.name = name;
         this.scalar1 = scalar1;
         this.scalar2 = scalar2;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name,
+                "scalar1", scalar1,
+                "scalar2", scalar2
+        );
     }
 
     public int getId() {

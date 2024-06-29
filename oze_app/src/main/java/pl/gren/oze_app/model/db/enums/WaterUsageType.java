@@ -1,5 +1,8 @@
 package pl.gren.oze_app.model.db.enums;
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum WaterUsageType {
+public enum WaterUsageType implements CustomJson, Identity32 {
     SHOWER(1, "Shower", 50),
     BATH(2, "Bath", 60),
     SHOWER_AND_BATH(3, "Shower and Bath", 70);
@@ -34,6 +37,14 @@ public enum WaterUsageType {
         this.id = id;
         this.name = name;
         this.scalar = scalar;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name,
+                "scalar", scalar
+        );
     }
 
     public int getId() {

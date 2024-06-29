@@ -1,5 +1,8 @@
 package pl.gren.oze_app.model.db.enums;
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum WallType {
+public enum WallType implements CustomJson, Identity32 {
     CERAMIC_BRICK(1, "Ceramic Brick", 0.77),
     CONCRETE_BLOCK(2, "Concrete Block", 0.5),
     CERAMIC_BLOCK(3, "Ceramic Block", 0.5),
@@ -42,6 +45,14 @@ public enum WallType {
         this.id = id;
         this.name = name;
         this.scalar = scalar;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name,
+                "scalar", scalar
+        );
     }
 
     public int getId() {

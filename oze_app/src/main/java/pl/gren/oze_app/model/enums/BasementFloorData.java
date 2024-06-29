@@ -1,9 +1,6 @@
 package pl.gren.oze_app.model.enums;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -60,6 +57,15 @@ public enum BasementFloorData {
             Function.identity()
     ));
 
+    public static Map<String, Map<Integer, List<Double>>> toJson() {
+        Map<String, Map<Integer, List<Double>>> result = new LinkedHashMap<>();
+        Map<Integer, List<Double>> withBasement = WITH_ID_MAP.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getData()));
+        Map<Integer, List<Double>> withoutBasement = WITHOUT_ID_MAP.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getData()));
+        result.put("with", withBasement);
+        result.put("without", withoutBasement);
+        return result;
+    }
+
     public static List<BasementFloorData> getTypes() {
         return TYPES;
     }
@@ -114,5 +120,9 @@ public enum BasementFloorData {
 
     public double getAtQuarter() {
         return atQuarter;
+    }
+
+    private List<Double> getData() {
+        return List.of(this.withoutInsulation, this.atQuarter, this.atHalf, this.at1, this.at2);
     }
 }

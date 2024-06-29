@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en" layout:decorate="~{layout/public}" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Building</title>
+</head>
+<body>
+<main layout:fragment="_main">
+    <div class="container mt-2">
+        <div class="d-flex align-items-center">
+            <h1 th:text="|Building Info | + '(#' + ${building.getId()} + ')'">Building Info (#1)</h1>
+            <div class="pl-3 c-pointer" onclick="tryDeleteCurrentUrl('/buildings')">
+                <svg th:replace="~{fragments/svg :: trash-can(20)}" ></svg>
+            </div>
+        </div>
+
+        <div class="individual-details mt-1">
+            <div class="d-flex align-items-center">
+                <span>Client:&nbsp</span>
+                <a th:href="@{/clients/{id}(id=${client.id})}" th:text="${client.getName()}">John Smith</a>
+            </div>
+        </div>
+
+
+        <h2 class="mt-3">Info Table</h2>
+
+        <form id="infoForm">
+        <table class="table table-bordered table-light table-building-info">
+            <colgroup>
+                <col style="width: 10%;">
+                <col style="width: 25%;">
+                <col style="width: 15%;">
+                <col style="width: 15%;">
+                <col style="width: 15%;">
+                <col style="width: 15%;">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th rowspan="1" class="dead-center">C.O.</th>
+                <th class="header">Location</th>
+                <td colspan="3">
+                    <input onchange="App.updateText(this)" th:value="${building.location}" type="text" class="form-control" id="location" name="location">
+                </td>
+                <td>
+                    <div class="input-group">
+                        <input onchange="App.updateInt(this)" th:value="${building.locationTemperatureCelcius.intValue()}" type="text" class="form-control rhs" id="locationTemperature" name="locationTemperature" aria-describedby="basic-addon0">
+                        <span class="input-group-text" id="basic-addon0">°C</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="13" class="dead-center category-computation" id="co_energy">Energy 1</th>
+                <th class="header">Building Type</th>
+                <td colspan="3">
+                    <select onchange="App.updateInt(this)" class="form-select center" name="buildingType" id="buildingType">
+                        <option th:each="type : ${buildingTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.getBuildingType().id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="unused"></td>
+            </tr>
+            <tr>
+                <th class="header">External Dimensions</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getLengthMeters()}" type="text" class="form-control rhs" id="x" name="x" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1">m</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getWidthMeters()}" type="text" class="form-control rhs" id="y" name="y" aria-describedby="basic-addon2">
+                        <span class="input-group-text" id="basic-addon2">m</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" id="buildingArea" aria-describedby="basic-addon3">
+                        <span class="input-group-text" id="basic-addon3">m²</span>
+                    </div>
+                </td>
+                <td colspan="1" class="unused"></td>
+            </tr>
+
+            <tr>
+                <th class="header">Heated Area</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateInt(this)" th:value="${building.heatedAreaSquareMeters.intValue()}" type="text" class="form-control rhs" id="heatedArea" name="heatedArea" aria-describedby="basic-addon4">
+                        <span class="input-group-text" id="basic-addon4">m²</span>
+                    </div>
+                </td>
+                <td colspan="1" class="unused"></td>
+                <td colspan="2" rowspan="4" class="unused"></td>
+            </tr>
+            <tr>
+                <th class="header">Ceiling Height</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getCeilingHeightMeters()}" type="text" class="form-control rhs" id="ceilingHeight" name="ceilingHeight" aria-describedby="basic-addon5">
+                        <span class="input-group-text" id="basic-addon5">m</span>
+                    </div>
+                </td>
+                <td colspan="1" class="secondary vbot">Starts at:</td>
+            </tr>
+            <tr>
+                <th class="header">Heating Room Temp</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.heatingTemperatureCelcius}" type="text" class="form-control rhs" id="heatingTemperature" name="heatingTemperature" aria-describedby="basic-addon6">
+                        <span class="input-group-text" id="basic-addon6">°C</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" id="heatingTemperatureStart" aria-describedby="basic-addon7">
+                        <span class="input-group-text" id="basic-addon7">°C</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Cooling Room Temp</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.heatingTemperatureCelcius}" type="text" class="form-control rhs" id="coolingTemperature" name="coolingTemperature" aria-describedby="basic-addon8">
+                        <span class="input-group-text" id="basic-addon8">°C</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" id="coolingTemperatureStart" aria-describedby="basic-addon9">
+                        <span class="input-group-text" id="basic-addon9">°C</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Has Basement</th>
+                <td colspan="1">
+                    <select onchange="App.updateBool(this)" class="form-select" name="hasBasement" id="hasBasement">
+                        <option value="1" th:selected="${building.hasBasement}">Yes</option>
+                        <option value="0" th:selected="${!building.hasBasement}">No</option>
+                    </select>
+                </td>
+                <td colspan="2" class="unused"></td>
+                <td colspan="1" class="vbot">Losses</td>
+            </tr>
+            <tr>
+                <th class="header">Walls</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" name="wallType" id="wallType">
+                        <option th:each="type : ${wallTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.wallType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary vcenter">Thickness</td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getWallThicknessCm()}" type="text" class="form-control rhs" name="wallThickness" id="wallThickness" aria-describedby="basic-addon10">
+                        <span class="input-group-text" id="basic-addon10">cm</span>
+                    </div>
+                </td>
+                <td rowspan="2" class="dead-center">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="l_wall" aria-describedby="basic-addon11">
+                        <span class="input-group-text" id="basic-addon11">W</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Wall Insulation</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" name="wallInsulationType" id="wallInsulationType">
+                        <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.wallInsulationType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary vcenter">Thickness</td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getWallInsulationThicknessCm()}" type="text" class="form-control rhs" id="wallInsulationThickness" name="wallInsulationThickness" aria-describedby="basic-addon12">
+                        <span class="input-group-text" id="basic-addon12">cm</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Roof Insulation</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" name="roofInsulationType" id="roofInsulationType">
+                        <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.roofInsulationType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary vcenter">Thickness</td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getRoofInsulationThicknessCm()}" type="text" class="form-control rhs" id="roofInsulationThickness" name="roofInsulationThickness" aria-describedby="basic-addon13">
+                        <span class="input-group-text" id="basic-addon13">cm</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" id="l_roof" value="" aria-describedby="basic-addon14">
+                        <span class="input-group-text" id="basic-addon14">W</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Floor Insulation</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" id="floorInsulationType" name="floorInsulationType">
+                        <option th:each="type : ${insulationTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.floorInsulationType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary vcenter">Thickness</td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getFloorInsulationThicknessCm()}" type="text" class="form-control rhs" name="floorInsulationThickness" id="floorInsulationThickness" aria-describedby="basic-addon15">
+                        <span class="input-group-text" id="basic-addon15">cm</span>
+                    </div>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="l_floor" aria-describedby="basic-addon16">
+                        <span class="input-group-text" id="basic-addon16">W</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">Window Type</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" id="windowGlazingType" name="windowGlazingType">
+                        <option th:each="type : ${windowGlazingTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.windowGlazingType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary">Count</td>
+                <td colspan="1">
+                    <input onchange="App.updateInt(this)" th:value="${building.windowCount}" type="number" class="form-control rhs" id="windowCount" name="windowCount">
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="l_window" aria-describedby="basic-addon17">
+                        <span class="input-group-text" id="basic-addon17">W</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="header">External Doors</th>
+                <td colspan="1" class="unused"></td>
+                <td colspan="1" class="secondary">Count</td>
+                <td colspan="1">
+                    <input onchange="App.updateInt(this)" th:value="${building.exteriorDoorCount}" type="number" class="form-control rhs" name="doorCount" id="doorCount">
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="l_door" aria-describedby="basic-addon18">
+                        <span class="input-group-text" id="basic-addon18">W</span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="dead-center">Total</th>
+                <th class="header">Ventilation</th>
+                <td colspan="3">
+                    <select onchange="App.updateInt(this)" class="form-select" name="ventType" id="ventType">
+                        <option th:each="type : ${ventTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.ventilationType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="l_vent" aria-describedby="basic-addon19">
+                        <span class="input-group-text" id="basic-addon19">W</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th rowspan="2" class="dead-center category-computation" id="generated_energy">Energy 2</th>
+                <th class="header">Fuel Type</th>
+                <td colspan="1" class="dead-center">
+                    <select onchange="App.updateInt(this)" class="form-select" name="fuelType" id="fuelType">
+                        <option th:each="type : ${fuelTypes}"
+                                th:value="${type.id}"
+                                th:text="${type.name}"
+                                th:selected="${type.id == building.fuelType.id}"
+                        ></option>
+                    </select>
+                </td>
+                <td colspan="1" class="secondary dead-center">Efficiency</td>
+                <td colspan="1" class="dead-center">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="fuel_efficiency" aria-describedby="basic-addon20">
+                        <span class="input-group-text" id="basic-addon20">%</span>
+                    </div>
+                </td>
+                <td colspan="1" class="unused"></td>
+            </tr>
+            <tr>
+                <th class="header">Fuel Amount</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input onchange="App.updateFloat(this)" th:value="${building.getFuelUsageAmount()}" type="text" class="form-control rhs" value="" id="fuelAmount" name="fuelAmount" aria-describedby="basic-addon21">
+                        <span class="input-group-text" id="basic-addon21">m<sup>3</sup></span>
+                    </div>
+                </td>
+                <td colspan="1" class="secondary">Energy Value</td>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="" id="energy_value" aria-describedby="basic-addon22">
+                        <span class="input-group-text" id="basic-addon22">KwH/m<sup>3</sup></span>
+                    </div>
+                </td>
+                <td class="unused"></td>
+            </tr>
+
+            <tr>
+                <th>CWU</th>
+                <td colspan="5" class="unused"></td>
+            </tr>
+
+            <tr>
+                <th rowspan="3" class="dead-center category-computation" id="cwu_energy">Energy 3</th>
+                <th class="header">Number of People</th>
+                <td colspan="1">
+                    <input onchange="App.updateInt(this)" th:value="${building.getPeopleCount()}" type="number" class="form-control rhs" name="peopleCount" id="peopleCount">
+                </td>
+                <td colspan="3" class="unused"></td>
+            </tr>
+            <tr>
+                <th class="header">Water Usage</th>
+                <td colspan="1">
+                    <select onchange="App.updateInt(this)" class="form-select" id="waterUsageType" name="waterUsageType">
+                        <option th:each="type : ${waterUsageTypes}" th:value="${type.id}" th:text="${type.name}" th:selected="${building.waterUsageType.id == type.id}"></option>
+                    </select>
+                </td>
+                <td colspan="3" class="unused"></td>
+            </tr>
+            <tr>
+                <th class="header">Capacity</th>
+                <td colspan="1">
+                    <div class="input-group">
+                        <input disabled="" type="text" class="form-control rhs" value="100" id="water_cap" aria-describedby="basic-addon23">
+                        <span class="input-group-text" id="basic-addon23">L</span>
+                    </div>
+                </td>
+                <td colspan="3" class="unused"></td>
+            </tr>
+            </tbody>
+        </table>
+        </form>
+        <input type="hidden" th:value="${building.id}" id="hiddenId" />
+        <button class="btn btn-primary" onclick="App.save()">Save</button>
+
+        <h2 class="mt-3">Contracts</h2>
+
+        <table class="table table-light table-bordered mt-1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="contract : ${contracts}">
+                <td>
+                    <a th:href="|/contracts/${contract.getId()}|" th:text="${contract.getId()}">1</a>
+                </td>
+                <td th:text="${contract.getName()}">John Smith</td>
+                <td th:text="${contract.getCreatedAt()}">1/2/3 4:56</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+<th:block layout:fragment="_end">
+    <script th:src="@{/js/BuildingSpreadsheet.js}"></script>
+</th:block>
+</body>
+</html>

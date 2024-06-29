@@ -1,5 +1,8 @@
 package pl.gren.oze_app.model.db.enums;
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum VentilationType {
+public enum VentilationType implements CustomJson, Identity32 {
     GRAVITY(1, "Gravity"),
     MECHANICAL(2, "Mechanical"),
     MECHANICAL_WITH_HEAT_RECOVERY(3, "Mechanical with Heat Recovery");
@@ -32,6 +35,13 @@ public enum VentilationType {
     VentilationType(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name
+        );
     }
 
     public int getId() {

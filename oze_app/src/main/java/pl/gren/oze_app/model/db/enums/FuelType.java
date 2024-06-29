@@ -1,5 +1,8 @@
 package pl.gren.oze_app.model.db.enums;
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum FuelType {
+public enum FuelType implements CustomJson, Identity32 {
     NATURAL_GAS(1, "Natural Gas", "m^3", 95, 10d),
     LPG(2, "LPG (liquefied petroleum gas)", "L", 95, 6.85),
     FUEL_OIL(3, "Fuel Oil", "L", 90, 10),
@@ -41,6 +44,16 @@ public enum FuelType {
         this.unit = unit;
         this.efficiencyPercentage = efficiencyPercentage;
         this.energyAmountKwh = energyAmountKwh;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name,
+                "unit", unit,
+                "efficiencyPercentage", efficiencyPercentage,
+                "energyAmountKwh", energyAmountKwh
+        );
     }
 
     public int getId() {

@@ -1,5 +1,8 @@
 package pl.gren.oze_app.model.db.enums;
 
+import pl.gren.oze_app.model.CustomJson;
+import pl.gren.oze_app.model.Identity32;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum InsulationType {
+public enum InsulationType implements CustomJson, Identity32 {
     STYROFOAM(1, "Styrofoam", 0.031),
     GRAPHITE_STYROFOAM(2, "Graphite Styrofoam", 0.029),
     XPS(3, "XPS", 0.045),
@@ -36,6 +39,14 @@ public enum InsulationType {
         this.id = id;
         this.name = name;
         this.scalar = scalar;
+    }
+
+    public Map<String, Object> toJson() {
+        return Map.of(
+                "id", id,
+                "name", name,
+                "scalar", scalar
+        );
     }
 
     public int getId() {

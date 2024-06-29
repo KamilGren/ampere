@@ -41,3 +41,43 @@
 .pl-10 {
     padding-left: 5rem !important;
 }
+
+.table-building-info {
+    text-align: center;
+    & .dead-center {
+        vertical-align: middle;
+        text-align: center;
+    }
+    & .category-computation {
+        background-color: #FF7C80;
+    }
+    & .header {
+        background-color: #18192D;
+        color: white;
+        vertical-align: middle;
+    }
+    & .unused {
+        background-color: #E7E6E6;
+        border: none;
+    }
+    & .secondary {
+        background-color: #E7E6E6;
+    }
+    border: black;
+    table-layout: fixed;
+    .rhs {
+        text-align: right;
+    }
+    .lhs {
+        text-align: left;
+    }
+    .center {
+        text-align: center;
+    }
+    .vbot {
+        vertical-align: bottom;
+    }
+    .vcenter {
+        vertical-align: middle;
+    }
+}
