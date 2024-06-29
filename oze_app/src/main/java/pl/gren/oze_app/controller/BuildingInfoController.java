@@ -63,13 +63,7 @@ public class BuildingInfoController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    @GetMapping("/old-demo")
-    public String form(Model model) {
-        addTypeEnums(model);
-        return "building_info/form";
-    }
-
+    
     @GetMapping("/api/enums")
     public ResponseEntity<Object> apiGetEnums() {
         Map<String, Object> enums = new LinkedHashMap<>();
