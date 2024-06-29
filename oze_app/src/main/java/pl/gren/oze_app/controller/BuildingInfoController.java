@@ -10,11 +10,15 @@ import pl.gren.oze_app.exception.Error404;
 import pl.gren.oze_app.model.CustomJson;
 import pl.gren.oze_app.model.Identity32;
 import pl.gren.oze_app.model.db.entity.BuildingInfo;
+import pl.gren.oze_app.model.db.entity.Client;
 import pl.gren.oze_app.model.db.enums.*;
 import pl.gren.oze_app.model.db.repository.BuildingInfoRepository;
+import pl.gren.oze_app.model.dto.building.BuildingInfoCreateDto;
 import pl.gren.oze_app.model.dto.building.BuildingInfoTableDto;
+import pl.gren.oze_app.model.dto.client.ClientCreateDto;
 import pl.gren.oze_app.model.enums.BasementFloorData;
 import pl.gren.oze_app.service.BuildingService;
+import pl.gren.oze_app.service.ClientService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,11 +32,13 @@ public class BuildingInfoController {
 
     private final BuildingInfoRepository buildingInfoRepository;
     private final BuildingService buildingService;
+    private final ClientService clientService;
 
     @Autowired
-    public BuildingInfoController(BuildingInfoRepository buildingInfoRepository, BuildingService buildingService) {
+    public BuildingInfoController(BuildingInfoRepository buildingInfoRepository, BuildingService buildingService, ClientService clientService) {
         this.buildingInfoRepository = buildingInfoRepository;
         this.buildingService = buildingService;
+        this.clientService = clientService;
     }
 
     @GetMapping("")
@@ -63,7 +69,7 @@ public class BuildingInfoController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     @GetMapping("/api/enums")
     public ResponseEntity<Object> apiGetEnums() {
         Map<String, Object> enums = new LinkedHashMap<>();
@@ -76,6 +82,19 @@ public class BuildingInfoController {
         enums.put("waterUsageTypes", getCustomJson(WaterUsageType.getTypes()));
         enums.put("basementData", BasementFloorData.toJson());
         return ResponseEntity.ok(enums);
+    }
+
+
+    @GetMapping("/create")
+    public String createClient(Model model) {
+        model.addAttribute("clients", this.clientService.findAll());
+        return "buildings/create";
+    }
+
+    @PostMapping("/create")
+    public String createClient(@ModelAttribute BuildingInfoCreateDto dto) {
+        BuildingInfo building = buildingService.insert(dto);
+        return "redirect:/buildings/" + building.getId();
     }
 
     private <T extends CustomJson & Identity32> Map<Integer, Map<String, Object>> getCustomJson(List<T> json) {
