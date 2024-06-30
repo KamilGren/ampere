@@ -64,4 +64,22 @@ public class ContractService {
         otherQtyRepository.save(qty);
     }
 
+    private ProductQuantityId makeId(Long contractId, Long productId) {
+        var qty = new ProductQuantityId();
+        qty.setContractId(contractId);
+        qty.setProductId(productId);
+        return qty;
+    }
+
+    public void removeHeatPump(Long contractId, Long productId) {
+        heatPumpQtyRepository.deleteById(makeId(contractId, productId));
+    }
+
+    public void removeCwu(Long contractId, Long productId) {
+        cwuQtyRepository.deleteById(makeId(contractId, productId));
+    }
+
+    public void removeCo(Long contractId, Long productId) {
+        coQtyRepository.deleteById(makeId(contractId, productId));
+    }
 }

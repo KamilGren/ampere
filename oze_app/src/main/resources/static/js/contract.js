@@ -5,6 +5,7 @@ const CO_WRAPPER = document.getElementById("co-wrapper");
 
 function createCustommItemFromTemplate(product, descHtml) {
     const clone = document.importNode(TEMPLATE_CUSTOM_ITEM.content, true);
+    clone.querySelector(".custom-item").dataset.id = product.id;
     clone.querySelector("div.image img").src = "/tempImage" + product.id;
     clone.querySelector(".title-tile").textContent = product.manufacturer + ": " + product.name + " (" + product.model + ")";
     clone.querySelector(".price-tile .price").textContent = formatPrice(product.msrp);
@@ -125,6 +126,39 @@ function handleAddModalSubmitCo() {
         },
         error: function(xhr, status, error) {
             alert("Failed to save!");
+            console.error('Error saving form data:', status, error);
+        }
+    });
+}
+
+function deleteProduct(element) {
+    const customItem = element.closest('.custom-item');
+    const productId = customItem.dataset.id;
+    if (confirm("Are you sure you want to remove this product?") === false) {
+        return;
+    }
+
+    const wrapperType = customItem.closest(".product-list-large").id;
+    let endpointType = null;
+    switch (wrapperType) {
+        case "heat-pumps-wrapper":
+            endpointType = "heat-pump";
+            break;
+        case "cwu-wrapper":
+            endpointType = "cwu";
+            break;
+        case "co-wrapper":
+            endpointType = "co";
+            break;
+    }
+    $.ajax({
+        url: "/contracts/" + $("#hiddenId").val() + "/remove/" + endpointType + "?productId=" + productId,
+        type: "DELETE",
+        success: function(response) {
+            customItem.remove();
+        },
+        error: function(xhr, status, error) {
+            alert("Failed to remove!");
             console.error('Error saving form data:', status, error);
         }
     });

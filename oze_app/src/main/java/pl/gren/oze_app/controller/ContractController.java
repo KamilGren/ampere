@@ -137,5 +137,16 @@ public class ContractController {
         return ResponseEntity.ok(coBuffer);
     }
 
+    @DeleteMapping("/{id}/remove/{type}")
+    public ResponseEntity<?> removeProduct(@PathVariable Long id, @PathVariable String type, @RequestParam Long productId) {
+        Contract contract = contractRepository.findById(id).orElseThrow(ApiError400::new);
+        switch (type) {
+            case "heat-pump" -> contractService.removeHeatPump(id, productId);
+            case "cwu" -> contractService.removeCwu(id, productId);
+            case "co" -> contractService.removeCo(id, productId);
+            default -> throw new ApiError400();
+        }
+        return ResponseEntity.ok().build();
+    }
 
 }
