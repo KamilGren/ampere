@@ -55,7 +55,7 @@ public class ContractService {
         coQtyRepository.save(qty);
     }
 
-    public void addCoBuffer(Contract contract, OtherProduct otherProduct) {
+    public void addOther(Contract contract, OtherProduct otherProduct) {
         var qty = new OtherProductQuantity();
         qty.setContract(contract);
         qty.setProduct(otherProduct);
@@ -81,5 +81,9 @@ public class ContractService {
 
     public void removeCo(Long contractId, Long productId) {
         coQtyRepository.deleteById(makeId(contractId, productId));
+    }
+
+    public void removeOther(Long contractId, Long productId) {
+        otherQtyRepository.deleteById(makeId(contractId, productId));
     }
 }

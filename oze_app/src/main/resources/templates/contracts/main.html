@@ -26,6 +26,12 @@
              th:insert="~{fragments/contracts :: add-row('#modal-co')}"
         ></div>
 
+        <h3>Miscellaneous</h3>
+        <div id="other-wrapper"
+             class="product-list-large"
+             th:insert="~{fragments/contracts :: add-row('#modal-other')}"
+        ></div>
+
     </div>
 </main>
 <th:block layout:fragment="before-footer">
@@ -206,6 +212,47 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" onclick="handleAddModalSubmitCo()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Misc Products -->
+    <div class="modal fade" id="modal-other" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Other Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-other-modal-form">
+                        <div class="col-md-12">
+                            <label for="modal-other_type" class="form-label">Type</label>
+                            <select id="modal-other_type"
+                                    class="form-select"
+                                    name="type"
+                                    required
+                                    hx-get="/contracts/add-other"
+                                    hx-swap="outerHTML"
+                                    hx-target="#modal-other_modelId"
+                            >
+                                <option selected value="" label="All"></option>
+                                <option th:each="t : ${otherProductTypes}" th:value="${t.id}" th:text="${t.name}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="modal-other_modelId" class="form-label">Model</label>
+                            <select class="form-select" id="modal-other_modelId" name="modelId" required>
+                                <option disabled selected value="" label="..."></option>
+                                <option th:each="m : ${otherModels}" th:value="${m.id}" th:text="${m.model}"></option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="handleAddModalSubmitOther()">Add</button>
                 </div>
             </div>
         </div>

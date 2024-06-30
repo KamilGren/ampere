@@ -12,14 +12,13 @@ import pl.gren.oze_app.exception.ApiError400;
 import pl.gren.oze_app.exception.Error404;
 import pl.gren.oze_app.model.db.entity.Contract;
 import pl.gren.oze_app.model.db.entity.embedded.ProductQuantityId;
-import pl.gren.oze_app.model.db.entity.product.CentralHeatingBufferTank;
-import pl.gren.oze_app.model.db.entity.product.DomesticHotWaterTank;
-import pl.gren.oze_app.model.db.entity.product.HeatPump;
-import pl.gren.oze_app.model.db.entity.product.Product;
+import pl.gren.oze_app.model.db.entity.product.*;
 import pl.gren.oze_app.model.db.entity.product.quantity.HeatPumpQuantity;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
+import pl.gren.oze_app.model.db.enums.OtherProductType;
 import pl.gren.oze_app.model.db.repository.ContractRepository;
 import pl.gren.oze_app.model.db.repository.product.HeatPumpRepository;
+import pl.gren.oze_app.model.db.repository.product.OtherProductRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.HeatPumpQuantityRepository;
 import pl.gren.oze_app.model.dto.contracts.ModelDTO;
 import pl.gren.oze_app.service.COService;
@@ -46,6 +45,8 @@ public class ContractController {
     private final CWUService cwuService;
     @Autowired
     private final COService coService;
+    @Autowired
+    private final OtherProductRepository otherProductRepository;
 
     @GetMapping("")
     public String viewAllContracts(Model model) {
@@ -70,6 +71,8 @@ public class ContractController {
         model.addAttribute("heatPumpModels", heatPumpRepository.findAll());
         model.addAttribute("cwuModels", cwuService.findAll());
         model.addAttribute("coModels", coService.findAll());
+        model.addAttribute("otherProductTypes", OtherProductType.getTypes());
+        model.addAttribute("otherModels", otherProductRepository.findAll());
         model.addAttribute("hiddenId", id);
         // Need to make API calls to get the heat pumps and products? Maybe just fetch the selected data into the javascript
         // Have a modal for each one
@@ -111,6 +114,19 @@ public class ContractController {
         return new HtmxResponse().addTemplate("contracts/main :: #modal-co_modelId");
     }
 
+    @HxRequest
+    @GetMapping("/add-other")
+    public HtmxResponse handleAddOtherFilter(Model model, @RequestParam(required = false) Integer type) {
+        List<OtherProduct> products;
+        if (type == null) {
+            products = otherProductRepository.findAll();
+        } else {
+            products = otherProductRepository.findAllByType(OtherProductType.findById(type).orElseThrow(ApiError400::new));
+        }
+        model.addAttribute("otherModels", products);
+        return new HtmxResponse().addTemplate("contracts/main :: #modal-other_modelId");
+    }
+
     // TODO save the added values to whichever active contract
 
     @PostMapping("/{id}/add-heat-pump")
@@ -137,6 +153,14 @@ public class ContractController {
         return ResponseEntity.ok(coBuffer);
     }
 
+    @PostMapping("/{id}/add-other")
+    public ResponseEntity<OtherProduct> handleAddOther(@PathVariable Long id, @RequestBody ModelDTO model) {
+        Contract contract = contractRepository.findById(id).orElseThrow(ApiError400::new);
+        var other = otherProductRepository.findById(model.getModelId()).orElseThrow(ApiError400::new);
+        contractService.addOther(contract, other);
+        return ResponseEntity.ok(other);
+    }
+
     @DeleteMapping("/{id}/remove/{type}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id, @PathVariable String type, @RequestParam Long productId) {
         Contract contract = contractRepository.findById(id).orElseThrow(ApiError400::new);
@@ -144,6 +168,7 @@ public class ContractController {
             case "heat-pump" -> contractService.removeHeatPump(id, productId);
             case "cwu" -> contractService.removeCwu(id, productId);
             case "co" -> contractService.removeCo(id, productId);
+            case "other" -> contractService.removeOther(id, productId);
             default -> throw new ApiError400();
         }
         return ResponseEntity.ok().build();

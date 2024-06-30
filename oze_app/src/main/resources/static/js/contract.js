@@ -2,6 +2,7 @@ const TEMPLATE_CUSTOM_ITEM = document.getElementById("template-custom-item");
 const HEAT_PUMPS_WRAPPER = document.getElementById("heat-pumps-wrapper");
 const CWU_WRAPPER = document.getElementById("cwu-wrapper");
 const CO_WRAPPER = document.getElementById("co-wrapper");
+const OTHER_WRAPPER = document.getElementById("other-wrapper");
 
 function createCustommItemFromTemplate(product, descHtml) {
     const clone = document.importNode(TEMPLATE_CUSTOM_ITEM.content, true);
@@ -26,7 +27,6 @@ function addHeatPump(heatPump) {
         <div>Type: ${heatPump.heatPumpType}</div>
         <div>Power Phases: ${heatPump.powerPhases}</div>
         <div>Warranty: ${heatPump.warrantyYears} years</div>
-        <div></div>
     `;
     const fragment = createCustommItemFromTemplate(heatPump, desc);
     addRowTo(HEAT_PUMPS_WRAPPER, fragment);
@@ -71,10 +71,17 @@ function addCO(co) {
         <div>ErP: ${co.erp}</div>
         <div>Material: ${co.materialType}</div>
         <div>${sizeInnerHtml.join(", ")}</div>
-        <div></div>
     `;
     const fragment = createCustommItemFromTemplate(co, desc);
     addRowTo(CO_WRAPPER, fragment);
+}
+
+function addOther(other) {
+    let desc = `
+        <div>Type: ${other.type}</div>
+    `;
+    const fragment = createCustommItemFromTemplate(other, desc);
+    addRowTo(OTHER_WRAPPER, fragment);
 }
 
 function handleAddModalSubmitHeatPump() {
@@ -131,10 +138,28 @@ function handleAddModalSubmitCo() {
     });
 }
 
+function handleAddModalSubmitOther() {
+    const selectedModelId = parseInt($("#modal-other_modelId").val());
+    $.ajax({
+        url: "/contracts/" + $("#hiddenId").val() + "/add-other",
+        type: "POST",
+        data: JSON.stringify({modelId: selectedModelId}),
+        contentType: 'application/json; charset=utf-8',
+        success: function(response) {
+            addOther(response);
+            hideModal("#modal-other");
+        },
+        error: function(xhr, status, error) {
+            alert("Failed to save!");
+            console.error('Error saving form data:', status, error);
+        }
+    });
+}
+
 function deleteProduct(element) {
     const customItem = element.closest('.custom-item');
     const productId = customItem.dataset.id;
-    if (confirm("Are you sure you want to remove this product?") === false) {
+    if (confirm("Remove this product?") === false) {
         return;
     }
 
@@ -149,6 +174,9 @@ function deleteProduct(element) {
             break;
         case "co-wrapper":
             endpointType = "co";
+            break;
+        case "other-wrapper":
+            endpointType = "other"
             break;
     }
     $.ajax({
@@ -177,6 +205,8 @@ $(document).ready(async function() {
     for (const coBuffer of products["cos"]) {
         addCO(coBuffer.product);
     }
-    // TODO otherproducts
+    for (const other of products["others"]) {
+        addOther(other.product);
+    }
 });
 
