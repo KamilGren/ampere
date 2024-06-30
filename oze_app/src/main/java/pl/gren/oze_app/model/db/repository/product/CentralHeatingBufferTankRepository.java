@@ -10,6 +10,10 @@ import java.util.Optional;
 
 @Repository
 public interface CentralHeatingBufferTankRepository extends CrudRepository<CentralHeatingBufferTank, Long> {
+    List<CentralHeatingBufferTank> findAll();
+
+    List<CentralHeatingBufferTank> findAllByManufacturer(String manufacturer);
+
     @Query("SELECT e.name FROM CentralHeatingBufferTank e")
     List<String> findAllNames();
 

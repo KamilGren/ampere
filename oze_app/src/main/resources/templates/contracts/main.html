@@ -138,8 +138,15 @@
                     <form>
                         <div class="col-md-12">
                             <label for="modal-cwu_manufacturer" class="form-label">Manufacturer</label>
-                            <select class="form-select" id="modal-cwu_manufacturer" name="manufacturer" required>
-                                <option disabled selected value="" label="..."></option>
+                            <select id="modal-cwu_manufacturer"
+                                    class="form-select"
+                                    name="manufacturer"
+                                    required
+                                    hx-get="/contracts/add-cwu"
+                                    hx-swap="outerHTML"
+                                    hx-target="#modal-cwu_modelId"
+                            >
+                                <option selected value="" label="All"></option>
                                 <option th:each="brand : ${cwuBrands}" th:value="${brand}" th:text="${brand}"></option>
                             </select>
                         </div>
@@ -147,6 +154,7 @@
                             <label for="modal-cwu_modelId" class="form-label">Model</label>
                             <select class="form-select" id="modal-cwu_modelId" name="modelId" required>
                                 <option disabled selected value="" label="..."></option>
+                                <option th:each="m : ${cwuModels}" th:value="${m.id}" th:text="${m.model}"></option>
                             </select>
                         </div>
                     </form>
@@ -171,8 +179,15 @@
                     <form>
                         <div class="col-md-12">
                             <label for="modal-co_manufacturer" class="form-label">Manufacturer</label>
-                            <select class="form-select" id="modal-co_manufacturer" name="manufacturer" required>
-                                <option disabled selected value="" label="..."></option>
+                            <select id="modal-co_manufacturer"
+                                    class="form-select"
+                                    name="manufacturer"
+                                    required
+                                    hx-get="/contracts/add-co"
+                                    hx-swap="outerHTML"
+                                    hx-target="#modal-co_modelId"
+                            >
+                                <option selected value="" label="All"></option>
                                 <option th:each="brand : ${coBrands}" th:value="${brand}" th:text="${brand}"></option>
                             </select>
                         </div>
@@ -180,6 +195,7 @@
                             <label for="modal-co_modelId" class="form-label">Model</label>
                             <select class="form-select" id="modal-co_modelId" name="modelId" required>
                                 <option disabled selected value="" label="..."></option>
+                                <option th:each="m : ${coModels}" th:value="${m.id}" th:text="${m.model}"></option>
                             </select>
                         </div>
                     </form>

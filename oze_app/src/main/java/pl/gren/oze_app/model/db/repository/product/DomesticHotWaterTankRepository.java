@@ -11,6 +11,10 @@ import java.util.Optional;
 // CWU
 @Repository
 public interface DomesticHotWaterTankRepository extends CrudRepository<DomesticHotWaterTank, Long> {
+    List<DomesticHotWaterTank> findAll();
+
+    List<DomesticHotWaterTank> findAllByManufacturer(String manufacturer);
+
     @Query("SELECT e.name FROM DomesticHotWaterTank e")
     List<String> findAllNames();
 
@@ -18,4 +22,5 @@ public interface DomesticHotWaterTankRepository extends CrudRepository<DomesticH
 
     @Query(value = "SELECT DISTINCT x.manufacturer FROM DomesticHotWaterTank x ORDER BY x.manufacturer")
     List<String> findAllManufacturers();
+
 }

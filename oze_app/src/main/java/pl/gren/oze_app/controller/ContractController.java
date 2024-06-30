@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.gren.oze_app.model.db.entity.Contract;
+import pl.gren.oze_app.model.db.entity.product.CentralHeatingBufferTank;
+import pl.gren.oze_app.model.db.entity.product.DomesticHotWaterTank;
 import pl.gren.oze_app.model.db.entity.product.HeatPump;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
 import pl.gren.oze_app.model.db.repository.ContractRepository;
 import pl.gren.oze_app.model.db.repository.product.CentralHeatingBufferTankRepository;
 import pl.gren.oze_app.model.db.repository.product.DomesticHotWaterTankRepository;
 import pl.gren.oze_app.model.db.repository.product.HeatPumpRepository;
+import pl.gren.oze_app.service.COService;
+import pl.gren.oze_app.service.CWUService;
 import pl.gren.oze_app.service.HeatPumpService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("contracts")
@@ -34,9 +39,9 @@ public class ContractController {
     @Autowired
     private final HeatPumpService heatPumpService;
     @Autowired
-    private final DomesticHotWaterTankRepository cwuRepository;
+    private final CWUService cwuService;
     @Autowired
-    private final CentralHeatingBufferTankRepository coRepository;
+    private final COService coService;
 
     @GetMapping("")
     public String viewAllContracts(Model model) {
@@ -49,14 +54,16 @@ public class ContractController {
     public String viewContract(Model model, @PathVariable Long id) {
         // Add the manufacturers for each main type
         List<String> heatPumpBrands = heatPumpRepository.findAllManufacturers();
-        List<String> cwuBrands = cwuRepository.findAllManufacturers();
-        List<String> coBrands = coRepository.findAllManufacturers();
+        Set<String> cwuBrands = cwuService.findDistinctManufacturers();
+        Set<String> coBrands = coService.findDistinctManufacturers();
 
         model.addAttribute("heatPumpBrands", heatPumpBrands);
         model.addAttribute("heatPumpTypes", HeatPumpType.getTypes());
         model.addAttribute("cwuBrands", cwuBrands);
         model.addAttribute("coBrands", coBrands);
         model.addAttribute("heatPumpModels", heatPumpRepository.findAll());
+        model.addAttribute("cwuModels", cwuService.findAll());
+        model.addAttribute("coModels", coService.findAll());
         // Need to make API calls to get the heat pumps and products? Maybe just fetch the selected data into the javascript
         // Have a modal for each one
         return "contracts/main";
@@ -64,10 +71,28 @@ public class ContractController {
 
     @HxRequest
     @GetMapping("/add-heat-pump")
-    public HtmxResponse getModalHtmx(Model model, @RequestParam(required = false) String manufacturer, @RequestParam(required = false) Integer typeId) {
+    public HtmxResponse handleAddHeatPumpFilter(Model model, @RequestParam(required = false) String manufacturer, @RequestParam(required = false) Integer typeId) {
         List<HeatPump> heatPumps = heatPumpService.filterByManufacturerAndType(manufacturer, typeId);
         model.addAttribute("heatPumpModels", heatPumps);
         return new HtmxResponse().addTemplate("contracts/main :: #modal-heat-pumps_modelId");
     }
+
+    @HxRequest
+    @GetMapping("/add-cwu")
+    public HtmxResponse handleAddCwuFilter(Model model, @RequestParam(required = false) String manufacturer) {
+        List<DomesticHotWaterTank> cwuModels = cwuService.filterByManufacturer(manufacturer);
+        model.addAttribute("cwuModels", cwuModels);
+        return new HtmxResponse().addTemplate("contracts/main :: #modal-cwu_modelId");
+    }
+
+    @HxRequest
+    @GetMapping("/add-co")
+    public HtmxResponse handleAddCoFilter(Model model, @RequestParam(required = false) String manufacturer) {
+        List<CentralHeatingBufferTank> coModels = coService.filterByManufacturer(manufacturer);
+        model.addAttribute("coModels", coModels);
+        return new HtmxResponse().addTemplate("contracts/main :: #modal-co_modelId");
+    }
+
+
 
 }
