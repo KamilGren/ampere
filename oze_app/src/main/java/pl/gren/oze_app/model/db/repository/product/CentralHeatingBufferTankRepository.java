@@ -13,5 +13,8 @@ public interface CentralHeatingBufferTankRepository extends CrudRepository<Centr
     @Query("SELECT e.name FROM CentralHeatingBufferTank e")
     List<String> findAllNames();
 
+    @Query(value = "SELECT DISTINCT x.manufacturer FROM CentralHeatingBufferTank x ORDER BY x.manufacturer")
+    List<String> findAllManufacturers();
+
     Optional<CentralHeatingBufferTank> findByName(String name);
 }

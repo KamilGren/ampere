@@ -15,4 +15,7 @@ public interface DomesticHotWaterTankRepository extends CrudRepository<DomesticH
     List<String> findAllNames();
 
     Optional<DomesticHotWaterTank> findByName(String name);
+
+    @Query(value = "SELECT DISTINCT x.manufacturer FROM DomesticHotWaterTank x ORDER BY x.manufacturer")
+    List<String> findAllManufacturers();
 }

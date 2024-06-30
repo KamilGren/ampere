@@ -16,7 +16,7 @@ public interface HeatPumpRepository extends CrudRepository<HeatPump, Long> {
     Optional<HeatPump> findByManufacturerAndModelAndHeatPumpType(String manufacturer, String model, HeatPumpType heatPumpType);
     List<HeatPump> findAllByManufacturer(String manufacturer);
 
-    @Query(value = "SELECT manufacturer FROM HeatPump")
+    @Query(value = "SELECT DISTINCT x.manufacturer FROM HeatPump x ORDER BY x.manufacturer")
     List<String> findAllManufacturers();
 
     @Query(value = "SELECT model FROM HeatPump")
