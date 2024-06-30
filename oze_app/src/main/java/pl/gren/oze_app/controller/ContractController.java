@@ -127,8 +127,6 @@ public class ContractController {
         return new HtmxResponse().addTemplate("contracts/main :: #modal-other_modelId");
     }
 
-    // TODO save the added values to whichever active contract
-
     @PostMapping("/{id}/add-heat-pump")
     public ResponseEntity<HeatPump> handleAddHeatPump(@PathVariable Long id, @RequestBody ModelDTO model) {
         Contract contract = contractRepository.findById(id).orElseThrow(ApiError400::new);

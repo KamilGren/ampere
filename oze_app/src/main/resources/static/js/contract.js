@@ -21,7 +21,6 @@ function addRowTo(wrapperVanillaElement, clone) {
 }
 
 function addHeatPump(heatPump) {
-    // TODO additional data
     let desc = `
         <div>SCOP: ${heatPump.scop.toFixed(2)}</div>
         <div>Type: ${heatPump.heatPumpType}</div>
@@ -33,7 +32,6 @@ function addHeatPump(heatPump) {
 }
 
 function addCWU(cwu) {
-    // todo additional data
     let sizeInnerHtml = [];
     if (cwu.heightMm) {
         sizeInnerHtml.push("Height: " + cwu.heightMm + "mm");
@@ -56,7 +54,6 @@ function addCWU(cwu) {
 }
 
 function addCO(co) {
-    // todo additional data
     let sizeInnerHtml = [];
     if (co.heightMm) {
         sizeInnerHtml.push("Height: " + co.heightMm + "mm");
