@@ -79,22 +79,40 @@
                 <div class="modal-body">
                     <form>
                         <div class="col-md-12">
-                            <label for="modal-heat-pumps_manufacturerId" class="form-label">Manufacturer</label>
-                            <select class="form-select" id="modal-heat-pumps_manufacturerId" name="manufacturerId" required>
-                                <option disabled selected value="" label="..."></option>
+                            <label for="modal-heat-pumps_manufacturer" class="form-label">Manufacturer</label>
+                            <select id="modal-heat-pumps_manufacturer"
+                                    class="form-select"
+                                    name="manufacturer"
+                                    required
+                                    hx-get="/contracts/add-heat-pump"
+                                    hx-swap="outerHTML"
+                                    hx-target="#modal-heat-pumps_modelId"
+                                    hx-include="#modal-heat-pumps_typeId[name='typeId']"
+                            >
+                                <option selected value="" label="All"></option>
                                 <option th:each="brand : ${heatPumpBrands}" th:value="${brand}" th:text="${brand}"></option>
                             </select>
                         </div>
                         <div class="col-md-12">
                             <label for="modal-heat-pumps_typeId" class="form-label">Type</label>
-                            <select class="form-select" id="modal-heat-pumps_typeId" name="typeId" required>
-                                <option disabled selected value="" label="..."></option>
+                            <select id="modal-heat-pumps_typeId"
+                                    class="form-select"
+                                    name="typeId"
+                                    required
+                                    hx-get="/contracts/add-heat-pump"
+                                    hx-swap="outerHTML"
+                                    hx-target="#modal-heat-pumps_modelId"
+                                    hx-include="#modal-heat-pumps_manufacturer[name='manufacturer']"
+                            >
+                                <option selected value="" label="All"></option>
+                                <option th:each="t : ${heatPumpTypes}" th:value="${t.getId()}" th:text="${t.getName()}"></option>
                             </select>
                         </div>
                         <div class="col-md-12">
                             <label for="modal-heat-pumps_modelId" class="form-label">Model</label>
                             <select class="form-select" id="modal-heat-pumps_modelId" name="modelId" required>
-                                <option disabled selected value="" label="..."></option>
+                                <option selected value="0" label="..."></option>
+                                <option th:each="m : ${heatPumpModels}" th:value="${m.id}" th:text="${m.model}"></option>
                             </select>
                         </div>
                     </form>
@@ -119,8 +137,8 @@
                 <div class="modal-body">
                     <form>
                         <div class="col-md-12">
-                            <label for="modal-cwu_manufacturerId" class="form-label">Manufacturer</label>
-                            <select class="form-select" id="modal-cwu_manufacturerId" name="manufacturerId" required>
+                            <label for="modal-cwu_manufacturer" class="form-label">Manufacturer</label>
+                            <select class="form-select" id="modal-cwu_manufacturer" name="manufacturer" required>
                                 <option disabled selected value="" label="..."></option>
                                 <option th:each="brand : ${cwuBrands}" th:value="${brand}" th:text="${brand}"></option>
                             </select>
@@ -152,8 +170,8 @@
                 <div class="modal-body">
                     <form>
                         <div class="col-md-12">
-                            <label for="modal-co_manufacturerId" class="form-label">Manufacturer</label>
-                            <select class="form-select" id="modal-co_manufacturerId" name="manufacturerId" required>
+                            <label for="modal-co_manufacturer" class="form-label">Manufacturer</label>
+                            <select class="form-select" id="modal-co_manufacturer" name="manufacturer" required>
                                 <option disabled selected value="" label="..."></option>
                                 <option th:each="brand : ${coBrands}" th:value="${brand}" th:text="${brand}"></option>
                             </select>
