@@ -109,15 +109,15 @@ public class Inverter {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Inverter that = (Inverter) o;
-        return Objects.equals(this.id, that.id);
+    public int hashCode() {
+        return 14;
     }
 
     @Override
-    public int hashCode() {
-        return 14;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Inverter inverter = (Inverter) o;
+        return Objects.equals(getId(), inverter.getId()) && Objects.equals(getName(), inverter.getName()) && Objects.equals(getDescription(), inverter.getDescription()) && Objects.equals(getEfficiencyPercent(), inverter.getEfficiencyPercent()) && Objects.equals(getPhases(), inverter.getPhases()) && Objects.equals(getMppt(), inverter.getMppt()) && Objects.equals(getCatalogue(), inverter.getCatalogue()) && Objects.equals(getNet(), inverter.getNet()) && Objects.equals(getGross(), inverter.getGross()) && Objects.equals(getNominalWatts(), inverter.getNominalWatts()) && Objects.equals(getMinWatts(), inverter.getMinWatts()) && Objects.equals(getMaxWatts(), inverter.getMaxWatts()) && Objects.equals(getPercent(), inverter.getPercent()) && Objects.equals(getMaxVoltage(), inverter.getMaxVoltage()) && Objects.equals(getAcProtections(), inverter.getAcProtections()) && Objects.equals(getWarranty(), inverter.getWarranty()) && Objects.equals(getImage(), inverter.getImage()) && Objects.equals(getMaxAdc(), inverter.getMaxAdc()) && Objects.equals(getRangeDc(), inverter.getRangeDc()) && Objects.equals(getMinDc(), inverter.getMinDc()) && Objects.equals(getThdiHz(), inverter.getThdiHz());
     }
 }

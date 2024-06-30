@@ -66,7 +66,7 @@ public class Client {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Client that = (Client) o;
-        return Objects.equals(this.id, that.id);
+        Client client = (Client) o;
+        return Objects.equals(getId(), client.getId()) && Objects.equals(getName(), client.getName()) && Objects.equals(getAddress(), client.getAddress()) && Objects.equals(getNote(), client.getNote()) && Objects.equals(getPhone(), client.getPhone()) && Objects.equals(getCreatedAt(), client.getCreatedAt()) && Objects.equals(getSalesman(), client.getSalesman()) && Objects.equals(getContracts(), client.getContracts()) && Objects.equals(getBuildings(), client.getBuildings());
     }
 }

@@ -1,5 +1,6 @@
 package pl.gren.oze_app.model.db.entity.product.quantity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "contract_quantity_other")
 public class OtherProductQuantity {
+    @JsonIgnore
     @EmbeddedId
     private ProductQuantityId id = new ProductQuantityId();
 
@@ -26,6 +28,7 @@ public class OtherProductQuantity {
     @MapsId("productId")
     private OtherProduct product;
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("contractId")
     private Contract contract;

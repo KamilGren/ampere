@@ -76,70 +76,6 @@ function addCO(co) {
     addRowTo(CO_WRAPPER, fragment);
 }
 
-
-$(document).ready(async function() {
-
-    addHeatPump({
-        "scop": 5.07,
-        manufacturer: "Panasonic",
-        name: "High Performance 3kW Split 1f",
-        model: "xyz",
-        "msrp": "22526.00",
-        "imgSrc": "/bar"
-    });
-    addHeatPump({
-        "scop": 4.48,
-        manufacturer: "Daikin",
-        name: "Altherma 3 R 4kW AiO 1f",
-        model: "xyz",
-        "msrp": "31740.00",
-        "imgSrc": "/foo"
-    });
-    addCWU({
-        manufacturer: "Panasonic",
-        name: "Nierdzewny 200l",
-        model: "PAW-TD20C1E5",
-        erp: 'A',
-        msrp: '6918.00',
-        coil: 1.8,
-        height: 1270,
-        diameter: 595
-        // we'd get this from an API, just placeholder data
-    })
-    addCWU({
-        manufacturer: "Weber",
-        name: "Standard 200l",
-        model: "W15 200",
-        erp: 'B',
-        msrp: '2304.20',
-        coil: 1.9,
-        height: '',
-        diameter: ''
-    })
-    addCO({
-        manufacturer: "Panasonic / OSO",
-        name: "Nierdzewny 50l",
-        model: "PAW-BTANK50L-2",
-        msrp: '1874.00',
-        erp: 'B',
-        capacity: 50,
-        material: "INOX",
-        height: 636,
-        diameter: 430
-    })
-    addCO({
-        manufacturer: "Weber",
-        name: "Standard 80l wiszący",
-        model: "W4B 80",
-        msrp: '970.00',
-        erp: 'B',
-        capacity: 80,
-        material: "STAL",
-        height: 747,
-        diameter: 440
-    })
-})
-
 function handleAddModalSubmitHeatPump() {
     const selectedModelId = parseInt($("#modal-heat-pumps_modelId").val());
     $.ajax({
@@ -193,3 +129,20 @@ function handleAddModalSubmitCo() {
         }
     });
 }
+
+$(document).ready(async function() {
+    const response = await fetch("/contracts/" + $("#hiddenId").val() + "/api/products");
+    const products = await response.json();
+    // TODO quantities;
+    for (const heatPump of products["heat-pumps"]) {
+        addHeatPump(heatPump.product);
+    }
+    for (const cwuTank of products["cwus"]) {
+        addCWU(cwuTank.product);
+    }
+    for (const coBuffer of products["cos"]) {
+        addCO(coBuffer.product);
+    }
+    // TODO otherproducts
+});
+

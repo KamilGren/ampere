@@ -80,7 +80,7 @@ public class Salesman {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Salesman that = (Salesman) o;
-        return Objects.equals(this.id, that.id);
+        Salesman salesman = (Salesman) o;
+        return Objects.equals(getId(), salesman.getId()) && Objects.equals(getFirstName(), salesman.getFirstName()) && Objects.equals(getLastName(), salesman.getLastName()) && Objects.equals(getUsername(), salesman.getUsername()) && Objects.equals(getEmail(), salesman.getEmail()) && Objects.equals(getPasswordHash(), salesman.getPasswordHash()) && Objects.equals(getRole(), salesman.getRole()) && Objects.equals(getContracts(), salesman.getContracts()) && Objects.equals(getClients(), salesman.getClients());
     }
 }

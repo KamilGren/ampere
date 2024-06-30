@@ -87,13 +87,13 @@ public class Contract {
     public int hashCode() {
         return 12;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Contract that = (Contract) o;
-        return Objects.equals(this.id, that.id);
+        Contract contract = (Contract) o;
+        return Objects.equals(getId(), contract.getId()) && Objects.equals(getName(), contract.getName()) && Objects.equals(getBuildingInfo(), contract.getBuildingInfo()) && Objects.equals(getSalesman(), contract.getSalesman()) && Objects.equals(getClient(), contract.getClient()) && Objects.equals(getHeatPumps(), contract.getHeatPumps()) && Objects.equals(getCwuTanks(), contract.getCwuTanks()) && Objects.equals(getCoBuffers(), contract.getCoBuffers()) && Objects.equals(getOtherProducts(), contract.getOtherProducts()) && Objects.equals(getMaterialCost(), contract.getMaterialCost()) && Objects.equals(getLaborCost(), contract.getLaborCost()) && Objects.equals(getMarkup(), contract.getMarkup()) && Objects.equals(getTaxRate(), contract.getTaxRate()) && Objects.equals(getMargin(), contract.getMargin()) && Objects.equals(getTaxCredit(), contract.getTaxCredit()) && Objects.equals(getFinancialProgram(), contract.getFinancialProgram()) && Objects.equals(getCreatedAt(), contract.getCreatedAt());
     }
-    
+
 }
