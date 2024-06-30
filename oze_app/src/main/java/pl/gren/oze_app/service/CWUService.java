@@ -8,6 +8,7 @@ import pl.gren.oze_app.model.db.repository.product.DomesticHotWaterTankRepositor
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -18,6 +19,10 @@ public class CWUService {
 
     public List<DomesticHotWaterTank> findAll() {
         return repository.findAll();
+    }
+
+    public Optional<DomesticHotWaterTank> findById(Long id) {
+        return repository.findById(id);
     }
 
     public List<DomesticHotWaterTank> filterByManufacturer(String manufacturer) {

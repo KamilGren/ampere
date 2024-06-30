@@ -5,12 +5,13 @@
 </head>
 <body style="background: #DDD">
 <main layout:fragment="_main" class="contracts">
+    <input type="hidden" th:value="${hiddenId}" id="hiddenId">
     <div class="container" style="background: #FFF; margin-top: 30px; padding-bottom: 10px; margin-bottom: 10px;">
 
         <h3>Heat Pumps</h3>
         <div id="heat-pumps-wrapper"
              class="product-list-large"
-             th:insert="~{fragments/contracts :: add-row('#modal-heat-pumps')}"
+             th:insert="~{fragments/contracts :: add-row('#modal-heat-pump')}"
         ></div>
 
         <h3>CWU Tanks</h3>
@@ -69,7 +70,7 @@
     </template>
 
     <!-- Heat Pump Modal -->
-    <div class="modal fade" id="modal-heat-pumps" tabindex="-1">
+    <div class="modal fade" id="modal-heat-pump" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header">
@@ -77,7 +78,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-heat-pump-modal-form">
                         <div class="col-md-12">
                             <label for="modal-heat-pumps_manufacturer" class="form-label">Manufacturer</label>
                             <select id="modal-heat-pumps_manufacturer"
@@ -119,7 +120,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" onclick="handleAddModalSubmitHeatPump()">Add</button>
                 </div>
             </div>
         </div>
@@ -135,7 +136,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-cwu-modal-form">
                         <div class="col-md-12">
                             <label for="modal-cwu_manufacturer" class="form-label">Manufacturer</label>
                             <select id="modal-cwu_manufacturer"
@@ -161,7 +162,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" onclick="handleAddModalSubmitCwu()">Add</button>
                 </div>
             </div>
         </div>
@@ -176,7 +177,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-co-modal-form">
                         <div class="col-md-12">
                             <label for="modal-co_manufacturer" class="form-label">Manufacturer</label>
                             <select id="modal-co_manufacturer"
@@ -202,7 +203,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" onclick="handleAddModalSubmitCo()">Add</button>
                 </div>
             </div>
         </div>

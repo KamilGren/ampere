@@ -15,3 +15,18 @@ function tryDeleteCurrentUrl(successfulRedirect="/") {
         }
     });
 }
+
+const POLISH_FORMATTER = new Intl.NumberFormat('pl-PL', {
+    style: 'currency',
+    currency: 'PLN',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+function formatPrice(price) {
+    return POLISH_FORMATTER.format(price);
+}
+
+function hideModal(selector) {
+    $(selector).modal('hide');
+}

@@ -4,21 +4,18 @@ import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.gren.oze_app.model.db.entity.Contract;
 import pl.gren.oze_app.model.db.entity.product.CentralHeatingBufferTank;
 import pl.gren.oze_app.model.db.entity.product.DomesticHotWaterTank;
 import pl.gren.oze_app.model.db.entity.product.HeatPump;
 import pl.gren.oze_app.model.db.enums.HeatPumpType;
 import pl.gren.oze_app.model.db.repository.ContractRepository;
-import pl.gren.oze_app.model.db.repository.product.CentralHeatingBufferTankRepository;
-import pl.gren.oze_app.model.db.repository.product.DomesticHotWaterTankRepository;
 import pl.gren.oze_app.model.db.repository.product.HeatPumpRepository;
+import pl.gren.oze_app.model.dto.contracts.ModelDTO;
 import pl.gren.oze_app.service.COService;
 import pl.gren.oze_app.service.CWUService;
 import pl.gren.oze_app.service.HeatPumpService;
@@ -64,6 +61,7 @@ public class ContractController {
         model.addAttribute("heatPumpModels", heatPumpRepository.findAll());
         model.addAttribute("cwuModels", cwuService.findAll());
         model.addAttribute("coModels", coService.findAll());
+        model.addAttribute("hiddenId", id);
         // Need to make API calls to get the heat pumps and products? Maybe just fetch the selected data into the javascript
         // Have a modal for each one
         return "contracts/main";
@@ -92,6 +90,30 @@ public class ContractController {
         model.addAttribute("coModels", coModels);
         return new HtmxResponse().addTemplate("contracts/main :: #modal-co_modelId");
     }
+
+    // TODO save the added values to whichever active contract
+
+    @PostMapping("/{id}/add-heat-pump")
+    public ResponseEntity<HeatPump> handleAddHeatPump(@PathVariable Long id, @RequestBody ModelDTO model) {
+        return heatPumpService.findById(model.getModelId())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @PostMapping("/{id}/add-cwu")
+    public ResponseEntity<DomesticHotWaterTank> handleAddCwu(@PathVariable Long id, @RequestBody ModelDTO model) {
+        return cwuService.findById(model.getModelId())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @PostMapping("/{id}/add-co")
+    public ResponseEntity<CentralHeatingBufferTank> handleAddCo(@PathVariable Long id, @RequestBody ModelDTO model) {
+        return coService.findById(model.getModelId())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
 
 
 
