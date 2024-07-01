@@ -153,6 +153,20 @@ function handleAddModalSubmitOther() {
     });
 }
 
+function mapWrapperToType(wrapperId) {
+    switch (wrapperId) {
+        case "heat-pumps-wrapper":
+            return "heat-pump";
+        case "cwu-wrapper":
+            return "cwu";
+        case "co-wrapper":
+            return "co";
+        case "other-wrapper":
+            return "other"
+    }
+    throw new Error("No wrapper type for " + wrapperId);
+}
+
 function deleteProduct(element) {
     const customItem = element.closest('.custom-item');
     const productId = customItem.dataset.id;
@@ -161,21 +175,7 @@ function deleteProduct(element) {
     }
 
     const wrapperType = customItem.closest(".product-list-large").id;
-    let endpointType = null;
-    switch (wrapperType) {
-        case "heat-pumps-wrapper":
-            endpointType = "heat-pump";
-            break;
-        case "cwu-wrapper":
-            endpointType = "cwu";
-            break;
-        case "co-wrapper":
-            endpointType = "co";
-            break;
-        case "other-wrapper":
-            endpointType = "other"
-            break;
-    }
+    const endpointType = mapWrapperToType(wrapperType);
     $.ajax({
         url: "/contracts/" + $("#hiddenId").val() + "/remove/" + endpointType + "?productId=" + productId,
         type: "DELETE",
@@ -185,6 +185,31 @@ function deleteProduct(element) {
         error: function(xhr, status, error) {
             alert("Failed to remove!");
             console.error('Error saving form data:', status, error);
+        }
+    });
+}
+
+function updateQty(element) {
+    const qty = element.value;
+    const customItem = element.closest('.custom-item');
+    const productId = customItem.dataset.id;
+    const wrapperType = customItem.closest(".product-list-large").id;
+    const endpointType = mapWrapperToType(wrapperType);
+    const contractId = $("#hiddenId").val();
+    $.ajax({
+        url: `/contracts/${contractId}/update-qty/${endpointType}`,
+        type: "PATCH",
+        data: JSON.stringify({
+            contractId: contractId,
+            productId: productId,
+            quantity: qty
+        }),
+        contentType: 'application/json; charset=utf-8',
+        success: function(response) {
+        },
+        error: function(xhr, status, error) {
+            alert("Failed to update quantity!");
+            console.error('Error updating qty:', status, error);
         }
     });
 }

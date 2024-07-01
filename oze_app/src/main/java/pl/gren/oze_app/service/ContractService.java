@@ -2,22 +2,18 @@ package pl.gren.oze_app.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import pl.gren.oze_app.model.db.entity.Contract;
 import pl.gren.oze_app.model.db.entity.embedded.ProductQuantityId;
-import pl.gren.oze_app.model.db.entity.product.CentralHeatingBufferTank;
-import pl.gren.oze_app.model.db.entity.product.DomesticHotWaterTank;
-import pl.gren.oze_app.model.db.entity.product.HeatPump;
-import pl.gren.oze_app.model.db.entity.product.OtherProduct;
-import pl.gren.oze_app.model.db.entity.product.quantity.CentralHeatingBufferTankQuantity;
-import pl.gren.oze_app.model.db.entity.product.quantity.DomesticHotWaterTankQuantity;
-import pl.gren.oze_app.model.db.entity.product.quantity.HeatPumpQuantity;
-import pl.gren.oze_app.model.db.entity.product.quantity.OtherProductQuantity;
+import pl.gren.oze_app.model.db.entity.product.*;
+import pl.gren.oze_app.model.db.entity.product.quantity.*;
 import pl.gren.oze_app.model.db.repository.ContractRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.CentralHeatingBufferTankQuantityRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.DomesticHotWaterTankQuantityRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.HeatPumpQuantityRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.OtherProductQuantityRepository;
+import pl.gren.oze_app.model.dto.contracts.QuantityUpdateDTO;
 
 @Service
 @AllArgsConstructor
@@ -29,39 +25,19 @@ public class ContractService {
     @Autowired private final CentralHeatingBufferTankQuantityRepository coQtyRepository;
 
     public void addHeatPump(Contract contract, HeatPump heatPump) {
-        HeatPumpQuantity qty = new HeatPumpQuantity();
-        qty.setContract(contract);
-        qty.setProduct(heatPump);
-        qty.setQuantity(1);
-        qty.setId(new ProductQuantityId(heatPump.getId(), contract.getId()));
-        heatPumpQtyRepository.save(qty);
+        addNew(heatPumpQtyRepository, heatPump, new HeatPumpQuantity(), contract);
     }
 
     public void addCwuTank(Contract contract, DomesticHotWaterTank cwuTank) {
-        var qty = new DomesticHotWaterTankQuantity();
-        qty.setContract(contract);
-        qty.setProduct(cwuTank);
-        qty.setQuantity(1);
-        qty.setId(new ProductQuantityId(cwuTank.getId(), contract.getId()));
-        cwuQtyRepository.save(qty);
+        addNew(cwuQtyRepository, cwuTank, new DomesticHotWaterTankQuantity(), contract);
     }
 
     public void addCoBuffer(Contract contract, CentralHeatingBufferTank coBuffer) {
-        var qty = new CentralHeatingBufferTankQuantity();
-        qty.setContract(contract);
-        qty.setProduct(coBuffer);
-        qty.setQuantity(1);
-        qty.setId(new ProductQuantityId(coBuffer.getId(), contract.getId()));
-        coQtyRepository.save(qty);
+        addNew(coQtyRepository, coBuffer, new CentralHeatingBufferTankQuantity(), contract);
     }
 
     public void addOther(Contract contract, OtherProduct otherProduct) {
-        var qty = new OtherProductQuantity();
-        qty.setContract(contract);
-        qty.setProduct(otherProduct);
-        qty.setQuantity(1);
-        qty.setId(new ProductQuantityId(otherProduct.getId(), contract.getId()));
-        otherQtyRepository.save(qty);
+        addNew(otherQtyRepository, otherProduct, new OtherProductQuantity(), contract);
     }
 
     private ProductQuantityId makeId(Long contractId, Long productId) {
@@ -86,4 +62,39 @@ public class ContractService {
     public void removeOther(Long contractId, Long productId) {
         otherQtyRepository.deleteById(makeId(contractId, productId));
     }
+
+    public void updateHeatPumpQty(QuantityUpdateDTO dto) {
+        updateQty(heatPumpQtyRepository, dto);
+    }
+
+    public void updateCwuQty(QuantityUpdateDTO dto) {
+        updateQty(cwuQtyRepository, dto);
+    }
+
+    public void updateCoQty(QuantityUpdateDTO dto) {
+        updateQty(coQtyRepository, dto);
+    }
+
+    public void updateOtherQty(QuantityUpdateDTO dto) {
+        updateQty(otherQtyRepository, dto);
+    }
+
+    private <QTY extends ContractProductQuantity<?>, T extends CrudRepository<QTY, ProductQuantityId>> void updateQty(T repository, QuantityUpdateDTO dto) {
+        var result = repository.findById(makeId(dto.getContractId(), dto.getProductId())).orElseThrow();
+        result.setQuantity(dto.getQuantity());
+        repository.save(result);
+    }
+
+    private <
+            V extends Product,
+            QTY extends ContractProductQuantity<V>,
+            T extends CrudRepository<QTY, ProductQuantityId>
+    > void addNew(T repository, V product, QTY qty, Contract contract) {
+        qty.setContract(contract);
+        qty.setProduct(product);
+        qty.setQuantity(1);
+        qty.setId(new ProductQuantityId(product.getId(), contract.getId()));
+        repository.save(qty);
+    }
+
 }

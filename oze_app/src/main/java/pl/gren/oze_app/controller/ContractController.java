@@ -21,6 +21,7 @@ import pl.gren.oze_app.model.db.repository.product.HeatPumpRepository;
 import pl.gren.oze_app.model.db.repository.product.OtherProductRepository;
 import pl.gren.oze_app.model.db.repository.product.quantity.HeatPumpQuantityRepository;
 import pl.gren.oze_app.model.dto.contracts.ModelDTO;
+import pl.gren.oze_app.model.dto.contracts.QuantityUpdateDTO;
 import pl.gren.oze_app.service.COService;
 import pl.gren.oze_app.service.CWUService;
 import pl.gren.oze_app.service.ContractService;
@@ -167,6 +168,19 @@ public class ContractController {
             case "cwu" -> contractService.removeCwu(id, productId);
             case "co" -> contractService.removeCo(id, productId);
             case "other" -> contractService.removeOther(id, productId);
+            default -> throw new ApiError400();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/update-qty/{type}")
+    public ResponseEntity<?> updateProductQty(@PathVariable Long id, @PathVariable String type, @RequestBody QuantityUpdateDTO dto) {
+        Contract contract = contractRepository.findById(id).orElseThrow(ApiError400::new);
+        switch (type) {
+            case "heat-pump" -> contractService.updateHeatPumpQty(dto);
+            case "cwu" -> contractService.updateCwuQty(dto);
+            case "co" -> contractService.updateCoQty(dto);
+            case "other" -> contractService.updateOtherQty(dto);
             default -> throw new ApiError400();
         }
         return ResponseEntity.ok().build();

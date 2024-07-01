@@ -19,7 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "contract_quantity_co_buffer")
-public class CentralHeatingBufferTankQuantity {
+public class CentralHeatingBufferTankQuantity implements ContractProductQuantity<CentralHeatingBufferTank> {
     @JsonIgnore
     @EmbeddedId
     private ProductQuantityId id = new ProductQuantityId();
