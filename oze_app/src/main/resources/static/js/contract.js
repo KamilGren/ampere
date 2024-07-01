@@ -4,14 +4,14 @@ const CWU_WRAPPER = document.getElementById("cwu-wrapper");
 const CO_WRAPPER = document.getElementById("co-wrapper");
 const OTHER_WRAPPER = document.getElementById("other-wrapper");
 
-function createCustommItemFromTemplate(product, descHtml) {
+function createCustommItemFromTemplate(product, qty, descHtml) {
     const clone = document.importNode(TEMPLATE_CUSTOM_ITEM.content, true);
     clone.querySelector(".custom-item").dataset.id = product.id;
     clone.querySelector("div.image img").src = "/tempImage" + product.id;
     clone.querySelector(".title-tile").textContent = product.manufacturer + ": " + product.name + " (" + product.model + ")";
     clone.querySelector(".price-tile .price").textContent = formatPrice(product.msrp);
     clone.querySelector("#custom-item-description-placeholder").outerHTML = descHtml;
-    clone.querySelector(".quantity input").value = 1;
+    clone.querySelector(".quantity input").value = qty;
     return clone;
 }
 
@@ -20,18 +20,18 @@ function addRowTo(wrapperVanillaElement, clone) {
     wrapperVanillaElement.insertBefore(clone, addRowSpan);
 }
 
-function addHeatPump(heatPump) {
+function addHeatPump(heatPump, qty=1) {
     let desc = `
         <div>SCOP: ${heatPump.scop.toFixed(2)}</div>
         <div>Type: ${heatPump.heatPumpType}</div>
         <div>Power Phases: ${heatPump.powerPhases}</div>
         <div>Warranty: ${heatPump.warrantyYears} years</div>
     `;
-    const fragment = createCustommItemFromTemplate(heatPump, desc);
+    const fragment = createCustommItemFromTemplate(heatPump, qty, desc);
     addRowTo(HEAT_PUMPS_WRAPPER, fragment);
 }
 
-function addCWU(cwu) {
+function addCWU(cwu, qty=1) {
     let sizeInnerHtml = [];
     if (cwu.heightMm) {
         sizeInnerHtml.push("Height: " + cwu.heightMm + "mm");
@@ -49,11 +49,11 @@ function addCWU(cwu) {
         <div>Material: ${cwu.materialType}</div>
         <div>${sizeInnerHtml.join(", ")}</div>
     `;
-    const fragment = createCustommItemFromTemplate(cwu, desc);
+    const fragment = createCustommItemFromTemplate(cwu, qty, desc);
     addRowTo(CWU_WRAPPER, fragment);
 }
 
-function addCO(co) {
+function addCO(co, qty=1) {
     let sizeInnerHtml = [];
     if (co.heightMm) {
         sizeInnerHtml.push("Height: " + co.heightMm + "mm");
@@ -69,15 +69,15 @@ function addCO(co) {
         <div>Material: ${co.materialType}</div>
         <div>${sizeInnerHtml.join(", ")}</div>
     `;
-    const fragment = createCustommItemFromTemplate(co, desc);
+    const fragment = createCustommItemFromTemplate(co, qty, desc);
     addRowTo(CO_WRAPPER, fragment);
 }
 
-function addOther(other) {
+function addOther(other, qty=1) {
     let desc = `
         <div>Type: ${other.type}</div>
     `;
-    const fragment = createCustommItemFromTemplate(other, desc);
+    const fragment = createCustommItemFromTemplate(other, qty, desc);
     addRowTo(OTHER_WRAPPER, fragment);
 }
 
@@ -219,16 +219,16 @@ $(document).ready(async function() {
     const products = await response.json();
     // TODO quantities;
     for (const heatPump of products["heat-pumps"]) {
-        addHeatPump(heatPump.product);
+        addHeatPump(heatPump.product, heatPump.quantity);
     }
     for (const cwuTank of products["cwus"]) {
-        addCWU(cwuTank.product);
+        addCWU(cwuTank.product, cwuTank.quantity);
     }
     for (const coBuffer of products["cos"]) {
-        addCO(coBuffer.product);
+        addCO(coBuffer.product, coBuffer.quantity);
     }
     for (const other of products["others"]) {
-        addOther(other.product);
+        addOther(other.product, other.quantity);
     }
 });
 
