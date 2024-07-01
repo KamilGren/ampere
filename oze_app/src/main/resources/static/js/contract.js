@@ -22,9 +22,10 @@ function addRowTo(wrapperVanillaElement, clone) {
 
 function addHeatPump(heatPump, qty=1) {
     let desc = `
+        <div>Rated power: ${heatPump.ratedPowerKw.toFixed(2)}</div>
+        <div>Heater power: ${heatPump.heaterPowerKw.toFixed(2)}</div>
+        <div>Phases: </div>
         <div>SCOP: ${heatPump.scop.toFixed(2)}</div>
-        <div>Type: ${heatPump.heatPumpType}</div>
-        <div>Power Phases: ${heatPump.powerPhases}</div>
         <div>Warranty: ${heatPump.warrantyYears} years</div>
     `;
     const fragment = createCustommItemFromTemplate(heatPump, qty, desc);
@@ -45,7 +46,7 @@ function addCWU(cwu, qty=1) {
 
     let desc = `
         <div>ErP: ${cwu.erp}</div>
-        <div>Coil: ${cwu.coil}</div>
+        <div>Coil: ${cwu.coil}m2</div>
         <div>Material: ${cwu.materialType}</div>
         <div>${sizeInnerHtml.join(", ")}</div>
     `;

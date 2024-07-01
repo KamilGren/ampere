@@ -4,9 +4,9 @@ spring:
     default: local
     active: local
   datasource:
-    url: jdbc:mysql://localhost:3306/db_oze?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/db_oze2?useTimezone=true&serverTimezone=UTC
     username: root
-    password: pass
+    password: Kamil1202
   jpa:
     properties:
       hibernate:
